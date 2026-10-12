@@ -1,7 +1,7 @@
 # CoupleFlow
 
 **Null-calibrated auditory attention decoding with time-locked brain–speech coupling and
-flow-matching likelihood ratios** (AISTATS 2027 submission, under review).
+flow-matching likelihood ratios**.
 
 Ali Alavi (alavibajestan.1@osu.edu) and Donald S. Williamson (williamson.413@osu.edu),
 Department of Computer Science and Engineering, The Ohio State University.
@@ -222,12 +222,12 @@ Training options are OmegaConf keys of `coupleflow/config.yaml`, overridden as `
 ## Citation
 
 ```bibtex
-@inproceedings{alavi2027coupleflow,
-  title     = {CoupleFlow: Null-Calibrated Auditory Attention Decoding With Time-Locked
-               Brain--Speech Coupling and Flow-Matching Likelihood Ratios},
-  author    = {Alavi, Ali and Williamson, Donald S.},
-  booktitle = {Under review at AISTATS 2027},
-  year      = {2027}
+@misc{alavi2026coupleflow,
+  title  = {CoupleFlow: Null-Calibrated Auditory Attention Decoding With Time-Locked
+            Brain--Speech Coupling and Flow-Matching Likelihood Ratios},
+  author = {Alavi, Ali and Williamson, Donald S.},
+  year   = {2026},
+  url    = {https://salialavi.github.io/coupleflow/}
 }
 ```
 
