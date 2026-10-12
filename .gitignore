@@ -1,0 +1,34 @@
+# Claude Code (skills, local settings, notes) stay local
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Data bundles and raw releases (obtain separately; see scripts/data/README.md)
+data/raw/
+data/**/*.pt
+data/**/*.zip
+data/**/*.tar.gz
+
+# Large per-run arrays published as release assets (scripts/fetch_release_assets.sh)
+runs/**/conf_margins.npz
+runs/**/test_windows.npz
+
+# Third-party baselines cloned by baselines/spatial/fetch_thirdparty.sh
+baselines/spatial/thirdparty/
+
+# Job logs and LaTeX build products (runs/**/train.log is tracked)
+logs/
+paper/build/
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+.cache/

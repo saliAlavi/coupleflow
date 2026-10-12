@@ -1,0 +1,121 @@
+# CoupleFlow -- shortcut-proof EEG-speech coupling + PMI flow head.
+# Stimulus-disjoint, within-listener folds on the 64-Hz trial streams.
+# Nothing here was tuned; values follow MERIT (ICLR'27 submission) where it
+# has one, and first principles otherwise.
+
+project_name: coupleflow
+eval_mode: stimulus_folds       # content-disjoint folds within listeners (data.split_mode=loso for LOSO)
+seed: 42                        # training seed
+split_seed: 42                  # fold assignment; keep fixed so runs share test sets
+device: cuda
+num_workers: 4
+fold: 0
+n_folds: 5                      # capped at the number of stimulus groups (KUL: 4)
+tag: main
+skip_if_done: true
+max_steps_per_epoch: null       # smoke tests only
+
+training:
+  dataset: kuleuven
+
+paths:                          # null -> coupleflow/paths.py ($COUPLEFLOW_DATA, $COUPLEFLOW_RUNS)
+  cache_root: null
+  out_root: null
+
+data:
+  train_window_s: 5.0
+  val_window_s: 5.0
+  matched: true                 # quantile-matched candidates in training
+  crop_density: 1.0             # crops/epoch ~ non-overlapping coverage of train audio
+  val_mode: auto                # groups if >= 10 train groups, else tail
+  val_frac: 0.15
+  tail_min_s: 200.0             # tail validation only on trials at least this long (s)
+  split_mode: stimulus          # stimulus (content-disjoint folds) | loso (listener + content held out)
+  cand_idx: null                # K-way candidates from env_cands, e.g. [0,1,2,3] (MAESTRO attendable)
+  drop_frontal: false           # ocular control: zero Fp/AF/F7/F8
+  max_subjects: null
+  train_frac: 1.0
+  dss_keep: 0
+  dss_pooled: false             # one DSS filter from all training listeners
+  mwf_thr: 6.0                  # frontal robust-s.d. threshold for artifact periods
+  mwf: false                    # multichannel Wiener filter artifact removal (per listener, train-fit)
+  clip_mad: 0                   # >0: winsorise EEG at +-k robust s.d.                   # >0: per-listener DSS denoising, keep top-k reproducible components               # learning curve: fraction of each listener's training audio
+  stream_name: null             # null -> dataset_streams[dataset] or paper_review_env64.pt
+  groups_name: null             # null -> dataset_streams[dataset] or stimulus_groups.json
+  eeg_bands: false              # append theta/alpha/beta power envelopes to EEG (needs eeg_bands)
+  chan_drop: 0.0                # augmentation: per-crop channel dropout probability
+  eeg_noise: 0.0                # augmentation: additive Gaussian noise (EEG is z-scored)
+  subbands: false               # legacy alias for feat_banks=[sb]
+  feat_banks: []                # per-candidate feature banks, e.g. [sb], [sb28], [sb, hub6]
+  glimpse: false                # add glimpsed/masked channels per candidate (Brodbeck 2020)
+  cand_extra: []                # extra candidate channels, e.g. [word_onset, word_surprisal]
+  extra_train_names: []         # other datasets whose trials all go to training
+  # Verified streams per dataset (coupleflow/preprocessing/stimulus_groups.py + paper_review/offset_scan.py).
+  # dtu's default paper_review_env64.pt carries no EEG-audio tracking -- never use it.
+  dataset_streams:
+    kuleuven: {stream_name: paper_review_env64.pt, groups_name: stimulus_groups.json}
+    dtu: {stream_name: paper_review_env64.v6dedup.pt, groups_name: stimulus_groups.v6dedup.json}
+    sparrkulee: {stream_name: paper_review_env64.feat.pt, groups_name: stimulus_groups.json}
+
+model:
+  margin: 100                   # context samples each side (>= 71 for the EEG lag window)
+  lag_mode: after               # after: EEG +125..+1109 ms after sound; before: control
+  d: 16
+  hidden: 32
+  n_virtual: 8
+  rank: 2
+  dropout: 0.1
+  use_side: true
+  use_flow: true
+  flow_d_model: 64
+  p_uncond: 0.2
+  eeg_dilations: [1, 2, 4, 8, 16]   # RF 63 samples (0.98 s); needs margin >= RF + 8
+  cand_side: false              # candidate side as audio input channel (hemispheric tracking)
+  score_head: corr              # corr | subwin (full + sub-window correlations -> MLP)
+  n_sub: 5
+  score_mode: independent       # independent | joint (two-talker hypothesis scoring)
+
+losses:
+  side: 0.3
+  con: 1.0
+  null_hinge: 0.5
+  null_margin: 0.5
+  col: 0.1
+  col_gamma: 0.5
+  adv: 0.3
+  flow: 0.3
+  env: 0.2
+
+optim:
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  batch_size: 32
+  epochs: 50
+  patience: 12
+  plateau_patience: 5
+  grad_clip: 1.0
+
+subject_ft:                     # per-listener fine-tuning after pooled training
+  enabled: false
+  epochs: 15
+  lr: 2.0e-4
+
+adapt:                          # unsupervised test-time adaptation (reported separately)
+  enabled: false
+  rounds: 2
+  epochs: 10
+  lr: 3.0e-4
+  keep_frac: 0.8                # most-confident fraction of test trials to pseudo-label
+  cross: false                  # validator: adapt on half the test stimuli, evaluate on the other
+
+eval:
+  val_perms: 3
+  test_perms: 20
+  circ_perms: 5
+  flow_mc: 8
+  val_set: null                 # null -> matched/competing; same_talker for single-talker data
+  select_on: coupling           # coupling | fused  (fused rewards trial recognition on KUL val)
+  select_metric: contrib        # contrib (acc - EEG-shuffle null) | acc (ablation)
+  select_beta: 0.0              # MERIT uses 1 (+ weakest-stream credit); 0 = contribution only
+  windows: [1.0, 2.0, 5.0, 10.0]
+  cand_sets: [competing, matched, same_talker]

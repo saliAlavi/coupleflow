@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coupleflow"
+version = "1.0.0"
+description = "CoupleFlow: null-calibrated auditory attention decoding with time-locked brain-speech coupling and flow-matching likelihood ratios"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "omegaconf>=2.3",
+    "matplotlib>=3.8",
+    "pandas>=2.0",
+    "soundfile>=0.12",
+    "mne>=1.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[tool.setuptools.packages.find]
+include = ["coupleflow*", "baselines*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["baselines/deep/vlaai/upstream", "baselines/deep/decaf/upstream", "baselines/spatial/thirdparty"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

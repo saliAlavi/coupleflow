@@ -1,0 +1,4 @@
+python train_model.py --model "two_branch_recursive_context_3.0sec_dynamic" --loss_function "pearson_l1" --checkpoint_dir "checkpoints_two_branch_dynamic_recursive_gru_teacherforcing_train"
+python train_model.py --model "two_branch_recursive_context_2.0sec_dynamic" --loss_function "pearson_l1" --checkpoint_dir "checkpoints_two_branch_dynamic_recursive_gru_teacherforcing_train"
+#python train_model.py --model "two_branch_recursive_context_1.0sec_dynamic" --loss_function "pearson_l1" --checkpoint_dir "checkpoints_two_branch_dynamic_recursive_gru"
+#python train_model.py --model "two_branch_recursive_context_1.5sec_dynamic" --loss_function "pearson_l1" --checkpoint_dir "checkpoints_two_branch_dynamic_recursive_gru"
