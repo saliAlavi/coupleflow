@@ -1,0 +1,42 @@
+\paragraph{Proof of Proposition~\ref{prop:split}.} Suppose a test stream of trial $i$ were
+linked to a training or validation stream of trial $j$. Then $\mathcal G$ has an edge
+$(i,j)$, so $i$ and $j$ lie in the same connected component. Test folds are unions of whole
+components and training and validation data come only from the other components, a
+contradiction. Content shared only in chunks shorter than 10\,s or
+below the threshold is not covered. \qed
+
+\paragraph{Proof of Proposition~\ref{prop:null}.} Condition on $y$. By (b), $x$ is independent of $a_{1:K}$ given $y$, so by (c)
+the law of $(x,a_{\pi(1)},\dots,a_{\pi(K)})$ given $y$ is invariant to every permutation
+$\pi$, and by (a) so is the law of $(s_1,\dots,s_K)=(g(x,a_1),\dots,g(x,a_K))$. Each index is
+then the unique maximiser with the same probability, $(1-P(\text{tie}\mid y))/K$; counting
+ties as errors, $P(\hat y=y\mid y)\le 1/K$, and averaging over $y$ gives the claim. For the time-centred score (Eq.~\ref{eq:score}) a time-constant
+embedding yields $s_k=0$ for all $k$, a tie, hence an error: the acoustic pathway alone
+cannot exceed chance. Assumption (c) holds exactly for the same-talker set (the negative is
+the attended talker's own speech) and approximately for the competing set in
+counterbalanced designs; the across-trial and circular nulls instantiate (b). \qed
+
+\paragraph{Proof of Proposition~\ref{prop:pmi}.} By Bayes' rule, (a) and (b),
+$P(y=k\mid x,a_{1:K})\propto p(x\mid a_{1:K},y=k)\,P(y=k\mid a_{1:K})=p(x\mid a_k)/K$.
+Bayes' rule for the pair $(a_y,x)$ gives $p(x\mid a)=p(a\mid x)p(x)/p(a)$, evaluated at
+$a=a_k$. The factor $p(x)$ is common to all $k$, so
+$\log P(y=k\mid\cdot)=\PMI(a_k;x)+\text{const}$ and the MAP decision maximises PMI.
+Replacing PMI by $\log p(a_k\mid x)$ adds $\log p(a_k)$ to candidate $k$'s score, which
+depends on the audio only. \qed
+
+\paragraph{Proof of Proposition~\ref{prop:law}.} By (i) and (ii),
+$z_j\sim\mathcal N(\zeta_j,1/(n_{\rm eff}-3))$ with $n_{\rm eff}=fT$, and by (iii)
+$z_{\rm att}-z_{\rm neg}\sim\mathcal N(\Delta\zeta,2/(n_{\rm eff}-3))$. Since $\operatorname{atanh}$ is increasing, the
+decision is correct iff $z_{\rm att}>z_{\rm neg}$, so
+$P(\mathrm{correct}\mid T)=\Phi(\Delta\zeta\sqrt{(n_{\rm eff}-3)/2})$. For $n_{\rm eff}\gg3$ this is
+$\Phi(\kappa\sqrt T)$ with $\kappa=\Delta\zeta\sqrt{f/2}$; solving $\Phi(\kappa\sqrt{T_p})=p$
+gives $T_p$. For the noise model, write $\tilde a=v+\eta$ with $\eta$ independent of $v$ and
+of the envelopes, and $\sigma=\mathrm{Var}(v)/\mathrm{Var}(\eta)$. Then
+$\mathrm{Cov}(\tilde a,a_j)=\mathrm{Cov}(v,a_j)$ and
+$\mathrm{Var}(\tilde a)=\mathrm{Var}(v)(1+\sigma)/\sigma$, so
+$\rho_j=\rho_j^\ast\sqrt{\sigma/(1+\sigma)}$ with $\rho^\ast_j=\mathrm{corr}(v,a_j)$. For small
+$\rho_j$, $\operatorname{atanh}\rho_j\approx\rho_j$, so
+$\Delta\zeta\approx(\rho^\ast_{\rm att}-\rho^\ast_{\rm neg})\sqrt{\sigma/(1+\sigma)}$ and
+$\kappa^2\propto\sigma/(1+\sigma)$. Multiplying $\sigma$ by a factor $b>0$ multiplies $\kappa^2$ by
+$b(1+\sigma)/(1+b\sigma)$: linear at low SNR, saturating at high SNR. Assumption (iii) is
+exact when the two envelopes are uncorrelated and approximate when they are weakly
+correlated. \qed

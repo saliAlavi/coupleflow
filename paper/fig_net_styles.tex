@@ -1,0 +1,22 @@
+% Shared styles for the network-details figures (App. D); colours as in Fig. 1:
+% blue = neural path, orange = acoustic path, green = coupling/decision,
+% pink = flow (density), gold = anti-shortcut, grey = auxiliary.
+\definecolor{cfN}{HTML}{2A78D6}\definecolor{cfA}{HTML}{EB6834}
+\definecolor{cfC}{HTML}{1BAF7A}\definecolor{cfF}{HTML}{D6558A}
+\definecolor{cfG}{HTML}{C98A00}\definecolor{cfX}{HTML}{7A7974}
+\definecolor{cfInk}{HTML}{2B2B2B}
+\tikzset{
+  nb/.style={draw=#1,fill=#1!7,rounded corners=2pt,line width=0.6pt,align=center,
+    inner sep=2pt,font=\scriptsize,minimum height=0.8cm},
+  nbw/.style 2 args={nb=#1,minimum width=#2cm},
+  op/.style={circle,draw=#1,fill=white,line width=0.6pt,inner sep=0.5pt,font=\scriptsize,
+    minimum size=0.42cm},
+  tens/.style={draw=#1,fill=#1!18,line width=0.5pt,inner sep=1.5pt,font=\scriptsize,
+    align=center},
+  ar/.style={->,line width=0.6pt,draw=#1},
+  arl/.style={font=\tiny,text=cfInk,fill=white,inner sep=0.8pt},
+  note/.style={font=\tiny,text=cfX,align=left},
+  ttl/.style={font=\footnotesize\bfseries,text=cfInk,anchor=west},
+  lossn/.style={draw=#1,fill=#1!14,rounded corners=4pt,line width=0.5pt,inner sep=1.6pt,
+    font=\scriptsize},
+  >={Stealth[length=3.6pt,width=3pt]}}

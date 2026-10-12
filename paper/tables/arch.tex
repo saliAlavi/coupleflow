@@ -1,0 +1,15 @@
+\begin{tabular}{lp{0.43\textwidth}lr}\toprule
+Module & Specification & Output & Parameters\\\midrule
+Listener correction & $x+U_m V_m^{\top}x$, rank 2, $U_m$ init.\ 0 & $64\times L'$ & 256 / listener\\
+Virtual sensors & $1{\times}1$ conv, $64\to8$ & $8\times L'$ & 520\\
+EEG encoder & 5 conv, kernel 3, dilation 1--16, width 32, GN+GELU, no padding & $16\times L$ & 11{,}952\\
+Audio encoder (per $k$) & 4 conv, kernel 3, dilation 1--8, width 32, causal, shared & $16\times L$ & 13{,}200 (8{,}400$^\ast$)\\
+Coupling score & weights $w_d$, temperature $\tau$ & $K$ & 17\\
+Flow head & $1{\times}1$ in ($34\to64$), 5 residual dilated blocks, zero-init out & $1\times L$ & 85{,}505\\
+Side head & $1{\times}1$ ($64\to16$), 4 dilated conv, mean/log-s.d., linear & 2 & 10{,}659\\
+Audio adversary & MLP $32\to32\to1$ per candidate, gradient reversal & $K$ & 1{,}089\\
+Envelope read-out & $1{\times}1$ conv, $16\to1$ & $1\times L$ & 17\\
+\midrule
+Shared total & & & 122{,}959\\
+Decision path (coupling) & listener correction, virtual sensors, both encoders, score & & 25{,}689 + 256/listener\\
+\bottomrule\end{tabular}

@@ -1,0 +1,114 @@
+% Dataset descriptions and licenses (App. \ref{app:data}).  Facts from the official
+% release pages and dataset papers (checked 2026-09-30); our processing from
+% tools/unified/readers/*.py.
+\paragraph{Datasets.} All data are public releases, recorded by their authors with ethics
+approval and informed consent; we collected no new data. Table~\ref{tab:licenses} lists every
+release, the version we used and its license. ``Our use'' states what we changed from the
+release.
+
+\emph{KU Leuven} \citep{das2016kul,biesmans2017auditory}. 16 normal-hearing listeners,
+64-channel BioSemi ActiveTwo, released at 128\,Hz. Four Dutch short stories read by male
+narrators, played at 60\,dB(A) (A-weighted sound level) through insert phones, either dichotically
+(dry) or filtered with head-related transfer functions (HRTFs) to $\pm90^\circ$. 20 trials per listener (8 of about 6\,min and 12 two-minute
+repetitions, about 72\,min); the attended ear is fixed within a trial. Our use: all 20
+trials, envelopes from the dry story recordings, content groups = the four stories.
+
+\emph{DTU} \citep{fuglsang2017dtu}. 18 normal-hearing listeners, 64-channel BioSemi at
+512\,Hz. Danish fictional stories read by a male and a female professional speaker, about
+50\,s per trial, 60 trials per listener, talkers at $\pm60^\circ$ through simulated room
+impulse responses (anechoic, mildly and highly reverberant rooms) and insert earphones; the
+target talker is cued before each trial. Our use: the two-talker trials only (single-talker
+trials and one trial that stops after 19.6\,s are dropped).
+
+\emph{Fuglsang'20} \citep{fuglsang2020effects}. 44 listeners aged 51--76, 22 with
+sensorineural hearing loss and 22 with normal hearing; 64-channel BioSemi at 512\,Hz. Two
+audiobooks read by a male and a female talker at $\pm90^\circ$ (non-individualised HRTFs,
+insert phones), 48 trials of about 50\,s, of which 32 are two-talker; the competing talker
+starts 3--5\,s after the target. The release contains no audio, only the authors'
+envelopes. Our use: the two-talker trials (32 per listener; 25 for one listener) and the provided envelopes of the
+unamplified stimuli (hearing-impaired listeners heard an amplified version), so every listener
+shares one envelope per stimulus.
+
+\emph{ESAA} \citep{li2022esaa}. The release holds 17 normal-hearing listeners (the paper
+reports 20), 64-channel EEG recorded at 1\,kHz (BrainProducts files). Mandarin short
+stories told by a female and a male professional storyteller, HRTF-filtered to $\pm90^\circ$,
+32 trials of 55--90\,s per listener (one recording ends after 16\,s). Our use: all trials, including those the authors flag
+for poor comprehension answers; the stimulus reaches the ear about 0.3\,s after the start
+marker, which we correct (App.~\ref{app:data}, alignment checks).
+
+\emph{KUL-255ch} \citep{narayanan2021uhd}. 30 normal-hearing male listeners aged 22--35,
+255-electrode 10-5 cap (253 EEG channels in the files), Compumedics SynAmps RT at 1\,kHz.
+Two parts of two of the KU Leuven Dutch stories, HRTF-filtered to the left and right, four
+trials of about 6.5\,min, one per attended ear and story part. Our use: all four trials.
+Because the stories are those of KU Leuven, the two datasets are never mixed across training
+and test. The authors corrected their stimulus table in August 2026; our attended labels are
+checked on the data, as the labelled attended envelope is the one the EEG tracks
+(Table~\ref{tab:main}).
+
+\emph{Broderick} \citep{broderick2018semantic}. 33 native English listeners (34 recorded),
+128-channel BioSemi ActiveTwo plus mastoids at 512\,Hz, released at 128\,Hz. Two Jules Verne
+novels read by two male speakers, one per ear over headphones (\emph{Twenty Thousand Leagues
+Under the Sea} left, \emph{Journey to the Centre of the Earth} right), 30 trials of about
+60\,s; each listener attends the same side in every trial (listeners 1--17 left, 18--33
+right). The release contains envelopes, not audio. Our use: the ``Cocktail Party'' part,
+the provided envelopes, and the 64 channels nearest the canonical layout (all 128 in
+Table~\ref{tab:channels}).
+
+\emph{SparrKULee} \citep{accou2024sparrkulee}. 85 normal-hearing native Flemish listeners,
+64-channel BioSemi ActiveTwo (recorded at 8192\,Hz, distributed at 1024\,Hz). Single-talker
+Flemish audiobooks and podcasts, 6--10 trials of about 15\,min per listener. Our use: the
+recordings of the training set of the auditory-EEG challenge at the 2024 IEEE International
+Conference on Acoustics, Speech and Signal Processing (ICASSP); we drop the stories that
+also occur in KU Leuven and the two speech-in-noise runs, and re-time the audio to the EEG
+clock with the recorded trigger pulses.
+
+\emph{MEG-MASC} \citep{gwilliams2023megmasc}. 27 English speakers, 208-channel KIT axial
+gradiometer MEG at 1\,kHz. Four synthesised English fictional stories (about 2\,h, one or two
+sessions), interleaved with short word lists, with comprehension questions. Our use: every
+played audio file as one trial, sound onsets corrected by the delay measured on the recorded
+audio channel, and all 208 sensors, read by a 208-channel input layer. A per-listener
+principal component analysis (PCA) to 64 components, which we used first, fits different components for each listener; it
+matched the 208-sensor model on the content folds but cannot transfer to an unseen listener
+(\losoMEGpca\% instead of \losoMEGFive\% under leave-one-listener-out evaluation), so no model in the paper uses it.
+
+\emph{MAESTRO} \citep{maestro2026}. 16 listeners aged 18--30, 32-channel ANT Neuro eego at
+500\,Hz, plus eye gaze, pupil, egocentric video and head motion (not used here). English
+speech from six loudspeakers in a room: four attendable talkers and two distractors, with
+background noise; 100 evaluation trials of about 30\,s and 5 familiarisation trials. Our use:
+the EEG of the 100 evaluation trials, with the synchronisation described below.
+
+\emph{Excluded.} NJU \citep{zhang2023learnable} and AV-GC \citep{rotaru2024what}, for the
+reasons given below; their licenses are in Table~\ref{tab:licenses}.
+
+\paragraph{Licenses.} Every license permits our use, which is non-commercial research. We
+redistribute no data, stimuli or derived features; the released code contains no data and
+reads the original files, so the share-alike terms (KU Leuven, MAESTRO) do not apply to it. SparrKULee's stimuli
+are licensed for non-commercial use only, and 107 of its recordings are available only on
+request; we used the recordings distributed for the ICASSP 2024 challenge.
+\begin{table*}[h]\centering\small
+\caption{Releases, versions and licenses (checked on the release pages, September 2026).
+CC: Creative Commons; BY: attribution; NC: non-commercial; SA: share-alike; CC0: public-domain
+dedication. BIDS: Brain Imaging Data Structure; RDR: Research Data Repository; OSF: Open
+Science Framework. Excluded datasets are listed for completeness.}
+\label{tab:licenses}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllll}\toprule
+Dataset & repository & identifier & version used & license & access\\\midrule
+KU Leuven & Zenodo & 10.5281/zenodo.4004271 & v2.0 (2019)$^a$ & CC BY-NC-SA 4.0 & open\\
+DTU & Zenodo & 10.5281/zenodo.1199011 & v1 (2018) & CC BY-NC 4.0 & open\\
+Fuglsang'20 & Zenodo & 10.5281/zenodo.3618205 & 2020 (BIDS 1.3.0) & CC BY 4.0 & open (audio on request)\\
+ESAA & Zenodo & 10.5281/zenodo.7795585 & v1.0 (2022) & CC BY 4.0 & open\\
+KUL-255ch & Zenodo & 10.5281/zenodo.4518754 & v1.1.0 (2021) & CC BY-NC 4.0 & open\\
+Broderick & Dryad & 10.5061/dryad.070jc & v3 (2019) & CC0 1.0 & open\\
+SparrKULee & KU Leuven RDR & 10.48804/K3VSND & v3.1 (2023) & CC BY-NC 4.0 & open; 107 recordings on request\\
+MEG-MASC & OSF & 10.17605/OSF.IO/AG3KJ & 2022 & CC0 1.0 & open\\
+MAESTRO & Hugging Face & aspire-osu/maestro-eeg-dataset & 2026 & CC BY-NC-SA 4.0 & open\\\midrule
+NJU (excl.) & Zenodo & 10.5281/zenodo.7253438 & v1 (2022) & CC BY 4.0 & open\\
+AV-GC (excl.) & Zenodo & 10.5281/zenodo.11058711 & v1 (2024) & CC BY-SA 4.0 & open (13 of 16 listeners)\\
+\bottomrule\end{tabular}}
+\par\smallskip\raggedright\footnotesize $^a$Version 2.1 (July 2026, 10.5281/zenodo.21415059)
+corrects a 70-ms misalignment between EEG and stimuli, after our experiments. Our lag window
+spans about 1\,s and its start was chosen on validation data (125\,ms, consistent with the
+offset scan of our bundle, which peaks one 125-ms step after 0\,s); we have not re-run the
+experiments on version 2.1.
+\end{table*}

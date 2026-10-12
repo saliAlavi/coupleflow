@@ -1,0 +1,55 @@
+% App. D figure: auxiliary heads (side head, audio-only adversary, envelope read-out).
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ================================================================ (a) side head
+\node[ttl] at (0,1.25) {(a) side head: a separate, measured route for lateralised EEG};
+\node[tens=cfN,minimum width=1.2cm] (xs) at (0.6,0.35) {$\tilde{x}$\\$64\times L'$};
+\node[nb=cfX,text width=1.25cm] (s1) at (2.4,0.35) {$1{\times}1$ conv\\$64\to16$};
+\node[nb=cfX,text width=1.45cm] (s2) at (4.35,0.35) {4 dilated\\convs};
+\node[nb=cfX,text width=1.7cm] (s3) at (6.45,0.35) {mean, log s.d.\\over $t$ (32)};
+\node[nb=cfX,text width=2.2cm] (s4) at (8.85,0.35) {linear $\to$\\$\log p(\mathrm L),\,\log p(\mathrm R)$};
+\draw[ar=cfX] (xs) -- (s1);
+\draw[ar=cfX] (s1) -- (s2);
+\draw[ar=cfX] (s2) -- (s3);
+\draw[ar=cfX] (s3) -- (s4);
+\node[nb=cfX,text width=2.75cm] (s5) at (11.95,0.35)
+  {when sides are known, candidate $k$ gets the log-prob.\ of its side, centred over $k$,
+   $\times\,\mathrm{softplus}(g_{\rm side})$};
+\draw[ar=cfX] (s4) -- (s5);
+\node[lossn=cfC,anchor=west] (lce) at (13.75,0.72) {$+\,s_k$ inside $\mathcal L_{\rm CE}$ (training)};
+\node[lossn=cfX,anchor=west] (rep) at (13.75,0.0) {not in reported accuracy};
+\draw[ar=cfX] (s5.east) -- ++(0.15,0) |- (lce.west);
+\draw[cfX,line width=0.6pt,densely dashed] (s5.east) ++(0.15,0) |- (rep.west);
+\node[lossn=cfX,anchor=north] (lsd) at ($(s4.south)+(0,-0.3)$) {$\mathcal L_{\rm side}$: CE vs.\ attended side};
+\draw[ar=cfX] (s4.south) -- (lsd.north);
+
+% ================================================================ (b) adversary
+\node[ttl] at (0,-1.35) {(b) audio-only adversary behind gradient reversal};
+\node[nb=cfA,text width=1.6cm] (aenc) at (1.0,-2.3) {shared audio\\encoder};
+\node[tens=cfA,minimum width=1.2cm] (ak) at (3.05,-2.3) {$\hat{a}_k$\\$16\times L$};
+\draw[ar=cfA] (aenc) -- (ak);
+\node[nb=cfG,text width=1.2cm] (grl) at (4.95,-2.3) {GRL\\$\times(-1)$};
+\node[nb=cfG,text width=1.55cm] (f) at (6.95,-2.3) {mean, s.d.\\over $t$ (32)};
+\node[nb=cfG,text width=1.8cm] (mlp) at (9.15,-2.3) {MLP\\$32\to32\to1$};
+\node[nb=cfG,text width=1.55cm] (sm) at (11.3,-2.3) {softmax\\over $k$};
+\node[lossn=cfG,anchor=west] (ladv) at (12.6,-2.3) {$\mathcal L_{\rm adv}$: pick the attended $k$ from audio};
+\draw[ar=cfA] (ak) -- (grl);
+\draw[ar=cfG] (grl) -- (f);
+\draw[ar=cfG] (f) -- (mlp);
+\draw[ar=cfG] (mlp) -- (sm);
+\draw[ar=cfG] (sm) -- (ladv);
+\draw[->,line width=0.7pt,draw=cfG,dashed] (ladv.south) -- ++(0,-0.55) -| (aenc.south)
+  node[pos=0.25,below,font=\tiny,text=cfInk]
+  {gradient reversed at the GRL: the encoder is trained to \emph{remove} whatever lets
+   audio alone identify the attended talker};
+
+% ================================================================ (c) envelope read-out
+\node[ttl] at (0,-3.95) {(c) envelope read-out (reporting only)};
+\node[tens=cfN,minimum width=1.2cm] (e) at (0.6,-4.8) {$e$\\$16\times L$};
+\node[nb=cfX,text width=1.25cm] (r1) at (2.45,-4.8) {$1{\times}1$ conv\\$16\to1$};
+\node[tens=cfX,minimum width=0.9cm] (eh) at (4.1,-4.8) {$\hat a$};
+\node[lossn=cfX,anchor=west] (lenv) at (5.0,-4.8) {$\mathcal L_{\rm env}=1-r(\hat a,a_{\rm att})$;
+  gives the reconstruction $r$; not used by any decision rule};
+\draw[ar=cfN] (e) -- (r1);
+\draw[ar=cfX] (r1) -- (eh);
+\draw[ar=cfX] (eh) -- (lenv);
+\end{tikzpicture}

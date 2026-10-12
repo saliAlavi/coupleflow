@@ -1,0 +1,1414 @@
+\documentclass[twoside]{article}
+\usepackage{aistats2027}
+\usepackage[round]{natbib}
+\renewcommand{\bibname}{References}
+\renewcommand{\bibsection}{\subsubsection*{\bibname}}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,xcolor,microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage[section]{placeins}
+\usetikzlibrary{positioning,arrows.meta,fit,patterns,calc,decorations.pathreplacing}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dblfloatpagefraction}{0.75}
+\setcounter{topnumber}{4}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{6}
+\input{tables/numbers.tex}
+\input{tables/numbers_conf.tex}
+\input{tables/net_values.tex}
+\input{tables/numbers_earlier.tex}
+\input{tables/numbers_groups.tex}
+\input{tables/numbers_loso.tex}
+\input{tables/numbers_compare.tex}
+\input{tables/numbers_loss.tex}
+\input{tables/arch_numbers.tex}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newcommand{\PMI}{\mathrm{PMI}}
+\newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+
+\raggedbottom
+
+\begin{document}
+\twocolumn[
+\aistatstitle{CoupleFlow: Null-Calibrated Auditory Attention Decoding\\ With Time-Locked
+Brain--Speech Coupling\\ and Flow-Matching Likelihood Ratios}
+\aistatsauthor{Anonymous Authors}
+\aistatsaddress{Anonymous Institution}]
+
+\begin{abstract}
+% More than 430 million people live with disabling hearing loss, but hearing aids fail them most
+% when several people talk simultaneously. This partially occurs because the hearing aid does not know which talker matters most. The brain
+% does know, since cortical activity follows the attended talker's speech. Auditory attention
+% decoding (AAD) aims to read this signal and steer a hearing aid toward the attended talker.
+% Recent decoders report near-perfect accuracy from a second of electroencephalograms (EEG). We show that these
+% results do not generalize to unheard speech, because the decoders exploit leaked
+% trial information, eye gaze and acoustic cues rather than the neural response to speech.
+% We introduce \emph{CoupleFlow}, a decoder that can reach its decision only through the
+% time-locked coupling between a neural embedding and each candidate talker's acoustic
+% embedding. It is therefore provably at chance whenever the brain signal carries no
+% information, so no acoustic or identity shortcut can inflate its accuracy. A conditional
+% flow-matching head adds a likelihood-ratio decision rule, the pointwise mutual information
+% between speech and brain, which is Bayes-optimal when the recording depends only on the
+% attended talker and cancels the bias toward acoustically typical speech. We pair the model
+% with a leakage-free protocol: content-disjoint splits recovered from the audio itself and
+% null tests that separate true time-locking from trial recognition. CoupleFlow outperforms linear and deep
+% baselines trained on identical splits, while every null stays at chance across nine EEG and MEG
+% datasets under one preprocessing pipeline, covering four languages, high-density caps,
+% hearing-impaired listeners and a multi-talker room. Finally, we derive
+% an evidence-accumulation law that predicts accuracy at any window length from a single
+% parameter per dataset, and predicts that parameter from how strongly the brain tracks
+% speech. The law shows that fast, reliable decoding is limited by the signal-to-noise ratio
+% of the recording, and gives the window any target accuracy requires.
+
+The auditory cortex can follow the talker a listener attends to when several people talk at once. Auditory attention decoding (AAD) asks whether that talker can be identified from a few seconds of non-invasive brain recording, by matching the recording against the speech of each candidate talker, where neuro-steered hearing devices are a potential long-term application. Recent decoders report near-perfect accuracy from a second of electroencephalography (EEG). We show that these results do not generalize to unheard speech, because the decoders exploit leaked trial information, eye gaze and acoustic cues rather than the neural response to speech. We introduce \emph{CoupleFlow}, a decoder that reaches a decision through the
+time-locked coupling between a neural embedding and each candidate talker's acoustic embedding. It is therefore at chance whenever the brain signal carries no
+meaningful information, so no acoustic or identity shortcut can inflate its accuracy in multimodal setting. A conditional
+flow-matching head adds a likelihood-ratio decision rule,  a conditional flow-matching head adds a likelihood-ratio decision rule: it selects the talker with the highest pointwise mutual information between speech and brain, which is Bayes-optimal when the recording depends only on the
+attended talker and removes any preference for speech model finds likely a priori. We pair the model
+with a leakage-free protocol: content-disjoint splits recovered from the audio itself and
+null tests that separate true time-locking from trial recognition. 
+CoupleFlow outperforms linear and deep baselines trained on identical splits, while every null stays at chance across nine EEG and MEG datasets under one preprocessing pipeline, covering four languages, high-density caps, hearing-impaired listeners and a multi-talker room.
+%AWe evaluated CoupleFlow across nine diverse EEG and MEG datasets using a single unified preprocessing pipeline. Despite challenging conditions—including four languages, high-density caps, hearing-impaired listeners, and multi-talker rooms—CoupleFlow outperformed linear and deep baselines on seven of eight tested datasets and tied on the eighth, while its null distributions remained at chance. 
+Finally, we derive
+an evidence-accumulation law that predicts accuracy at any window length from a single
+parameter per dataset, and predicts that parameter from how strongly the brain tracks
+speech. The law shows that fast, reliable decoding is limited by the signal-to-noise ratio
+of the recording, and gives the window any target accuracy requires.
+\end{abstract}
+
+\section{INTRODUCTION}
+% Following one talker among many is effortless for normal hearing and one of the hardest
+% tasks for impaired hearing. Hearing loss affects more than 430 million people who need
+% rehabilitation \citep{who2021hearing}, where communicating in noisy settings involving multiple talkers is the most challenging scenario. Hearing aids are designed to help, but in multi-talker situations they do not know which talker matters to the listener. Fortunately, in a
+% crowded room, low-frequency cortical activity tracks the attended talker's speech envelope
+% more strongly than those of ignored talkers
+% \citep{ding2012emergence,mesgarani2012selective,osullivan2015attentional}. Auditory
+% attention decoding (AAD) turns this into a classifier, and a neuro-steered hearing aid
+% that amplifies the decoded talker is its main application \citep{geirnaert2021eeg}.
+% Such a device must decide within a few seconds, on speech it has never heard, for a listener
+% whose data it barely has.
+
+% \textbf{What is wrong with the literature.} The two main decoder families both fall short
+% of this requirement, and their evaluation often hides it (details in
+% App.~\ref{app:related}).
+% \emph{(1) Reconstruction is valid but slow.} Linear backward models and canonical
+% correlation reconstruct the envelope and choose the better-correlated talker
+% \citep{osullivan2015attentional,crosse2016mtrf,decheveigne2018decoding}. They are robust,
+% but need tens of seconds for high accuracy. Deep reconstructions gain little over them
+% \citep{accou2023vlaai}, and under our protocol VLAAI stays below the per-listener linear
+% decoder on every two-talker dataset (Table~\ref{tab:main}).
+% \emph{(2) Fast classifiers read the wrong signal.} Classifiers of the attended side
+% \citep{vandecappelle2021eeg,darnet2024,dbpnet2024,listennet2025} report 95--97\% at 1\,s.
+% They can use eye gaze and trial-specific signal \citep{rotaru2024what}; on held-out
+% stimuli we find that they fall to \spAmin--\spAmax\%.
+% \emph{(3) Evaluation leaks.} Datasets replay the same stories to every listener, and test
+% windows are often cut from training trials \citep{puffay2023relating}. A decoder we built
+% earlier scored 86\% under such a split and 56\% on held-out stimuli.
+% \emph{(4) Nothing guarantees that a decoder reads the brain.} Loudness, spectral
+% differences or trial identity can separate the talkers without any neural input, and no
+% existing architecture rules this out.
+% \emph{(5) No theory links accuracy to window length or signal quality.} Papers report one
+% or two window lengths on one or two datasets with bespoke preprocessing, so results cannot
+% be compared or extrapolated. One widely used dataset, we find, contains no
+% brain--stimulus time-locking at all (App.~\ref{app:data}).
+When several people talk at once, a listener naturally isolates one voice. The auditory cortex reflects this selection: low-frequency cortical activity tracks the attended talker's speech envelope far more strongly than ignored speech.
+\citep{ding2012emergence,mesgarani2012selective,osullivan2015attentional}. Auditory
+attention decoding (AAD) asks whether the attended talker can be identified from this
+activity recorded non-invasively, with electroencephalography (EEG) or magnetoencephalography
+(MEG). %Given a few seconds of a multichannel recording and the speech of $K$ candidate talkers, a decoder must decide which candidate the recording follows. 
+EEG is promising because it offers millisecond time scale resolution and works with a few electrodes near the ear \citep{mirkovic2015decoding,fiedler2017single}. This makes AAD a
+candidate for neuro-steered hearing devices that amplify the attended talker
+\citep{geirnaert2021eeg}, since hearing-impaired
+listeners track the attended talker more strongly than the competing one, as normal-hearing
+listeners do \citep{petersen2017neural,decruy2020hearing,fuglsang2020effects}. Building such a device is
+beyond the scope of this paper, but we study the decoding problem in terms of its ability to generalize to unheard speech using limited data from unseen subjects, solely from brain activity. 
+
+A Using a few seconds of multichannel neural data and the speech of $K$ candidate talkers, the decoder identifies the attended voice.
+The problem is difficult because the neural response to speech is weak (a linear decoder's reconstruction correlates with the attended envelope at only $r=\rTwoMin$--$\rTwoMax$ on our two-talker EEG datasets),
+differs across listeners, and is mixed with activity unrelated to the audio stimulus, while the
+candidates often differ in ways a decoder can exploit without reading the brain: loudness,
+voice, or the identity of the recording session.
+
+%\textbf{Why EEG, and what an application would require.} EEG resolves the millisecond time scale of speech envelopes, is non-invasive, and works with few electrodes around or inside the ear \citep{mirkovic2015decoding,fiedler2017single}. This makes AAD a candidate for neuro-steered hearing devices that amplify the attended talker \citep{geirnaert2021eeg}. The attentional modulation persists with hearing loss: hearing-impaired listeners track the attended talker more strongly than the competing one, as normal-hearing listeners do \citep{petersen2017neural,decruy2020hearing,fuglsang2020effects}, and in our data decoding is as accurate for them (App.~\ref{app:further}). Building such a device is beyond this paper; we study the decoding problem itself under the conditions any application would face: decisions within seconds, on speech never heard in training, for listeners with little data, and from the brain rather than the sound.
+
+%\textbf{Where current decoders fall short.} 
+AAD decoders follow two strategies: Stimulus reconstruction and Direct classification. Stimulus
+reconstruction uses the EEG to estimate of the attended speech envelope,  and it selects the candidate
+talker that correlates best with this envelope. Direct classification maps EEG to a label, usually the
+side of the attended talker. In both cases, however, performance usually fails short of expectations (details in App.~\ref{app:related}). With stimulus reconstruction, linear backward models and canonical correlation analysis \citep{osullivan2015attentional, crosse2016mtrf,decheveigne2018decoding} are robust,
+but they require long signal durations (i.e., tens of seconds) for high accuracy, which is not practical. Deep nonlinear reconstructions have not changed this picture. The best of them still
+reconstruct the envelope weakly ($r\approx0.19$ for VLAAI; \citealp{accou2023vlaai}), nonlinear
+decoders did not consistently outperform linear ones in an independent comparison on two
+public datasets \citep{geirnaert2021eeg}, and many reported gains come from evaluations in
+which training and test data overlap \citep{puffay2023relating}.
+Conversely, direct classifiers \citep{vandecappelle2021eeg, darnet2024, dbpnet2024, listennet2025} report 95--97\% at 1\,s, but their accuracy rests largely on shortcuts: training and test windows come from the same trial, so the classifier can recognise the trial rather than decode attention (leakage), and it can read eye gaze toward the attended talker. When training and test data come from different trials, their accuracy drops to near chance \citep{rotaru2024what}.
+Furthermore, datasets replay the same stories to every listener, and test
+windows are often cut from training trials \citep{puffay2023relating}. %Our own preliminary decoder, a per-listener flow-matching model that scored each candidate by its likelihood given the EEG, reached \oldSegKUL\% on the KU Leuven dataset \citep{das2016kul} when its test windows were cut from training trials, and \oldTrialKUL\% when whole trials were held out (Table~\ref{tab:earlier}).
+%\emph{(4) Nothing guarantees that a decoder reads the brain.} 
+It is also not inherently clear that decoders are not overfitting to audio cues, such as loudness, spectral
+differences, or trial identity, indicating that the decoder is ignoring the brain signal.% can separate the talkers without any neural input, and no existing architecture rules this out.
+%\emph{(5) No theory links accuracy to window length or signal quality.} 
+Most studies report accuracy at only one or two window lengths, so the window needed for a given accuracy cannot be predicted. Each study also preprocesses each dataset its own way, so numbers cannot be compared across studies or datasets. Finally, in one widely used dataset (NJU) we find that the EEG is not time-aligned with the audio at any offset, so results on it cannot reflect speech tracking (App.~\ref{app:data}).
+
+%\textbf{Problem and approach.} 
+Our approach addresses the AAD problem by ensuring that decoding is driven only by the brain's time-locked response to speech, while quantifying the effects of window length and recording quality on accuracy. %We address the following problem: given a few seconds of EEG and the speech of $K$ candidate talkers, decide which talker the listener attends, on
+% speech and listeners unseen in training, such that the decision can only come from the
+% brain's time-locked response to that speech, and with a quantitative account of how accuracy depends on window length and recording quality. 
+Our approach scores candidates based solely on the temporal covariance between learned acoustic and EEG embeddings. The EEG representation is centered so that signals without time-varying information assign equal scores to all candidates. A flow-matching model adds a likelihood-ratio decision rule, while content-disjoint splits and null analyses quantify the contribution of neural activity to decoding performance.
+
+\textbf{Contributions.} %Each contribution answers specific problems above.
+(i) A decoder that can only use the brain's response to speech. CoupleFlow (Sec.~\ref{sec:method}) chooses the attended talker using only how the EEG follows each talker's speech over time. It is therefore guaranteed to be at chance when the EEG carries no information about the speech. Examples are EEG from a different trial, EEG shifted in time so that it no longer lines up with the speech, or random noise. Differences in loudness, voice or trial identity cannot raise its accuracy. A generative head adds a new decision rule for AAD, which is optimal under a standard assumption.
+
+(ii) A leakage-free benchmark. We evaluate on nine public EEG and MEG datasets under one preprocessing pipeline. Test speech is never heard in training, and control tests check that accuracy comes from the brain. Under this protocol, CoupleFlow outperforms linear and deep baselines trained on the same data, and we show where previously reported accuracies came from.
+
+(iii) A law for accuracy versus window length. A simple formula predicts decoding accuracy at any window length from one number per dataset, and predicts that number from how strongly the brain tracks speech. It shows that fast, reliable decoding is limited by the quality of the recording, and it gives the window needed for any target accuracy.
+
+\section{COUPLEFLOW}\label{sec:method}
+\begin{figure*}[!t]\centering
+\resizebox{\textwidth}{!}{\input{fig_arch.tex}}
+\caption{CoupleFlow. The two small signal plots show the input of one real MAESTRO test
+window (listener S03): seven of its EEG channels and the envelopes of its $K=4$ candidate
+talkers, with the attended talker in dark orange. The neural path (blue) maps the EEG $x$ to an
+embedding $e$ whose value at time $t$ sees only EEG from $t+\delta$ to
+$t+\delta+0.98$\,s after the sound ($\delta\in\{0,125\}$\,ms). The acoustic path (orange) embeds each
+candidate $k$ with one shared encoder. The paths meet only in the coupling score $s_k$
+(Eq.~\ref{eq:score}), which makes the decision. The flow head (pink) supplies the alternative
+pointwise-mutual-information (PMI) rule (Prop.~\ref{prop:pmi}) and per-source residuals. Tags mark where each loss in
+Eq.~\ref{eq:loss} acts, coloured by role: decoding (green), density (pink), anti-shortcut
+(gold), auxiliary (grey). Dashed: reversed gradient of the audio-only adversary.}\label{fig:arch}
+\end{figure*}
+A decision window of $T$ seconds ($L=64T$ samples at 64\,Hz) gives the recording
+$x\in\mathbb{R}^{C\times L}$ of $C$ channels, the speech envelopes
+$a_1,\dots,a_K\in\mathbb R^{L}$ of $K$ candidate talkers, and the index $y$ of the attended
+one. Fig.~\ref{fig:arch} shows how CoupleFlow turns them into a decision. A neural path
+(blue) embeds the recording and an acoustic path (orange) embeds each candidate, both as
+time series of the same size. The two paths meet only in a coupling score (green), which
+makes the decision, and a flow head (pink) supplies a second decision rule.
+App.~\ref{app:net} gives every layer.
+
+The EEG first goes through a \emph{listener correction}, a small low-rank adjustment added
+to a model shared by all listeners. It absorbs individual differences such as head shape and
+cap placement without fitting a separate model to each listener's few minutes of data. A
+layer of \emph{virtual sensors} then reduces the channels to a few learned spatial filters,
+as backward models do, and a \emph{lag-window encoder} turns them into the neural embedding
+$e$. Each time step of $e$ sees only the second of EEG that follows the corresponding sound
+(from a lag $\delta\in\{0,125\}$\,ms on), which is where a cortical response to that sound
+must lie. EEG before the sound cannot be a response to it, and serves as our lag control.
+
+The acoustic path starts from \emph{candidate features}: each talker's envelope and onsets
+and, where the audio is available, sub-band envelopes and \emph{glimpsed/masked} channels
+that mark where the talker is louder or quieter than the competing one
+\citep{brodbeck2020neural}. In training, a \emph{quantile match} gives the candidates'
+envelopes identical value distributions, which removes loudness and level cues. A
+\emph{shared encoder}, with the same weights for every candidate, then maps each candidate
+to an embedding $\hat a_k$ of the same size as $e$. It sees only past audio, so the brain
+response it is compared with must follow the sound.
+
+The \emph{coupling score} measures how each candidate's embedding co-varies in time with
+the neural embedding:
+\begin{equation}
+s(e,\hat a)=\frac{1}{\tau}\sum_{d=1}^{16} \omega_d\,
+\frac{\langle e_{\cdot d}-\bar e_d,\ \hat a_{\cdot d}-\bar{\hat a}_{d}\rangle}
+{\|e_{\cdot d}-\bar e_d\|\,\|\hat a_{\cdot d}-\bar{\hat a}_{d}\|},
+\label{eq:score}
+\end{equation}
+where $e_{\cdot d}\in\mathbb R^{L}$ is dimension $d$ of $e$ over time and $\bar e_d$ its time
+average (likewise for $\hat a$). Each fraction is the Pearson correlation over time between one
+neural and one acoustic dimension; the weights $\omega_d$ and the temperature $\tau$ are
+learned. Candidate $k$ scores $s_k=s(e,\hat a_k)-\frac1K\sum_{j}s(e,\hat a_j)$, and the
+decision is $\hat y=\arg\max_k s_k$. Because the correlation removes each dimension's time
+average, a neural embedding that does not vary in time gives every candidate the score 0.
+The audio alone then cannot favour any candidate, and the decoder is at chance whenever the
+EEG carries no information about the speech (Prop.~\ref{prop:null}).
+
+Alongside the coupling score, the \emph{flow head}, a conditional flow-matching network
+\citep{lipman2023flow}, learns to generate the attended envelope from $e$. Its condition is
+dropped in part of the training windows \citep{ho2022classifierfree}, so the same network
+also learns to generate envelopes without the brain. At test time each candidate passes
+through it with and without $e$, and how much the recording lowers the network's error
+approximates the pointwise mutual information $\PMI(a_k;x)=\log p(a_k\mid x)-\log p(a_k)$.
+Picking the candidate with the largest PMI is a second decision rule. It is Bayes-optimal
+when the recording depends only on the attended talker (Prop.~\ref{prop:pmi}), and since
+$\log p(a_k)$ cancels, no candidate can win by being typical speech.
+
+The model is trained end to end on
+\begin{align}
+\mathcal L={}&\underbrace{\mathcal L_{\rm CE}+\lambda_{\rm NCE}\mathcal L_{\rm NCE}}_{\text{decoding}}
++\underbrace{\lambda_{\rm FM}\mathcal L_{\rm FM}}_{\text{density}}\nonumber\\
+&+\underbrace{\lambda_{\rm null}\mathcal L_{\rm null}+\lambda_{\rm adv}\mathcal L_{\rm adv}
++\lambda_{\rm VIC}\mathcal L_{\rm VIC}}_{\text{anti-shortcut}}\nonumber\\
+&+\underbrace{\lambda_{\rm side}\mathcal L_{\rm side}+\lambda_{\rm env}\mathcal L_{\rm env}}_{\text{auxiliary}},
+\label{eq:loss}
+\end{align}
+and the tags in Fig.~\ref{fig:arch} mark where each term acts. The decoding terms ask for
+the right decision, through cross-entropy over the candidates and a contrastive term that
+matches each window's EEG to its own attended speech among all windows of the batch. The
+anti-shortcut terms close routes around the brain: a hinge requires the attended speech to
+score higher with its own recording than with another window's, an audio-only adversary,
+through a reversed gradient, strips acoustic cues to the attended talker from the shared
+encoder, and a VICReg term keeps the neural embedding from collapsing. The density term trains the
+flow head. The auxiliary terms train a side head, which predicts the attended side from the
+EEG in training only, and an envelope read-out that reports tracking
+(Table~\ref{tab:track}); neither enters a reported decision. Checkpoints are selected on
+validation \emph{contribution}, accuracy minus the across-trial null, which rewards what the
+brain adds rather than what the audio or trial identity allows. App.~\ref{app:loss} defines
+every term, gives its weight (set once for all datasets) and reports the effect of removing
+it.
+
+\section{THEORY}\label{sec:theory}
+\textbf{Setting.} A decision window gives a recording $x$, candidate envelopes
+$a_{1:K}=(a_1,\dots,a_K)$ and the attended index $y\in\{1,\dots,K\}$, drawn jointly. A
+decoder gives candidate $k$ a score $s_k$ and predicts $\hat y=\arg\max_k s_k$; a tie for the
+maximum counts as an error.
+\begin{proposition}[null calibration]\label{prop:null}
+Assume (a) $s_k=g(x,a_k)$ for one function $g$ shared by all candidates; (b) $H_0$: $x$ is
+independent of $(y,a_{1:K})$; (c) given $y$, the joint law of $a_{1:K}$ is invariant to
+permuting the candidate indices. Then under $H_0$, $P(\hat y=y)\le 1/K$.
+\end{proposition}
+Eq.~\ref{eq:score} satisfies (a); the across-trial and circular nulls realise (b).
+\begin{proposition}[PMI is Bayes-optimal]\label{prop:pmi}
+Let $p(a)$ be the density of the attended envelope $a_y$ and $p(a\mid x)$ its density given
+the recording, and $\PMI(a;x)=\log p(a\mid x)-\log p(a)$. Assume (a) the recording depends on
+the candidates only through the attended one, $p(x\mid a_{1:K},y)=p(x\mid a_y)$; (b) $y$ is
+uniform on $\{1,\dots,K\}$ and independent of $a_{1:K}$. Then the maximum a posteriori
+(MAP) decision is $\hat y=\arg\max_k\PMI(a_k;x)$. Scoring by $\log p(a_k\mid x)$ instead adds
+$\log p(a_k)$, a term that depends on the audio alone.
+\end{proposition}
+\begin{proposition}[evidence accumulation]\label{prop:law}
+Let a decoder output a time series $\tilde a$ over a window of $T$\,s (e.g.\ a reconstructed
+envelope), let $r_{\rm att},r_{\rm neg}$ be its sample Pearson correlations with the attended and
+the other (competing, or match--mismatch) envelope and $\rho_{\rm att},\rho_{\rm neg}$ their
+population values, and let the decision be correct when $r_{\rm att}>r_{\rm neg}$. Assume (i)
+the window holds $n_{\rm eff}=fT$ effectively independent samples ($f$ per second); (ii) the
+Fisher transforms $z_j=\operatorname{atanh}r_j\sim\mathcal N(\zeta_j,\frac{1}{n_{\rm eff}-3})$ with
+$\zeta_j=\operatorname{atanh}\rho_j$, $j\in\{{\rm att},{\rm neg}\}$; (iii) $z_{\rm att},z_{\rm neg}$
+are independent. With $\Delta\zeta=\zeta_{\rm att}-\zeta_{\rm neg}$,
+\[P(\mathrm{correct}\mid T)=\Phi\big(\Delta\zeta\sqrt{(fT-3)/2}\big)\approx\Phi(\kappa\sqrt T),\]
+with $\kappa=\Delta\zeta\sqrt{f/2}$, and accuracy $p$ needs $T_p=(\Phi^{-1}(p)/\kappa)^2$\,s. If further $\tilde a$ is a signal plus
+independent noise with per-sample signal-to-noise ratio (SNR) $\sigma$ (variance ratio), and $\rho^\ast_j$
+are the noise-free correlations, then $\rho_j=\rho^\ast_j\sqrt{\sigma/(1+\sigma)}$ and, for
+small $\rho_j$, $\kappa^2\propto\sigma/(1+\sigma)$.
+\end{proposition}
+Proofs are in App.~\ref{app:proofs}. Prop.~\ref{prop:law} makes $\kappa$ a single,
+window-independent figure of merit; for CoupleFlow, whose score is not a single
+correlation, we fit $\kappa$ per curve. Model quality and training data act through the
+noiseless correlation, and recording quality through $\sigma$.
+
+\section{EXPERIMENTS}\label{sec:exp}
+\textbf{Data.} We test on nine public datasets (Table~\ref{tab:data}), chosen so that a gain
+cannot come from one recording setup. Six are two-talker EEG studies in Danish, Dutch,
+Mandarin and English: KU Leuven \citep{das2016kul}, DTU \citep{fuglsang2017dtu}, Fuglsang'20
+\citep{fuglsang2020effects}, whose 44 older listeners include 22 with hearing loss, ESAA
+\citep{li2022esaa}, and two high-density sets with 255 \citep{narayanan2021uhd} and 128
+electrodes \citep{broderick2018semantic}. SparrKULee \citep{accou2024sparrkulee} and MEG-MASC
+\citep{gwilliams2023megmasc} have a single talker. They test whether a decoder can tell the
+heard speech from other speech, and MEG-MASC shows how far decoding goes when the recording
+is much cleaner than EEG. MAESTRO \citep{maestro2026} adds a room in which the listener
+attends one of four talkers.
+
+\textbf{Preprocessing.} Published results preprocess each dataset differently, so
+differences between datasets partly reflect the pipeline. We therefore run every raw
+recording through one pipeline (App.~\ref{app:data}). It keeps 0.5--32\,Hz, which contains the
+slow cortical tracking of the speech envelope \citep{ding2012emergence}, and removes drift
+and most muscle noise. It maps every cap onto the same 64 channels, so one network serves all
+datasets, and resamples to 64\,Hz, enough for this band. We compute the speech envelope with
+a gammatone filterbank, a standard model of the cochlea; two datasets ship no audio, and for
+them we use the authors' envelopes. Finally, we check that the EEG of every dataset tracks
+its audio at a plausible latency. One widely used dataset fails this check and is excluded
+(App.~\ref{app:data}).
+
+\textbf{Protocol.} Test speech is never heard in training. Most datasets play the same
+stories to every listener, and some replay them, so holding out trials does not hold out
+speech. We therefore group the trials that contain the same speech, found by correlating
+their envelopes since the releases lack a reliable stimulus key, and build each test fold
+from whole groups (\emph{content-disjoint} folds; App.~\ref{app:data}). We report three
+candidate sets: \emph{competing} (comp.), the attended vs.\ the other talker; \emph{matched},
+the same pair after quantile matching, which removes loudness cues; and \emph{same-talker}
+(match--mismatch, mm), the attended speech vs.\ the same talker's speech from another window
+of the trial, the only task for single-talker data. Every accuracy comes with nulls that
+make the EEG uninformative: another trial's recording of the same listener
+(\emph{across-trial}) and, at 5\,s, the trial's own recording shifted by at least 2\,s
+(\emph{circular}), which keeps trial identity but breaks time-locking.
+\textbf{Baselines.} We compare with one decoder from each main family, all trained on the
+same folds, windows and inputs and stopped early on validation data: the per-listener linear
+backward model, still the standard for AAD; VLAAI \citep{accou2023vlaai}, a deep
+reconstruction model trained across listeners; and a dilated-convolution match--mismatch
+model (Dil.\ MM; \citealp{accou2021dilated}), which, like CoupleFlow, compares the EEG with
+each candidate directly. A recursive decoder (DECAF) stays near chance on the two-talker sets
+and appears only in App.~Table~\ref{tab:app_baselines}; training details are in
+App.~\ref{app:data}.
+
+\begin{table*}[!t]\centering\small
+\caption{Accuracy (\%) of CoupleFlow (Ours) and the baselines at 1, 5 and 20\,s on the
+content-disjoint folds (every model trained and tested on the same folds), and on unseen
+listeners (LOSO: listener and content held out, 5\,s) against the pooled linear backward
+model. comp.: attended vs.\ competing talker; mm: match--mismatch. Ours: mean of 3 seeds
+(s.d.\ \sdMin--\sdMax{} at 5\,s); LOSO: one seed. Bold: best per group. CoupleFlow's
+EEG-shuffle nulls lie in [\nullShortMin, \nullShortMax] up to 10\,s. All windows and per-trial accuracy: App.~Table~\ref{tab:app_baselines};
+full LOSO results: App.~Table~\ref{tab:loso}.}\label{tab:main}
+\setlength{\tabcolsep}{3.2pt}
+\resizebox{\textwidth}{!}{\input{tables/compare.tex}}
+\end{table*}
+
+\textbf{Main results} (Table~\ref{tab:main}; leave-one-listener-out, LOSO: listener and
+content held out together). At 5\,s CoupleFlow is best on \nWins{} of eight
+datasets. Its margin over the strongest baseline is \mgKUL{} points on KU Leuven, \mgDTU{} on
+DTU, \mgFug{} on Fuglsang'20, \mgESAA{} on ESAA, \mgUHD{} on the 255-channel set, \mgSparr{} on
+SparrKULee and \mgMEG{} on MEG. On Broderick it ties the per-listener linear decoder
+(\mgBrod, within one seed s.d.) and stays within one point of it at every window.  On the
+\cmpGrowN{} other two-talker EEG sets the margin grows from 1 to 20\,s, to at most
+\cmpTwentyMax{} points. On the single-talker
+match--mismatch sets the margin is largest at 1\,s (at least \cmpOneMM{} points) and shrinks
+as both models approach 100\%. On unseen listeners CoupleFlow keeps
+\cmpLosoMin--\cmpLosoMax{} points over the pooled linear model wherever either transfers; on
+Broderick neither does (App.~\ref{app:loso}). The input features were chosen during
+development on KU Leuven fold~0 (App.~\ref{app:data}); without that fold KU Leuven scores
+\kulExFoldZero\% at 5\,s.
+\textbf{Lag window.} The lag $\delta$ is the one hyperparameter set per dataset, on validation
+accuracy only (App.~\ref{app:data}): 0\,ms for DTU, ESAA, the 255-channel set, SparrKULee,
+MEG and MAESTRO, 125\,ms otherwise. It matters most on ESAA, whose audio onset had to be
+estimated (\esaaLateFive\% at 5\,s with 125\,ms; App.~Table~\ref{tab:app_variants}).
+
+
+\begin{figure*}[!t]\centering
+\includegraphics[width=0.85\textwidth]{figures/snr_law_final.pdf}
+\caption{Accuracy vs.\ window length (log scale). Markers: CoupleFlow (seed 0), pooled over folds.
+Lines: $\Phi(\kappa\sqrt T)$ with one $\kappa$ per curve (Prop.~\ref{prop:law}).}
+\label{fig:law}
+\end{figure*}
+
+\textbf{The accumulation law holds.} Fig.~\ref{fig:law}: one $\kappa$ per curve fits all
+\nCurves{} dataset--task curves from 1 to 60\,s with mean absolute error \lawMaeMin--\lawMaeMax{}
+points, and \lawLooMin--\lawLooMax{} points when predicting a held-out window. EEG gives
+$\kappa$ = \kEEGmin--\kEEGmax{} ($T_{95}$, the window for 95\% accuracy, = \tEEGmin--\tEEGmax\,s). MEG gives \kMEG{}
+($T_{95}\!\approx\!\tMEG$\,s). All native
+channels raise $\kappa$ from \ksfBrod{} to \kNBrod{} (Broderick) and from \ksfUHD{} to
+\kNUHD{} (253 channels; App.~Table~\ref{tab:channels}).
+
+\begin{figure*}[!t]\centering
+\begin{minipage}[b]{0.55\textwidth}\centering
+\includegraphics[width=\linewidth]{figures/kappa_bars.pdf}
+\caption{Accumulation-law $\kappa$ per dataset. Bars: 64 canonical
+channels, MEG-MASC 208 sensors (comp.: attended vs.\ competing; mm: match--mismatch). Dotted:
+the $\kappa$ needed for 95\% at 5\,s.}\label{fig:kappa}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.42\textwidth}\centering
+\captionof{table}{Envelope tracking $r$ with the attended and the competing envelope.
+Linear: per-listener backward model, held-out trials (App.~Table~\ref{tab:kth}). Ours:
+linear read-out of the neural embedding ($\mathcal L_{\rm env}$), 5-s test windows,
+content-disjoint folds, mean of 3 seeds.}\label{tab:track}
+{\small\setlength{\tabcolsep}{4pt}\input{tables/tracking.tex}}
+\end{minipage}
+\end{figure*}
+
+\begin{figure}[!t]\centering
+\includegraphics[width=0.85\columnwidth]{figures/kappa_theory.pdf}
+\caption{Prop.~\ref{prop:law} predicts $\kappa$ from per-sample tracking. Each point is one
+dataset and task (linear decoder); $\Delta\zeta$ is the Fisher-$z$ margin between the
+attended and the negative candidate's correlation with the reconstruction. One shared
+constant $f$ fits EEG and MEG, competing and match--mismatch alike.}\label{fig:kth}
+\end{figure}
+
+\textbf{Why does MEG reach $\kappa\approx1$: the sensor, or the easier task?}
+Prop.~\ref{prop:law} separates the two. A match--mismatch negative is uncorrelated with the
+response ($\rho_{\rm neg}=0$), while a competing talker is weakly tracked,
+$\rho_{\rm neg}=\gamma\rho_{\rm att}$ with $\gamma$ the ignored-talker ratio, so for small $\rho$
+the task alone predicts $\kappa_{\rm comp}/\kappa_{\rm mm}=1-\gamma$. With $\gamma$ measured by
+the per-listener linear decoder (Table~\ref{tab:track}), this holds on all six two-talker
+datasets (mean error \taskMaeLin, $r=\taskRLin$): the task raises $\kappa$ by a factor
+\taskFacMin--\taskFacMax, not more. With one effective rate $f=\fEff$\,samples/s,
+$\kappa=\sqrt{f/2}\,\Delta\zeta$ fits all 14 dataset--task values of the linear decoder
+($r=\thR$; Fig.~\ref{fig:kth}), and MEG lies on the same line as EEG. Its advantage is
+therefore a per-sample signal-to-noise effect (details in App.~\ref{app:lawdetails}).
+CoupleFlow's envelope read-out, an auxiliary head evaluated on the stricter content-disjoint
+folds, tracks the attended envelope better than the backward model on \rCFhigherN{} of eight
+datasets (Table~\ref{tab:track}). Whether the sensor or MEG-MASC's clean synthetic speech
+raises tracking we cannot say; the lag control (\lagCtlAccMEG\% with pre-stimulus data)
+suggests the stimulus contributes.
+
+\textbf{Flow rule and per-source residuals.} Table~\ref{tab:flow}. The prior-free PMI rule
+beats conditional likelihood by \pmiGapMin--\pmiGapMax{} points on every dataset, while the audio prior alone
+is near chance (\pmiPriorMin--\pmiPriorMax\%), as Prop.~\ref{prop:pmi} predicts. Conditioned on the brain, the attended
+talker's flow residual is lower than the competing talker's
+($\Delta R_{\rm cond}>0$ on all datasets), while the unconditional residuals are nearly equal
+($|\Delta R_{\rm unc}|\le\dRuncMaxOther$ on all datasets but KU Leuven, \dRuncKUL): the attention effect
+lies mainly in the brain-conditioned term, carried by the delta and theta bands of the
+envelope (App.~\ref{app:further}).
+
+\begin{table}[!t]\centering\small
+\caption{Flow-head decision rules at 5\,s (\%): prior-free PMI, conditional likelihood
+only, audio prior only, and the PMI rule's EEG-shuffle null.
+$\Delta R=R(\text{comp.})-R(\text{att.})$ for the conditional ($R_{\rm cond}$) and
+unconditional ($R_{\rm unc}$) residuals; for SparrKULee and MEG-MASC the negative is the
+mismatched window. Seed 0. NH/HI: normal-hearing/hearing-impaired listeners;
+zh: Mandarin.}\label{tab:flow}
+\resizebox{\columnwidth}{!}{\input{tables/flow.tex}}
+\end{table}
+
+
+
+\textbf{Four talkers in a room (MAESTRO).} MAESTRO \citep{maestro2026} is harder in
+every respect. There are six loudspeakers in a room, four of them attendable; the EEG has
+32 channels; listeners move freely. We follow the protocol of the concurrent MERIT
+study \citep{merit2026}: 4-way
+matching over the attendable talkers with quantile-matched candidates (chance 25\%), one
+decision per trial or per window, within listeners (content-disjoint folds) and on unseen
+listeners (one listener and 20\% of the content held out). Table~\ref{tab:maestro}. Under
+the release's timing, which MERIT and the benchmark use, CoupleFlow reaches \maePWTrial\% per
+trial within listeners (+\maePWCon) and \maePLTrial\% on unseen listeners (+\maePLCon). It is
+above MERIT's EEG-alone model and above the benchmark in both protocols. With the playback
+latency corrected, so that the window truly follows the sound, it reaches \maeWTrial\% and
+\maeLTrial\%. This causal result is our headline number. The same-talker controls stay above chance (causal, 5-s K=2:
+\maeWStTwo\%; K=3: \maeWStThree\%), and every 5-s null lies in [\maMainNullMin, \maMainNullMax]\%.
+\emph{Synchronisation} (App.~\ref{app:data}). The release's timestamps precede the sound
+by 0.78\,s; we add this latency, confirmed without labels. Without it, windows cover EEG
+from before the sound and per-trial accuracy rises (seed 0: \maePkgTrial\%, vs.\ \maePreTrial\%
+for a correctly aligned model given pre-sound EEG): our lag rule excludes that EEG by design.
+
+\begin{table}[!t]\centering\small
+\caption{MAESTRO, 4-way matched, EEG only (chance 25\%). CoupleFlow: mean$\pm$s.d.\ over 3
+seeds. \emph{Release timing}: audio anchored at the earliest playback timestamp, as in MERIT
+and the benchmark, whose reported numbers are listed. \emph{Latency-corrected}: our causal
+alignment. Contribution: per-trial accuracy minus the EEG-shuffle null.}\label{tab:maestro}
+\resizebox{\columnwidth}{!}{\input{tables/maestro_main.tex}}
+\end{table}
+
+
+\textbf{Recent side classifiers.} DARNet \citep{darnet2024}, DBPNet \citep{dbpnet2024}
+and ListenNet \citep{listennet2025} classify the attended \emph{side} from EEG alone and report
+95--97\% at 1\,s on KU Leuven. We ran the authors' models in our training pipeline
+(Table~\ref{tab:spatial}). Under their within-trial split (the last 10\% of each trial held
+out for testing) they reproduce the published numbers on KU Leuven (\spKULBmin--\spKULBmax\% at 1\,s). On content-disjoint
+folds (subject-dependent, as in the papers) they fall to \spAmin--\spAmax\% on DTU, ESAA and
+the 255-channel set and stays flat from 1 to 5\,s: the signature of a classifier keyed to
+trial-specific signal, not to attention. Fuglsang'20 is the exception (\spFugMin--\spFugMax\%),
+possibly alpha lateralisation or uncontrolled gaze \citep{rotaru2024what}. On KU Leuven the
+side task is ill-posed under content-disjoint folds (one class per listener in each test
+fold).
+
+\begin{table}[!t]\centering\small
+\caption{Recent side classifiers, accuracy (\%) under their within-trial split / our
+content-disjoint folds (subject-dependent, as in the papers), next to CoupleFlow on the
+content-disjoint folds (seed 0). $^\dagger$Ill-posed under content-disjoint folds (one class per
+listener in each test fold).}\label{tab:spatial}
+\resizebox{\columnwidth}{!}{\input{tables/spatial.tex}}
+\end{table}
+
+\textbf{Leakage control} (App.~\ref{app:leak}). A trial split that shares \emph{stories}
+across folds inflates no model by more than \leakMax{} points on KU Leuven and DTU;
+splitting \emph{windows within a trial} inflated our earlier decoders by
+\oldDropAllMin--\oldDropAllMax{} points (Table~\ref{tab:earlier}), because test windows then
+neighbour training EEG of the same trial and label.
+\textbf{Ablations} (App.~\ref{app:ablation}). The per-listener correction is the one
+component that carries accuracy (\ablRankKUL, \ablRankDTU{} and \ablRankMEG{} points on KU
+Leuven, DTU and MEG); removing any other changes 5-s accuracy there by at most \ablOtherMax{}
+points (one seed per variant; on MAESTRO, InfoNCE also matters, App.~\ref{app:mabl}). Reading EEG from \emph{before} the sound costs \lagCtlDTU--\lagCtlKUL{} points.
+
+\section{DISCUSSION AND LIMITATIONS}
+Leakage-free evaluation lowers reported AAD accuracies, but the remaining signal is real and
+time-locked across nine datasets. The accumulation law turns the 5-s target many applications ask for into a statement about the
+signal-to-noise ratio (SNR) of the recording: EEG would need $\kappa\approx0.74$, which only our MEG data reach ($\kappa=\kMEG$).  The decoder transfers to unseen listeners at a cost of
+\losoDropMin--\losoDropMax{} points (App.~\ref{app:loso}), and sequential decisions on
+calibrated 1-s scores gain \confGainTwoMin--\confGainTwoMax{} points at the same mean
+decision time (App.~\ref{app:conf}). On MAESTRO, where the attended talker is always the
+loudest, removing any one safeguard leaves every null at chance (App.~Table~\ref{tab:mabl}): the
+time-centred score closes that shortcut by construction.
+\emph{Limitations.}
+Prop.~\ref{prop:pmi} assumes the recording depends on the attended stream only;
+unattended speech is weakly tracked, which the matched and same-talker sets partly
+address. Two datasets use published envelopes; AV-GC (no content-disjoint split) and NJU (no
+time-locking) are excluded; the 255-channel set has two content folds; MEG is evaluated by
+match--mismatch only.
+
+\subsection*{AI use statement}
+We used a generative AI coding assistant (Claude, Anthropic) to write and run code for data
+processing, models, baselines and experiments, to produce tables and figures, and to draft
+parts of the text and proofs. It was not used to collect data, and no reported number was
+entered by hand: all results are generated by scripts from logged runs. The authors set the
+research questions and evaluation protocol, verified code with tests and data checks,
+checked all proofs and references, and take full responsibility for the content.
+
+\bibliographystyle{apalike}
+\bibliography{refs}
+
+\section*{Checklist}
+\begin{enumerate}
+\item For all models and algorithms presented, check if you include:
+\begin{enumerate}
+\item A clear description of the mathematical setting, assumptions, algorithm, and/or model. Yes (Secs.~\ref{sec:method}--\ref{sec:exp}).
+\item An analysis of the properties and complexity (time, space, sample size) of any algorithm. Yes (Prop.~\ref{prop:law} gives the sample-size law; training cost in App.~\ref{app:data}).
+\item (Optional) Anonymized source code, with specification of all dependencies, including external libraries. Yes (supplementary material).
+\end{enumerate}
+\item For any theoretical claim, check if you include:
+\begin{enumerate}
+\item Statements of the full set of assumptions of all theoretical results. Yes.
+\item Complete proofs of all theoretical results. Yes (App.~\ref{app:proofs}).
+\item Clear explanations of any assumptions. Yes (Sec.~\ref{sec:theory}, App.~\ref{app:proofs}).
+\end{enumerate}
+\item For all figures and tables that present empirical results, check if you include:
+\begin{enumerate}
+\item The code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL). Yes (code in supplementary; all datasets are public).
+\item All the training details (e.g., data splits, hyperparameters, how they were chosen). Yes (Sec.~\ref{sec:exp}, App.~\ref{app:data}).
+\item A clear definition of the specific measure or statistics and error bars (e.g., with respect to the random seed after running experiments multiple times). Yes (3 seeds, s.d.; nulls per cell).
+\item A description of the computing infrastructure used. (e.g., type of GPUs, internal cluster, or cloud provider). Yes (App.~\ref{app:data}).
+\end{enumerate}
+\item If you are using existing assets (e.g., code, data, models) or curating/releasing new assets, check if you include:
+\begin{enumerate}
+\item Citations of the creator If your work uses existing assets. Yes.
+\item The license information of the assets, if applicable. Yes, App.~\ref{app:data}, Table~\ref{tab:licenses}.
+\item New assets either in the supplemental material or as a URL, if applicable. Yes (preprocessing code and content groups).
+\item Information about consent from data providers/curators. Yes (all datasets were released publicly with participant consent by their authors).
+\item Discussion of sensible content if applicable, e.g., personally identifiable information or offensive content. Not Applicable.
+\end{enumerate}
+\item If you used crowdsourcing or conducted research with human subjects, check if you include:
+\begin{enumerate}
+\item The full text of instructions given to participants and screenshots. Not Applicable (no new data collected).
+\item Descriptions of potential participant risks, with links to Institutional Review Board (IRB) approvals if applicable. Not Applicable.
+\item The estimated hourly wage paid to participants and the total amount spent on participant compensation. Not Applicable.
+\end{enumerate}
+\end{enumerate}
+\clearpage
+\appendix
+\onecolumn
+\section{EXTENDED RELATED WORK}\label{app:related}
+\paragraph{Neural basis.} Cortical activity phase-locks to the slow (1--8\,Hz) envelope of
+speech. With two competing talkers the attended talker's envelope is represented more
+strongly, in MEG \citep{ding2012emergence}, intracranial recordings
+\citep{mesgarani2012selective} and single-trial EEG \citep{osullivan2015attentional}. The
+ignored talker is still weakly represented, most clearly where it is masked
+\citep{brodbeck2020neural}. This is the premise of every envelope-based decoder, and the
+weak representation of the ignored talker is why the attended-only assumption of
+Prop.~\ref{prop:pmi} is an approximation. We measure its strength $\gamma$ on every
+dataset (Table~\ref{tab:kth}).
+
+\paragraph{Stimulus reconstruction.} Backward (decoding) models map time-lagged EEG to the
+envelope by ridge regression \citep{osullivan2015attentional,crosse2016mtrf}, or project
+EEG and audio into a shared space by canonical correlation analysis (CCA)
+\citep{decheveigne2018decoding}. The talker whose envelope correlates better with the
+reconstruction is chosen. These methods are interpretable, need little data and transfer
+across listeners, and they cannot use spatial or identity shortcuts. Their weakness is
+speed: one reconstructed correlation is a noisy statistic, and high accuracy needs tens of
+seconds \citep{geirnaert2021eeg}. Prop.~\ref{prop:law} explains why: accuracy grows with
+$\sqrt T$ at a rate set by the per-sample tracking margin. Deep reconstructions such as
+VLAAI \citep{accou2023vlaai} raise the reconstructed correlation modestly. Under our
+content-disjoint folds VLAAI stays below the per-listener linear decoder on every
+two-talker dataset (Table~\ref{tab:main}), plausibly because its subject-independent
+training cannot use the listener-specific channel weights that the linear model fits.
+CoupleFlow keeps the time-locked principle of reconstruction but learns the neural and
+acoustic representations jointly, with a per-listener correction; this is the component
+that carries its accuracy (Table~\ref{tab:ablation}).
+
+\paragraph{Match--mismatch.} The match--mismatch task asks whether a speech segment is
+the one that evoked a given EEG segment \citep{accou2021dilated,puffay2023relating}. It is
+free of spatial confounds and applies to single-talker data. It is usually evaluated on
+unseen time windows of seen stimuli, and its negatives are often taken from nearby in the
+same recording. We use it on held-out stimuli as our same-talker candidate set and as the
+task for single-talker datasets.
+
+\paragraph{Direct classifiers of the attended side.} Convolutional networks
+\citep{vandecappelle2021eeg} and their successors with attention, graph and dual-branch
+architectures \citep{darnet2024,dbpnet2024,listennet2025} predict whether the attended
+talker is left or right from EEG alone, with 95--97\% at 1\,s on KU Leuven. No audio is
+used, so any EEG signal that differs between left and right trials can be exploited. This
+includes eye movements toward the attended loudspeaker, lateralised muscle activity and
+slow trial-specific drifts. On a dataset where gaze and attention were dissociated,
+accuracy followed gaze \citep{rotaru2024what}. Under their within-trial split we reproduce
+the published numbers. On held-out stimuli, the same code falls to \spAmin--\spAmax\% on
+DTU, ESAA and the 255-channel set (Table~\ref{tab:app_spatial}). On KU Leuven, attended
+side and story are confounded, so the side task is ill-posed there without shared
+stories.
+
+\paragraph{Brain decoding with learned representations and generative models.}
+Contrastive alignment between M/EEG and pretrained speech representations identifies
+which of many speech segments was heard \citep{defossez2023decoding}. Flow matching
+\citep{lipman2023flow} and diffusion models give tractable conditional generative models,
+and conditioning dropout lets one network represent both $p(a\mid x)$ and $p(a)$
+\citep{ho2022classifierfree}. Likelihood-ratio classification with generative models is
+classical. We use the ratio for a different purpose: it cancels the audio prior $p(a)$,
+which would otherwise favour acoustically typical candidates regardless of the brain
+(Prop.~\ref{prop:pmi}; Table~\ref{tab:flow}). Our InfoNCE term follows contrastive
+decoding, restricted to windows of one listener so that identity cannot solve it.
+
+\paragraph{Evaluation validity.} Data leakage through non-independent splits inflates
+results across machine-learning (ML) based science \citep{kapoor2023leakage}. In AAD, reviews have noted
+within-trial splits and repeated stimuli \citep{puffay2023relating}, and
+\citet{rotaru2024what} demonstrated gaze and trial-identity confounds. Table~\ref{tab:failure}
+lists the failure modes we found or controlled, and the control we use for each.
+
+\begin{table}[h]\centering\small
+\caption{Failure modes in AAD evaluation, what they inflate, and the control in this
+work.}\label{tab:failure}
+\begin{tabular}{p{0.2\textwidth}p{0.33\textwidth}p{0.38\textwidth}}\toprule
+Failure mode & Effect & Control in this work\\\midrule
+Within-trial window split & test windows neighbour training windows of the same trial;
+any trial-specific signal is rewarded & content-disjoint folds (Prop.~\ref{prop:split});
+\oldSegKUL\%$\to$\oldTrialKUL\% for our earlier decoder
+(Table~\ref{tab:earlier})\\
+Repeated stimuli & the same story in training and test, across or within listeners &
+content groups recovered from the audio; trial-split control (Table~\ref{tab:leak})\\
+Gaze and lateralised artefacts & side classifiers read eye position rather than attention &
+no side information in the decision path; side head reported separately\\
+Audio-only cues & loudness or spectral differences mark the attended talker (MAESTRO: always
+loudest) & time-centred score (Prop.~\ref{prop:null}); quantile-matched candidates;
+adversary; Table~\ref{tab:mabl}\\
+Trial identity and slow state & EEG identifies the trial, not the attended talker &
+across-trial and circular-shift nulls\\
+Wrong timing & the ``post-stimulus'' window contains pre-stimulus EEG, or there is no
+time-locking at all & offset scans on every bundle; MAESTRO latency correction; NJU
+excluded (App.~\ref{app:data})\\
+Selection on test data & hyperparameters tuned on the test fold & lag window and
+checkpoints chosen on validation only\\
+\bottomrule\end{tabular}
+\end{table}
+
+\paragraph{Multi-talker rooms.} MAESTRO \citep{maestro2026} records EEG while listeners
+attend one of several loudspeakers in a room, and the concurrent MERIT
+\citep{merit2026} evaluates multimodal decoders on it. We follow MERIT's 4-way protocol and
+show that the release timing places the decision window partly before the sound
+(Sec.~\ref{sec:exp}, App.~\ref{app:data}).
+
+\section{PROOFS}\label{app:proofs}
+\input{proofs.tex}
+\section{DATASETS AND PREPROCESSING}\label{app:data}
+\begin{table}[h]\centering\small
+\caption{Datasets after unified preprocessing. Groups: content groups recovered from the
+audio; folds $=\min(5,\text{groups})$. Env.: gammatone envelope computed from the audio
+(ours) or published by the dataset authors (prov.). HI: hearing-impaired. 1-/2-talker:
+single talker or two competing talkers.}\label{tab:data}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccccc}\toprule
+Dataset & listeners & sensors & language & task & hours & groups & folds & env.\\\midrule
+KU Leuven \citep{das2016kul,biesmans2017auditory} & 16 & 64 EEG & Dutch & 2-talker & 20.6 & \grpKULGroups & 4 & ours\\
+DTU \citep{fuglsang2017dtu} & 18 & 64 EEG & Danish & 2-talker & 15.0 & \grpDTUGroups & 5 & ours\\
+Fuglsang'20 \citep{fuglsang2020effects} & 44 (22 HI) & 64 EEG & Danish & 2-talker & 20.1 & \grpFugGroups & 4 & prov.\\
+ESAA \citep{li2022esaa} & 17 & 64 EEG & Mandarin & 2-talker & 10.9 & \grpESAAGroups & 5 & ours\\
+KUL-255ch \citep{narayanan2021uhd} & 30 & 253 EEG & Dutch & 2-talker & 13.2 & \grpUHDGroups & 2 & ours\\
+Broderick \citep{broderick2018semantic} & 33 & 128 EEG & English & 2-talker & 16.4 & \grpBrodGroups & 5 & prov.\\
+SparrKULee \citep{accou2024sparrkulee} & 85 & 64 EEG & Dutch & 1-talker & 132.4 & \grpSparrGroups & 5 & ours\\
+MEG-MASC \citep{gwilliams2023megmasc} & 27 & 208 MEG & English & 1-talker & 51.4 & \grpMEGGroups & 5 & ours\\
+MAESTRO \citep{maestro2026} & 16 & 32 EEG & English & 4 of 6 talkers & 13.1 & \grpMaeGroups & 5 / LOSO & ours\\
+\bottomrule\end{tabular}}
+\end{table}
+
+\input{datasets_appendix.tex}
+
+\paragraph{Content groups.} Table~\ref{tab:groups} summarises the groups behind the
+content-disjoint folds (Sec.~\ref{sec:exp}). Holding out trials does not hold out audio: most
+datasets play the same stories to all listeners, and KU Leuven replays each story pair five
+times per listener, so a trial split puts the same speech in training and test, where a
+decoder with an audio pathway can memorise it. The audio, not the metadata, defines the groups
+because stimulus keys are missing, inconsistent or per-listener in the releases (e.g.\
+Fuglsang'20 numbers its files per listener, yet its \grpFugTrials{} trials contain only
+\grpFugGroups{} distinct contents). The search has two stages. First, every candidate
+envelope is averaged to 8\,Hz, cut into non-overlapping 10-s chunks, and each chunk is
+correlated with every 10-s window, at every $1/8$-s offset, of every other envelope; pairs
+with $r>0.9$ are candidates. Second, each candidate is re-correlated at 64\,Hz over the full
+overlap at the implied offset ($\pm1/8$\,s) and kept if $r>0.95$. A copy of one recording
+gives $r\approx1$ (every kept link has $r\ge\grpMinR$). Different contents stay well below the
+threshold: the 64-Hz correlation at the best 8-Hz match of a 10-s chunk in another group has
+a median of at most \grpNullMed{} per dataset (one listener's chunks against all envelopes of a second
+listener). The closest cases (Table~\ref{tab:groups}, last column), up to \grpNullMax, have
+identifiable causes that are not shared speech: in Fuglsang'20 every competing-talker envelope
+starts with 3--5\,s of zero padding, and in SparrKULee one 10-s stretch of a podcast
+resembles stretches of three other podcasts. Two envelopes are \emph{linked} if both stages pass. Let $\mathcal G$ be the graph whose
+nodes are trials, with an edge between two trials whenever any of their envelopes are
+linked; its connected components, found with union--find, are the content \emph{groups}
+(e.g.\ the \grpKULTrials{} KU Leuven trials form \grpKULGroups{} groups).
+\begin{proposition}[content disjointness]\label{prop:split}
+No test stream is linked to any training or validation stream.
+\end{proposition}
+The proof is immediate from the component construction (App.~\ref{app:proofs}). Folds are unions of whole groups
+($\min(5,\text{groups})$ folds); validation uses whole training groups when at least 10
+remain, otherwise the last 15\% of each training trial of at least 200\,s (Fuglsang'20,
+whose trials last about 50\,s: the last 20\% of each trial of at least 30\,s), separated
+from the training part by a gap of one context margin on each side. Such validation data share
+content with training and serve only for early stopping and the lag choice; no reported
+number uses them.
+\begin{table*}[h]\centering\small
+\caption{Content groups recovered from the audio. Groups per listener: how many groups one
+listener heard. Single-trial groups: content heard in one trial only. Links: 64-Hz-confirmed links that
+merged two components (trials $-$ groups). Last two columns: best 8-Hz match of a 10-s
+chunk in another group, and the 64-Hz correlation at that location: the chance level the
+0.95 threshold must exceed.}\label{tab:groups}
+\resizebox{\textwidth}{!}{\input{tables/groups.tex}}
+\end{table*}
+
+\paragraph{Alignment checks.} For every bundle, a per-listener ridge backward model
+(lags 0--250\,ms, leave-trials-out) tracks the attended envelope
+(held-out $r$ = 0.07--0.27, against $r\approx0$ for the envelope shifted by 1--4\,s), and a
+global offset scan (125-ms steps) peaks at 0\,s, or at $+125$\,ms on KU Leuven and Broderick.
+For SparrKULee the audio was re-timed to the EEG clock using the recorded 1-Hz trigger
+pulses (drift $3.4$--$5.5\times10^{-5}$). For MEG-MASC, sound onsets were corrected by the
+delay measured on the audio channel recorded in the MEG file (40--56\,ms).
+
+\paragraph{Preprocessing details.} The steps, in order: bad-channel removal, average
+reference, resampling to 128\,Hz, notch, 0.5--32\,Hz band-pass, mapping to 64 canonical
+channels by name or, for high-density caps, nearest position (missing channels are zero; MEG
+keeps its 208 sensors), resampling to 64\,Hz, and a z-score per trial and channel. Bad channels: standard deviation outside 0.2--5 times the
+median channel's (MAESTRO: the release's list, flat channels, and channels at the clipping
+level in at least 1\% of samples); they are zeroed. Reference: mean of the good channels
+after removing each channel's mean (MEG is not re-referenced; its bad sensors are the union
+over a listener's runs). Notch: second-order IIR at the mains frequency ($Q=30$). Band-pass:
+fourth-order Butterworth, 0.5--32\,Hz, applied forwards and backwards (zero phase). Envelope:
+mean over 28 gammatone bands (ERB-spaced, 50\,Hz--5\,kHz) of the compressed magnitude
+$|\cdot|^{0.6}$. The published envelopes differ: Fuglsang'20 provides 24 gammatone bands,
+100--4000\,Hz, $|\cdot|^{0.3}$, of the unamplified stimuli; Broderick provides its own
+broadband envelope. SparrKULee stories that overlap the KU Leuven stimuli were removed.
+
+\paragraph{MAESTRO synchronisation.} Each stream is trimmed to the release's common window,
+from the latest start among EEG and audio playback to the earliest end. The playback start is
+known only from software timestamps. The glasses' scene microphone recorded the room audio,
+and a label-free search by generalised cross-correlation with phase transform (GCC-PHAT,
+300--4000\,Hz) located every talker's audio in it. On 1{,}240
+trials with clear peaks, the three playback devices start within a median 14\,ms of each
+other (90th percentile 118\,ms), while their timestamps differ by a median 162\,ms. Slicing
+each device from its own timestamp therefore adds misalignment; it lowers tracking. We place
+all talkers at the earliest timestamp plus one global latency of 0.781\,s (50 samples at
+64\,Hz). Odd and even listeners give the same estimate (0.75 and 0.81\,s). EEG tracking of
+the six-talker mixture, which uses no attention label, peaks at 0.000\,s after the
+correction. There is no per-trial or per-listener adjustment. Without the correction, a window
+that nominally follows the sound in fact covers EEG from 0.78\,s \emph{before} it, and
+per-trial accuracy rises to \maePkgTrial\%. A correctly aligned model given the same pre-sound
+EEG reaches the same \maePreTrial\% (vs.\ \maeCompTrial\% causal), so the extra accuracy comes
+from EEG that precedes the sound. It is consistent with the lag control: pre-sound EEG alone
+gives \maBeforeTrial\% per trial on MAESTRO. The attended talker is always the loudest, by
+3--18\,dB, but per-trial accuracy does not depend on that margin (Spearman
+$\rho=\maeSnrRho$, $p=\maeSnrP$). Bad channels are those listed
+in the release, plus flat channels and channels at the amplifier's clipping level in at
+least 1\% of samples. M1/M2 are dropped by the 64-channel mapping, leaving 28.0 channels on
+average.
+
+\paragraph{Excluded datasets.}
+\emph{NJU} \citep{zhang2023learnable} (Mandarin, 32-channel): no attended-envelope tracking at any global offset
+($\pm60$\,s), time stretch (0.8--1.25), trial pairing, or alignment to the recorded
+playback audio. A decoder trained on KU Leuven, which transfers to DTU ($r=0.030$), gives
+$r=0.005$ on NJU. The released audio is spliced from the playback recording with removed
+stretches, so its timing cannot be restored.
+\emph{AV-GC} \citep{rotaru2024what}: its podcasts are re-paired across listeners, so all
+trials form one content component and no content-disjoint split exists.
+
+\paragraph{DECAF.} Trained with the same folds and selection rule, the recursive decoder
+reached test $r\approx0$ on the two-talker sets (also its EEG branch alone) and only weak
+tracking on the single-talker sets (Table~\ref{tab:app_baselines}); on Fuglsang'20 it falls
+below chance, and in 3 of 33 folds validation selected the untrained model. We therefore do
+not report it as a baseline.
+
+\paragraph{Baseline training details.} Linear: per-listener ridge regression from EEG at lags
+0--250\,ms to the attended envelope; penalty from $\{10^{-2},\dots,10^{2}\}$ times
+$\mathrm{tr}(X^\top X)/D$ ($D$: number of lagged features) chosen on the listener's validation
+data, then refit on training and validation data. Where whole-group validation holds none of a
+listener's trials (\linInnerCV{} SparrKULee listener-folds), the penalty is chosen by
+leave-one-segment-out cross-validation on that listener's training segments. VLAAI and Dil.\ MM are trained across all training listeners of a fold:
+5-s windows with 80\% overlap, Adam (learning rate $10^{-3}$), batch 64, early stopping on
+validation (patience 5), at most 1{,}500 steps per epoch and 95 minutes; VLAAI minimises
+$-r$, Dil.\ MM the cross-entropy against a mismatched window of the same trial. All baselines use CoupleFlow's splits, validation data and test windows. On MEG-MASC they
+read all 208 sensors; VLAAI's output-context layer then has 208 instead of 64 filters, so that
+its skip connection matches the input width.
+
+\paragraph{Training details.} AdamW (learning rate $10^{-3}$, weight decay $10^{-4}$),
+gradient-norm clipping at 1, batches of up to 32 windows from one listener (a listener's
+last partial batch is kept if it has at least 4), 5-s training crops, up to 100 epochs with
+early stopping (patience 20) on validation contribution, learning rate halved when it has not
+improved for more than 5 epochs. \emph{Nulls.} The across-trial null uses 20 permutations at 5\,s and 3 at other windows;
+when a listener has a single test trial, windows of that trial are permuted instead. The
+circular null (5\,s only) uses 5 random shifts of at least 2\,s. Shapley values split the
+accuracy above the null between the two EEG pathways (coupling and side head). Validation contribution is measured on the matched
+candidates (same-talker on SparrKULee and MEG-MASC) with 3 across-trial permutations. Loss
+weights: side 0.3, InfoNCE 1, null hinge 0.5 (margin 0.5), VICReg 0.1, adversary 0.3, flow
+0.3, envelope 0.2; they were set once and are identical in every reported run. What differs
+between datasets: the lag window (chosen on validation), the validation tails of Fuglsang'20,
+and MEG-MASC's 208-channel input. \emph{Development.} The input features (8- and 28-band
+sub-bands and glimpses) and the training length were chosen during development on KU Leuven
+fold~0, whose test accuracy we inspected; no other dataset or fold was used for design
+choices. Without fold~0, KU Leuven scores \kulExFoldZero\% at 5\,s (all folds:
+\cfKUL\%). Each run used one NVIDIA A100 graphics processing unit (GPU); a fold takes
+\trainMinMin--\trainMinMax{} minutes including test evaluation.
+
+\begin{table}[h]\centering\small
+\caption{Canonical 64 vs.\ all native channels (5-s and trial accuracy, \%; 125-ms lag
+window, seed 0).}
+\label{tab:channels}\input{tables/channels.tex}
+\end{table}
+
+\section{NETWORK DETAILS}\label{app:net}
+\input{fig_net_styles.tex}
+Table~\ref{tab:arch} lists every module with its parameter count, read from the trained
+checkpoints. All datasets share one architecture and one set of hyperparameters, except the lag window and
+Fuglsang'20's validation tails (App.~\ref{app:data}). Only the
+number of listeners, and hence of listener corrections, and the width of the audio input
+change. The input has \archAudIn{} channels per candidate with sub-band features and
+\archAudInEnv{} for the two datasets with published envelopes only. The full model has
+\archTotMin--\archTotMax{} parameters per dataset. The part that makes the decision,
+listener correction, virtual sensors, both encoders and the score, has only \archDecision{}
+shared parameters plus \archPerListener{} per listener. $L$ is the number of samples in the decision window
+(320 at 5\,s) and $L'=L+200$ includes 100 context samples on each side.
+
+\begin{table}[h]\centering\small
+\caption{CoupleFlow modules and parameter counts (KU Leuven checkpoint; $^\ast$envelope-only
+input). GN: GroupNorm; GELU: Gaussian error linear unit; MLP: multilayer perceptron. Only the rows in the decision path are needed at test time for the
+coupling decision; the flow head is needed for the PMI rule.}\label{tab:arch}
+\input{tables/arch.tex}
+\end{table}
+
+\paragraph{Input and listener correction.} Every EEG dataset is mapped to the same 64
+canonical channels (missing channels are zero), so one network serves all caps. MEG-MASC
+keeps its 208 sensors, in the same order for every listener (one helmet), and is the only
+dataset with a different input layer: the listener correction, the virtual sensors and the
+side head's first layer take 208 instead of 64 channels; nothing else changes. Listeners
+differ in head shape, cap placement and source orientation. A full per-listener spatial
+filter ($64\times64$) would overfit the few minutes of data per listener, so we add a
+rank-2 correction (Fig.~\ref{fig:net_input}) $x+U_m V_m^{\top}x$ for listener $m=1,\dots,M$
+($M$: number of listeners in the dataset), with \archPerListener{} parameters per listener. $U_m$ starts at zero, so training starts from one shared
+model and each listener departs from it only as far as its data support. This is the
+component that carries accuracy: removing it lowers 5-s accuracy by \ablRankKUL, \ablRankDTU{} and \ablRankMEG{} points on
+KU Leuven, DTU and MEG-MASC
+(Table~\ref{tab:ablation}) and changes MAESTRO per-trial accuracy by \maAblRank{} points
+(Table~\ref{tab:mabl}).
+
+\paragraph{Virtual sensors.} A $1{\times}1$ convolution maps the 64 channels to 8
+virtual sensors, the learned analogue of the spatial filters of backward models and CCA
+\citep{crosse2016mtrf,decheveigne2018decoding}. The narrow bottleneck forces the encoder
+to use a few spatial patterns, which suits the low spatial resolution of EEG and limits
+overfitting. Their activation patterns (Fig.~\ref{fig:net_input}, bottom) are smooth and
+spatially broad.
+
+\begin{figure*}[t]\centering
+\resizebox{\textwidth}{!}{\input{fig_net_input.tex}}
+\caption{Input, listener correction and virtual sensors. The correction reads two spatial
+patterns of the EEG with $V_m$ and writes them back with $U_m$; the identity path
+keeps the shared model, and $U_m=0$ at initialisation, so a listener departs from it only
+as far as the data require. Bottom: maps from the KU Leuven fold-0 checkpoint, namely
+$V_m$ and $U_m$ of the listener with the largest correction, and the activation
+patterns $\Sigma W^{\top}(W\Sigma W^{\top})^{-1}$ of the eight virtual sensors, with $W$ their
+weights and $\Sigma$ the covariance
+of the corrected training EEG \citep{haufe2014interpretation}. Diverging colour scale per
+map, grey at zero.}\label{fig:net_input}
+\end{figure*}
+
+\paragraph{EEG encoder and lag window.} Five convolutions (Fig.~\ref{fig:net_enc}) with kernel 3 and dilations
+1, 2, 4, 8, 16 give a receptive field of 63 samples (0.98\,s at 64\,Hz). This covers the
+latencies at which temporal response functions find cortical responses to speech, with
+room for slower components. The
+convolutions are unpadded, so no output depends on zero padding, and the output is sliced
+so that $e_t$ depends only on EEG from $t+\delta$ to $t+\delta+0.98$\,s after the
+sound at $t$ ($\delta\in\{0,125\}$\,ms, chosen on validation). EEG before the sound cannot
+be a response to it, so this window excludes anticipation and slow drifts shared with the
+past. The mirror window, EEG before the sound, is our lag control. GroupNorm (4 groups)
+is used because batches are small and come from one listener. The last layer has no
+activation, so the embedding is not restricted to positive values, and dropout 0.1
+follows every hidden layer.
+
+\begin{figure*}[t]\centering
+\resizebox{0.95\textwidth}{!}{\input{fig_net_encoders.tex}}
+\caption{Receptive fields of both encoders on one time axis, drawn to scale (one dot per
+sample at 64\,Hz; each node depends on three nodes of the layer below, spaced by the
+dilation $d$). The neural embedding $e_t$ reads EEG from $\delta$ to
+$\delta+0.98$\,s after the sound at $t$ (blue; $\delta=125$\,ms shown, 0\,ms on six
+datasets, chosen on validation), and the candidate embedding $\hat a_{k,t}$ reads the
+0.48\,s of audio up to $t$ (orange). Matching the two therefore fixes the lag direction:
+the brain response must follow the sound. The lag control uses the mirrored window before
+the sound (hatched). Each decision window carries 100 samples (1.56\,s) of context on both
+sides, more than either receptive field needs, so no output depends on zero
+padding.}\label{fig:net_enc}
+\end{figure*}
+
+\paragraph{Candidate features and quantile matching.} Each candidate is described by its
+broadband gammatone envelope ($|\cdot|^{0.6}$), its onsets (half-wave-rectified
+derivative, since cortex responds strongly to acoustic edges), 8- and 28-band sub-band
+envelopes (spectral detail), and glimpsed and masked channels: the candidate's window-standardised
+sub-band envelope where it exceeds, or falls below, the largest standardised envelope of the
+other candidates (on the broadband envelope for the two envelope-only datasets). Ignored speech is tracked mainly
+where it is glimpsed \citep{brodbeck2020neural}, so these channels let the model treat
+the two cases differently. In training, and for the matched and same-talker candidate sets, the broadband envelope
+and onset of each window (with its context) are quantile-matched across candidates; every
+other channel is z-scored within the window. The competing set is evaluated unmatched. The candidates
+then have identical envelope value distributions, which removes loudness and level cues that
+would identify the attended talker without the brain (Fig.~\ref{fig:net_feat}).
+
+\begin{figure*}[t]\centering
+\resizebox{\textwidth}{!}{\input{fig_net_features.tex}}
+\caption{Candidate features on one 5-s KU Leuven test window. (a) The broadband envelope
+before and after quantile matching, its onset channel, the 8-band sub-band envelopes and the
+glimpsed and masked parts of one band. (b) How the 54 input channels of each candidate are
+formed; the 8- and 28-band envelopes enter as they are, and glimpses are computed on the
+8-band envelopes. (c) Matching gives both candidates the same value distribution over the
+window while each keeps its own time course.}\label{fig:net_feat}
+\end{figure*}
+
+\paragraph{Audio encoder.} Four causal convolutions (Fig.~\ref{fig:net_enc}, orange) (dilations 1--8, receptive field 31
+samples, 0.48\,s) map each candidate to $\hat{a}_k\in\mathbb R^{16\times L}$. Causal
+means $\hat a_{k,t}$ depends only on audio up to $t$, so together with the EEG window the
+lag direction is fixed by the architecture: EEG must follow the sound it is matched to. One
+set of weights is shared by all candidates. This is required by Prop.~\ref{prop:null}
+(assumption (a)) and means no candidate can be favoured by its position.
+
+\paragraph{Coupling score.} The score (Eq.~\ref{eq:score}) is a weighted sum of
+per-dimension Pearson correlations over time, scaled by a learned temperature (initialised
+at 0.07) and centred over candidates. Correlation is invariant to the scale and offset of
+either embedding, so the score depends only on how the two signals co-vary in time.
+Centring the embeddings over time makes the score exactly zero for a time-constant neural
+embedding. This is what makes the decoder null-calibrated: without time-varying neural
+input there is nothing for the audio pathway to use. The weights $\omega_d$ start equal
+($1/D$) and learn which embedding dimensions carry coupling. Fig.~\ref{fig:net_coupling}
+follows one test window through the score.
+
+\begin{figure*}[t]\centering
+\resizebox{\textwidth}{!}{\input{fig_net_coupling.tex}}
+\caption{The time-centred coupling score on one KU Leuven test window (fold-0 model). The
+EEG embedding and both candidate embeddings (heat maps, each dimension standardised) are
+centred and normalised over time; each dimension gives one correlation per candidate
+(bars: attended in orange, competing in grey), the learned weights $\omega_d$ combine them, and
+centring over candidates yields the scores, which pick the attended talker here. Inset:
+without time-varying neural input every score is zero.}\label{fig:net_coupling}
+\end{figure*}
+
+\paragraph{Flow head.} The flow head models the attended envelope $a\in\mathbb R^{L}$ (the
+z-scored broadband envelope channel of one window) given the neural embedding.
+Flow matching joins Gaussian noise $\varepsilon$ to the data
+along the straight path $a^{(u)}=(1-u)\,\varepsilon+u\,a$, indexed by the flow time
+$u\in[0,1]$ ($\varepsilon\sim\mathcal N(0,I_L)$), whose velocity is $a-\varepsilon$, and trains a
+network $v_\theta(a^{(u)},u,c)$ with parameters $\theta$ and condition $c$ to predict that
+velocity:
+\begin{equation}
+\mathcal L_{\rm FM}=\mathbb E_{u\sim\mathcal U[0,1],\,\varepsilon}\big\|v_\theta(a^{(u)},u,c)-(a-\varepsilon)\big\|^2 .
+\label{eq:fm}
+\end{equation}
+The condition is $c=e$; with probability 0.2 it is set to zero and a flag marks it as
+absent (written $c=\varnothing$), as in classifier-free guidance \citep{ho2022classifierfree}. Integrating $v_\theta$ from $u=0$ to 1 carries noise to
+envelopes, so one network defines both $p(a\mid x)$ (with $c=e$) and $p(a)$ (with
+$c=\varnothing$).
+A candidate is scored by how well each model explains it: its residuals
+$R_{\rm cond}(a_k)=\mathbb E_{u,\varepsilon}\|v_\theta(a_k^{(u)},u,e)-(a_k-\varepsilon)\|^2$ and
+$R_{\rm unc}(a_k)$, the same with $c=\varnothing$. A lower residual means a more typical sample,
+since the expected flow-matching residual acts as a (weighted) surrogate for the negative
+log-likelihood. The flow score $R_{\rm unc}(a_k)-R_{\rm cond}(a_k)$, how much the recording lowers the error
+on $a_k$, is therefore a proxy for the pointwise mutual information
+$\PMI(a_k;x)=\log p(a_k\mid x)-\log p(a_k)$, which is the Bayes-optimal score (Prop.~\ref{prop:pmi}). The audio-only term $\log p(a_k)$ cancels, and
+a network that ignores $e$ scores every candidate 0, as Eq.~\ref{eq:score} does.
+We also report the per-source residuals of the attended and the competing talker.
+
+The network's input at each time step concatenates the noisy envelope $a^{(u)}$ (1 channel),
+$e$ (16), a flag indicating whether the condition is present (1) and a sinusoidal
+embedding of flow time (16). A $1{\times}1$ convolution maps these 34 channels to 64,
+followed by five residual blocks (dilated convolution 1--16 with same padding, GroupNorm,
+GELU, $1{\times}1$ convolution) and a zero-initialised output layer, so training starts
+from zero velocity. At test time the residuals $R_{\rm cond},R_{\rm unc}$ are averaged over 8
+Monte-Carlo draws of flow time (stratified) and noise. The draws are shared across
+candidates and across the conditional and unconditional passes, so their noise cancels in
+$R_{\rm unc}-R_{\rm cond}$. It is the largest module (\archFlow{} parameters) but lies outside the coupling
+path. Removing it changes coupling accuracy by at most \ablOtherMax{} points
+(Table~\ref{tab:ablation}). We keep it because it supplies the PMI rule and the
+per-source residuals (Table~\ref{tab:flow}). Fig.~\ref{fig:net_flow} shows both uses.
+
+\begin{figure*}[t]\centering
+\resizebox{\textwidth}{!}{\input{fig_net_flow.tex}}
+\caption{Flow head. (a) Training: the velocity network sees the noisy envelope $a^{(u)}$ on the
+straight path from noise $\varepsilon$ to the attended envelope $a$, the neural embedding
+(dropped with probability 0.2), a flag saying whether it is present, and the flow time $u$,
+and regresses the path velocity $a-\varepsilon$. (b) Test: every candidate is scored with
+and without the neural embedding on the same Monte-Carlo draws; the difference of the
+residuals estimates its pointwise mutual information with the recording
+(Prop.~\ref{prop:pmi}).}\label{fig:net_flow}
+\end{figure*}
+
+\paragraph{Side head.} A separate EEG-only branch (Fig.~\ref{fig:net_aux}a) ($1{\times}1$ convolution to 16
+channels, four dilated convolutions, mean and log standard deviation over time, linear
+layer) predicts the attended side. When the candidates' sides are known, its
+log-probability of each candidate's side is centred over candidates and scaled by a learned gain ($\mathrm{softplus}(g_{\rm side})$,
+$g_{\rm side}$ initialised at $-2$). During training this side score is added to $s_k$ inside
+$\mathcal L_{\rm CE}$. All reported accuracies use the coupling score alone, and the side
+head's contribution is reported separately. The branch gives lateralised EEG a separate,
+measurable route instead of letting the coupling path absorb it. Removing it changes
+coupling accuracy by at most \ablOtherMax{} points.
+
+\paragraph{Audio adversary and envelope read-out.} The adversary (Fig.~\ref{fig:net_aux}b) summarises each candidate
+embedding by its temporal mean and standard deviation (32 values) and scores it with a
+two-layer MLP. A softmax over candidates gives $\mathcal L_{\rm adv}$, and a
+gradient-reversal layer (coefficient 1) makes the audio encoder remove any feature that
+identifies the attended talker from audio alone \citep{ganin2016domain}. The envelope
+read-out, a $1{\times}1$ convolution from $e$, reports how well the neural embedding
+reconstructs the attended envelope; it does not enter the decision (Fig.~\ref{fig:net_aux}c).
+
+\begin{figure*}[t]\centering
+\resizebox{\textwidth}{!}{\input{fig_net_aux.tex}}
+\caption{Auxiliary heads. (a) The side head reads only the listener-corrected EEG; its side
+log-probabilities enter the training loss through the candidate scores but never the
+reported accuracies, which use the coupling score alone. (b) The audio-only adversary tries
+to find the attended candidate from the audio embeddings; the gradient-reversal layer (GRL)
+passes its gradient to the audio encoder with the sign flipped, so the encoder removes any
+such cue. (c) The envelope read-out reports reconstruction accuracy and is not used by any
+decision rule.}\label{fig:net_aux}
+\end{figure*}
+
+\paragraph{Size and compute.} The decision path has \archDecision{} shared parameters, a
+size that suits wearable hardware and the limited data per listener. All modules are convolutional and run in time linear in the
+window length. Training runs on one GPU in minutes to a few hours per fold
+(App.~\ref{app:data}).
+
+\section{TRAINING OBJECTIVE}\label{app:loss}
+The objective (Eq.~\ref{eq:loss}) has one term that asks for the decision and several that
+shape \emph{how} the decision is reached. This section explains each term's role in plain
+terms, how the weights were set, and how large each term is in practice
+(Table~\ref{tab:loss_terms}).
+
+\paragraph{Definitions.} A training batch holds $B\le32$ windows $i=1,\dots,B$, all from \emph{one}
+listener. Window $i$ has the recording $x^{(i)}$, the neural embedding $e^{(i)}$, the
+acoustic embeddings $\hat a^{(i)}_k$ of its $K$ candidates, the attended index $y_i$ and the
+attended envelope $a^{(i)}=a^{(i)}_{y_i}$. We write $s_{ik}=s(e^{(i)},\hat a^{(i)}_k)$ for the
+score of Eq.~\ref{eq:score} before centring and $\bar s_{ik}$ for the centred score $s_k$ of
+window $i$. The terms of Eq.~\ref{eq:loss} are as follows, with $\mathrm{sp}(z)=\log(1+e^z)$ the softplus function.
+\begin{itemize}\setlength\itemsep{1pt}
+\item \emph{Task.} $\mathcal L_{\rm CE}=-\frac1B\sum_i\sum_k q_{ik}\log\pi_{ik}$, the
+cross-entropy (CE) between the predicted distribution $\pi_{ik}=\mathrm{softmax}_k(\bar s_{ik}+
+h_{ik})$ and the label $q_{ik}=0.9\,[k{=}y_i]+0.1/K$ ($[k{=}y_i]$ is 1 if $k=y_i$, else 0), smoothed because the label is the
+instruction, not what the listener did at every moment (attention lapses). $h_{ik}$ is the
+side head's score for candidate $k$ (see $\mathcal L_{\rm side}$; 0 when the candidates'
+sides are unknown); it is used only in training, and every reported decision uses
+$\bar s_{ik}$ alone.
+\item \emph{Contrastive matching.} With $G_{ij}=s(e^{(i)},\hat a^{(j)}_{y_j})$, the score
+between window $i$'s brain response and window $j$'s attended speech,
+$\mathcal L_{\rm NCE}=-\frac{1}{2B}\sum_i\big[\log\frac{e^{G_{ii}}}{\sum_j e^{G_{ij}}}+
+\log\frac{e^{G_{ii}}}{\sum_j e^{G_{ji}}}\big]$ (symmetric InfoNCE). It asks which of the $B$
+speech segments evoked each response, and vice versa: a 32-way problem, which gives the
+encoders far more signal per window than the 2-way task. Since all windows come from one
+listener, only the response's time course, not who is listening, can solve it.
+\item \emph{Null hinge.} $\mathcal L_{\rm null}=\frac1B\sum_i\big[\mathrm{sp}(s(e^{(i-1)},
+\hat a^{(i)}_{y_i})-s_{i,y_i}+\xi)+\mathrm{sp}(\xi-s_{i,y_i})\big]$, margin $\xi=0.5$,
+$e^{(0)}=e^{(B)}$. The attended speech must score higher with its own recording than with
+another window's recording (first term) and than with a constant recording, which scores 0
+(second term). $\mathcal L_{\rm CE}$ only compares candidates \emph{within} a window; this
+term ties the score to the recording itself, a training-time version of the null test.
+\item \emph{Audio-only adversary.} A small network reads only the acoustic embeddings: the
+time mean and standard deviation (s.d.) of each $\hat a^{(i)}_k$ (32 numbers) pass through a two-layer
+perceptron to one logit per candidate, and $\mathcal L_{\rm adv}$ is the cross-entropy of its
+softmax against $y_i$. The adversary minimises $\mathcal L_{\rm adv}$; between it and the
+acoustic encoder sits a gradient-reversal layer \citep{ganin2016domain}, which flips the
+sign of the gradient, so the encoder is trained to make the adversary fail. This removes
+any acoustic cue (loudness, voice) that reveals the attended talker without the brain.
+\item \emph{Collapse guard.} $\mathcal L_{\rm VIC}=\frac{1}{16B}\sum_{i,d}\big[\mathrm{sd}_{\min}-
+\mathrm{sd}_t(e^{(i)}_{\cdot d})\big]_+ +\frac{0.04}{16}\sum_{d\neq d'}C_{dd'}^2$, with
+$\mathrm{sd}_t$ the s.d.\ over time, $\mathrm{sd}_{\min}=0.5$,
+$[z]_+=\max(z,0)$, and $C$ the $16\times16$ covariance of the time-centred embedding over
+all samples of the batch: the variance and covariance terms of VICReg
+\citep{bardes2022vicreg}. A constant embedding scores every candidate 0 and stops learning;
+copies of one dimension waste the other 15. The term stays negligible unless either starts.
+\item \emph{Flow matching.} $\mathcal L_{\rm FM}$ is Eq.~\ref{eq:fm} with $a=a^{(i)}$ and
+$c=e^{(i)}$ (or $c=\varnothing$), averaged over the batch with one draw of $(u,\varepsilon)$
+per window. It trains the flow head; through $c$ it also asks $e^{(i)}$ to carry what predicts
+the attended envelope.
+\item \emph{Side head.} A separate EEG-only network (App.~\ref{app:net}) gives probabilities
+$p_{\rm side}(\text{left}\mid x^{(i)})$ and $p_{\rm side}(\text{right}\mid x^{(i)})$ that the
+attended talker is on that side, and $\mathcal L_{\rm side}=-\frac{1}{|\mathcal B|}
+\sum_{i\in\mathcal B}\log p_{\rm side}(z_i\mid x^{(i)})$, with $z_i$ the attended side and
+$\mathcal B$ the windows where it is known. $h_{ik}$ is this log-probability for candidate
+$k$'s side, centred over candidates and scaled by a learned gain. Lateralised EEG can carry
+spatial attention, but also gaze or listener identity; a separate head lets us measure its
+contribution and keep it out of reported decisions.
+\item \emph{Envelope read-out.} $\mathcal L_{\rm env}=\frac1B\sum_i\big[1-r(\psi^\top
+e^{(i)},a^{(i)})\big]$, with $\psi\in\mathbb R^{16}$ a learned linear map and $r$ the Pearson
+correlation over time. It reports how well the neural embedding reconstructs the attended
+envelope (Table~\ref{tab:track}), comparable to backward models, and is not used in decisions.
+\end{itemize}
+The weights, $\lambda_{\rm NCE}=1$, $\lambda_{\rm null}=0.5$,
+$\lambda_{\rm adv}=\lambda_{\rm FM}=\lambda_{\rm side}=0.3$, $\lambda_{\rm VIC}=0.1$,
+$\lambda_{\rm env}=0.2$, were set once and are the same for every dataset: the two decoding
+terms at full weight, the others below them so that the decision shapes the embedding.
+
+\paragraph{Why more than one term.} Cross-entropy over the candidates is all the task
+requires, but on its own it accepts any route to the label. AAD data offer several routes
+that do not go through the brain response: the attended talker may be louder or have a
+recognisable voice, every window of a trial has the same label, and a listener may attend the
+same side throughout. A decoder that takes such a route scores well on a leaky split and
+fails on new content. The architecture already closes the main route: the time-centred
+score is zero for every candidate without time-varying neural input (Prop.~\ref{prop:null}).
+The remaining terms make the useful route easier to find (InfoNCE), guard against
+degenerate solutions (null hinge, VICReg, adversary), and add outputs that the decision does
+not use but that we report (flow head, side head, envelope read-out).
+
+\paragraph{Decoding terms.} $\mathcal L_{\rm CE}$ is the task: given one window and its
+candidates, put the highest score on the attended one. Label smoothing (0.1) reflects that
+the label is an instruction, not an observation: listeners lapse, so a fraction of windows
+is mislabelled and should not be fitted with full confidence. With two candidates
+$\mathcal L_{\rm CE}$ gives one bit of supervision per window, too little to teach two
+encoders from scratch. $\mathcal L_{\rm NCE}$ supplies more: it asks which of the $B=32$
+windows' attended speech goes with which window's recording, a $B$-way matching problem
+($\ln 32=3.47$ nats at chance against $\ln 2=0.69$ for the task). Because all windows in a
+batch come from one listener, recognising the listener cannot solve it; only the time
+course of the response can. It is the largest term at the first epoch
+(Table~\ref{tab:loss_terms}) and falls by \nceDropMin--\nceDropMax\% as the encoders learn to align
+brain and speech. Both terms act on the same score (Eq.~\ref{eq:score}), so what InfoNCE
+learns transfers directly to the decision.
+
+\paragraph{Anti-shortcut terms.} $\mathcal L_{\rm null}$ states the null hypothesis as a
+constraint: the true recording must give the attended speech a higher score than the
+recording of another window, and than a constant recording (score 0), each by a margin
+$\xi=0.5$. A decoder that scores the attended talker high whatever the brain did violates
+it. The softplus keeps a small gradient after the margin is met. $\mathcal L_{\rm adv}$
+trains an audio-only classifier to find the attended candidate from summary statistics of
+the candidate embeddings; the reversed gradient \citep{ganin2016domain} then removes from
+the acoustic encoder whatever let it succeed. Its value is a direct check: it is
+$0.3\ln 2=0.21$, chance, at the first and at the selected epoch on every dataset, so after
+quantile matching the audio carries no usable cue to the attended role. $\mathcal L_{\rm VIC}$ is a
+guard against a collapsed neural embedding (constant over time, or with all dimensions
+alike), which would score every candidate 0 and stall training. Its variance part is zero while every
+dimension's temporal s.d.\ exceeds $\mathrm{sd}_{\min}=0.5$; the whole term is below 0.005 at the first
+and at the selected epoch on every dataset. These
+three terms are therefore insurance: they cost nothing when the model behaves and act only
+when it starts to take a shortcut. On MAESTRO, where a loudness shortcut exists, removing
+any one of them leaves every null at chance (Table~\ref{tab:mabl}), because the score already closes
+the shortcut.
+
+\paragraph{Density and auxiliary terms.} $\mathcal L_{\rm FM}$ (Eq.~\ref{eq:fm}) trains the
+flow head, which supplies the PMI rule and the per-source residuals (Table~\ref{tab:flow}).
+Its gradient also reaches the neural encoder through the condition, and asks the embedding to
+carry what predicts the attended envelope, which agrees with the coupling objective.
+$\mathcal L_{\rm side}$ trains the EEG-only side head. Lateralised EEG can carry attention,
+but also gaze and, when a listener attends one side throughout, listener identity: on
+Broderick the term drops to 0 because side and listener coincide. We therefore measure its
+credit separately and never use it in a reported decision. $\mathcal L_{\rm env}=1-r$
+trains a linear read-out of the embedding to the attended envelope; it gives the tracking
+values of Table~\ref{tab:track} and slightly regularises the embedding towards the envelope.
+
+\paragraph{How the weights were set.} The weights were set once and not tuned on any dataset;
+every dataset uses the same values. Where the concurrent MERIT
+objective \citep{merit2026} has a corresponding term we took its weight; the others follow
+from scale. The task has weight 1 and is the reference. InfoNCE also has weight 1: it is
+the same log-softmax on the same score, and should dominate early. The null hinge (0.5) is
+a constraint that should bind only when violated. The adversary (0.3) is kept moderate
+because a gradient-reversal game becomes unstable when the reversed gradient dominates; the
+flow, side and envelope terms (0.3, 0.3, 0.2) are kept below the decoding terms so that the
+neural embedding is shaped mainly by the decision; VICReg (0.1) is a guard. Two facts make
+the choice uncritical. First, the selected model is chosen on validation
+\emph{contribution} (accuracy minus the across-trial null), not on the loss, so the
+weights trade off training signals, not the selection criterion. Second, removing any one
+term changes 5-s accuracy on KU Leuven, DTU and MEG-MASC by at most \ablOtherMax{} points
+(Table~\ref{tab:ablation}; one seed per variant); only the per-listener correction, an
+architectural component, matters there. On MAESTRO, InfoNCE does matter
+(\maAblNce{} points per trial, Table~\ref{tab:mabl}).
+
+\begin{table*}[h]\centering\small
+\caption{Weighted loss terms during training (each already multiplied by its weight; mean
+over folds and seeds of the logged epoch average), at the first epoch and at the selected
+epoch. Chance: value of a term for a decoder at chance ($K=2$ candidates, batch $B=32$).
+``--'': the side head needs two talkers in known positions. Five Broderick runs evaluated
+from saved checkpoints have no logged history and are omitted.}\label{tab:loss_terms}
+\input{tables/loss_terms.tex}
+\end{table*}
+
+\section{ADDITIONAL RESULTS}\label{app:results}
+Table~\ref{tab:app_baselines} gives CoupleFlow and every baseline at every decision window.
+Sec.~\ref{app:ablation} removes one component at a time, Sec.~\ref{app:leak} compares two
+kinds of leakage, Sec.~\ref{app:mabl} repeats the ablation on MAESTRO, and
+Sec.~\ref{app:loso} holds out listeners. Table~\ref{tab:app_variants} lists CoupleFlow
+variants, and Table~\ref{tab:kth} tests the accumulation law (Prop.~\ref{prop:law}).
+\begin{table}[h]\centering\small
+\caption{CoupleFlow and every baseline at every window (\%, content-disjoint folds, pooled over
+all test windows; competing talker for two-talker sets, match--mismatch for SparrKULee and
+MEG-MASC). CoupleFlow: mean of 3 seeds with the validation-chosen lag window, as in
+Table~\ref{tab:main}; ``CoupleFlow, mm'': match--mismatch on the two-talker recordings. trial:
+one decision per trial. ``--'': window longer than the trials. CoupleFlow nulls:
+\nullShortMin--\nullShortMax\% up to 10\,s; \nullLongMin--\nullLongMax\% at 20--60\,s, where
+few windows exist. DECAF, trained with the same folds and selection rule, stays near chance on the
+two-talker sets.}
+\label{tab:app_baselines}
+\input{tables/app_baselines.tex}
+\end{table}
+
+
+
+
+
+\FloatBarrier
+\subsection{Ablations}\label{app:ablation}
+Table~\ref{tab:ablation}, 5-s accuracy, all folds, relative to the
+125-ms model with 3 seeds; each variant is one run (seed 0). The per-listener low-rank correction is the component that
+carries accuracy: without it the model loses \ablRankKUL{} (KU Leuven), \ablRankDTU{} (DTU) and
+\ablRankMEG{} points (MEG). Starting the lag window at 0\,ms adds \lagZeroKUL, \lagZeroDTU{}
+and \lagZeroMEG. Every other component changes 5-s accuracy by at most \ablOtherMax{} points
+(one seed per variant). This includes the flow head, matched and glimpsed candidates,
+the adversary, the null hinge, InfoNCE, contribution-based selection and the side head. These
+components are therefore not accuracy devices. The flow head supplies the PMI decision rule
+and the per-source residuals (Table~\ref{tab:flow}); the adversary, null hinge and selection
+rule are safeguards, whose effect is on the null and credit diagnostics rather than on
+accuracy. The lag control, which reads neural data from 1.1\,s to 125\,ms \emph{before} the
+sound, loses \lagCtlKUL, \lagCtlDTU{} and \lagCtlMEG{} points (\lagCtlAccKUL, \lagCtlAccDTU{} and
+\lagCtlAccMEG\%). MEG remains well above chance in this control. We attribute this, as a
+hypothesis, to the regular rhythm of its synthetic speech, which makes the envelope
+predictable from the preceding response.
+\begin{table}[h]\centering\small
+\caption{Change in 5-s accuracy (points) when one component is removed; full model:
+mean$\pm$s.d.\ over 3 seeds, 125-ms lag window; variants: seed 0.}\label{tab:ablation}
+\input{tables/ablation.tex}
+\end{table}
+
+\FloatBarrier
+\subsection{Two kinds of leakage}\label{app:leak}
+Table~\ref{tab:leak} and Table~\ref{tab:earlier} can look contradictory: one finds that a
+leaky split inflates accuracy by at most \leakMax{} points, the other by
+\oldDropAllMin--\oldDropAllMax. They measure different leaks.
+
+\emph{Content leakage} (Table~\ref{tab:leak}). In a trial split, whole trials are held
+out, so no test sample, and no EEG from a test trial, is seen in training. Only the
+\emph{stories} repeat: a test trial's audio was heard by the listener in another, training
+trial. A model can profit from this only if it can recognise the audio and map it to a
+label, as an audio-only or stimulus-identity classifier could. To measure what a content-sharing split does, we retrain every
+model on KU Leuven and DTU with one group per \emph{trial}, the split used in most prior
+work, so test stories also occur in training (Table~\ref{tab:leak}). No model gains
+more than \leakMax{} points: \leakMin{} to \leakMax{} for the linear decoder, VLAAI, the match--mismatch
+model and CoupleFlow alike. Sharing stories across trials is therefore \emph{not} what
+inflates these decoders. Each of them reaches the decision through the neural response
+to the candidate audio, with no path that can memorise a story's identity. The small KU Leuven gain for CoupleFlow (\leakMax) is consistent
+with its trial split exposing all four story pairs in training instead of three.
+
+\emph{Trial-identity leakage} (Table~\ref{tab:earlier}). In a within-trial split, every
+trial contributes windows to both training and test: our earlier decoders used a random
+5-fold split of overlapping windows, the side classifiers' protocol holds out the last 10\%
+of each trial. Each test window then has training windows from the \emph{same trial}, with
+the same label, overlapping it or seconds away. EEG has slow, trial-specific structure: electrode impedances, drifts,
+posture and gaze, and an attended side that is constant within the trial. A decoder that
+recognises which trial a window comes from therefore knows its label without decoding
+attention. This is the much larger effect: \oldDropAllMin--\oldDropAllMax{} points for our earlier
+decoders, and \spKULBmin--\spKULBmax\% at 1\,s on KU Leuven for the side classifiers
+(Table~\ref{tab:app_spatial}; on DTU our runs under their split come out about 12 points
+below the published numbers, plausibly because of our stricter preprocessing: 0.5-Hz
+high-pass, per-trial z-scoring, no electrooculography (EOG) channels). NJU, whose EEG is not
+time-locked to the audio at all,
+reached \oldSegNJU\% this way. The two tables therefore
+agree: what inflates AAD accuracy is evaluating on windows of trials seen in training, not
+on stories heard in training. Content-disjoint folds rule out both.
+\begin{table}[h]\centering\small
+\caption{Content leakage: 5-s competing accuracy (\%) when folds share stories (trial
+split: whole trials held out, but the stories of test trials also occur in training trials)
+against content-disjoint folds. Every model is retrained on each split. CoupleFlow: seed 0,
+125-ms lag window on both splits.}\label{tab:leak}
+\input{tables/leak.tex}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Recent side classifiers (authors' models in our training pipeline), accuracy (\%)
+under their within-trial split (last 10\% of each trial held out for testing; earlier windows
+split 9:1 into training and validation) and under our content-disjoint folds,
+subject-dependent and subject-independent. On KU Leuven the content-disjoint side task is
+ill-posed (one class per listener in each test fold).}\label{tab:app_spatial}
+\input{tables/app_spatial.tex}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Our earlier decoders (a flow decoder and an envelope decoder) under two splits, 5-s windows, one model
+per listener, mean over listeners (\%). Within-trial: 5-fold split of randomly assigned
+windows with 50\% overlap; test windows neighbour training windows of the same trial. Trial-disjoint: whole trials
+held out, no shared samples. Everything else (data, listeners, recipe, folds) is identical.
+Trial-disjoint is still not content-disjoint on KU Leuven, whose stories repeat across
+trials. $^a$NJU shows no EEG--audio time-locking (App.~\ref{app:data}), so its
+within-trial accuracy can only come from the split.}\label{tab:earlier}
+\input{tables/earlier_split.tex}
+\end{table}
+
+
+\FloatBarrier
+\subsection{Ablation on MAESTRO}\label{app:mabl}
+Table~\ref{tab:mabl} repeats the ablation on
+MAESTRO, where the audio itself marks the attended talker. Two results stand out. First,
+there is no discrepancy between accuracy and contribution for \emph{any} variant. Unmatched
+and matched candidates give the same accuracy to within \maUnmatchedGap{} points, and every
+null stays at chance. Removing the adversary, the null hinge, contribution-based selection or
+matched training (each changes per-trial accuracy by at most \maSafeMax{} points) does not
+open the shortcut. It is the architecture that closes it: the time-centred coupling score
+gives the acoustic pathway no route to the decision (Prop.~\ref{prop:null}). The safeguards
+are therefore redundant with it rather than necessary. Second, accuracy is carried by the
+components that shape the brain--speech coupling. Per-trial accuracy changes by
+\maAblRank{} points without the per-listener correction, \maAblNce{} without InfoNCE,
+\maAblBanks{} without sub-band features, \maAblGlimpse{} without glimpse channels and
+\maAblAux{} without the auxiliary losses.
+\begin{table*}[h]\centering\small
+\caption{Ablation on MAESTRO, where the audio offers a shortcut (the attended talker is always
+the loudest): within listeners, seed 0, 4-way. For each variant: 5-s accuracy and
+contribution with unmatched candidates (shortcut available) and with matched candidates;
+the EEG-shuffle and circular-shift nulls; per-trial accuracy and contribution; and embedding
+collapse (mean cosine between windows; 1 = every window alike).}\label{tab:mabl}
+\resizebox{\textwidth}{!}{\input{tables/maestro_ablation.tex}}
+\end{table*}
+
+\FloatBarrier
+\subsection{Variants and the accumulation law}\label{app:lawdetails}
+\paragraph{Task and sensor.} For the linear decoder the task prediction
+$\kappa_{\rm comp}/\kappa_{\rm mm}=1-\gamma$ has mean error \taskMaeLin{} ($r=\taskRLin$,
+$p=\taskPLin$), and for CoupleFlow \taskMaeCF{} ($r=\taskRCF$); the task factor
+$1/(1-\gamma)$ is \taskFacMin--\taskFacMax{} (mean \taskFacMean). The law
+$\kappa=\sqrt{f/2}\,\Delta\zeta$ with $f=\fEff$ fits the 14 linear values with mean error
+\thMape\%. At matched task and listening condition (single talker, match--mismatch), MEG's
+per-sample tracking is \megRratio$\times$ that of SparrKULee's EEG, which predicts a $\kappa$
+ratio of \megDzPred; we observe \megKlinObs{} for the linear decoder and \megKcfObs{} for
+CoupleFlow, which is compressed by its ceiling near 99\%. Single-talker listening is not what
+raises EEG tracking: SparrKULee's attended correlation (\rSparr) lies inside the two-talker
+range (\rTwoMin--\rTwoMax). CoupleFlow's read-out reaches \rCFattMin--\rCFattMax{} on the
+two-talker EEG sets and \rCFmeg{} on MEG.
+
+Table~\ref{tab:app_variants} lists CoupleFlow variants at 5\,s, and Table~\ref{tab:kth} gives
+the tracking values behind the test of Prop.~\ref{prop:law} in Sec.~\ref{sec:exp}.
+\begin{table}[h]\centering\small
+\caption{CoupleFlow variants, 5-s accuracy (\%, seed 0). 125\,ms / 0\,ms: start of the neural
+lag window. env.\ only: broadband envelope without sub-band features (Fuglsang'20 and
+Broderick are envelope-only in every column). rank 8: larger per-listener correction.
+listener FT: per-listener fine-tuning after pooled training. native ch.: all native channels
+instead of the 64 canonical ones (125-ms window). n/a: the variant equals the base
+(envelope-only releases; caps with 64 EEG channels). ``--'': not run. Rank 8 and listener FT
+were run only on KU Leuven, DTU and ESAA, to test whether listener heterogeneity explained
+the ESAA gap; neither did. MEG-MASC uses its 208 sensors throughout (208-channel input
+layer).}\label{tab:app_variants}
+\input{tables/app_variants.tex}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Test of Prop.~\ref{prop:law}: tracking of the attended ($r_{\rm att}$) and
+competing ($r_{\rm comp}$) envelope by the per-listener linear decoder (all listeners),
+ignored-talker ratio $\gamma$, the predicted and the observed ratio of competing to
+match--mismatch $\kappa$.}\label{tab:kth}
+\input{tables/kappa_theory.tex}
+\end{table}
+
+\FloatBarrier
+\subsection{Further analyses}\label{app:further}
+\paragraph{Where the attention signal lives.} Decomposing the PMI attention effect
+($\PMI_{\rm att}-\PMI_{\rm comp}$) by modulation band of the candidate envelope (seed 0), the delta
+band (0.5--4\,Hz) carries \deltaMin--\deltaMax\% of it on every dataset, theta (4--8\,Hz)
+\thetaMin--\thetaMax\%, and alpha and beta together at most \abMax\%. This matches the known spectral profile of cortical
+speech tracking \citep{ding2012emergence}, and it matches for MEG and EEG alike.
+
+\paragraph{Hearing-impaired listeners.} On Fuglsang'20, 5-s accuracy is \hiAcc\% for the 22
+hearing-impaired and \nhAcc\% for the 22 normal-hearing listeners (mean over 3 seeds;
+Mann--Whitney $p=0.06$--$0.46$ across seeds). Decoding is not worse with hearing loss,
+consistent with the enhanced envelope tracking reported for these listeners
+\citep{fuglsang2020effects}. We use the release's envelopes of the unamplified stimuli for every listener.
+
+\FloatBarrier
+\subsection{Leave-one-listener-out evaluation}\label{app:loso}
+The content-disjoint folds hold out stories but test listeners whose other stories were
+seen in training. Here each fold holds out one listener \emph{and} one content fold: the test
+set is that listener's trials on the held-out content, and training uses only the other
+listeners' trials on the other content, so neither the test listener nor the test audio is
+seen in training (validation: whole training groups when at least 10 remain, else trial
+tails, as in App.~\ref{app:data}). Every fold passed the same split audit as the content
+folds (no shared trial, content, stimulus file or sample, and no test-listener data in
+training). Each dataset's paper configuration and validation-chosen lag are used unchanged,
+with a single seed.
+
+Table~\ref{tab:loso}. An unseen listener costs \losoDropMin--\losoDropMax{} points at 5\,s
+on every dataset except Broderick, and accuracy keeps rising with the window (20-s column).
+On Broderick
+the decoder does not transfer to new listeners at all; a pooled linear backward model under
+the same folds fails in the same way (last column), so this is a property of that recording,
+not of the model. Where both transfer, CoupleFlow stays ahead of the pooled linear model.
+\begin{table}[h]\centering\small
+\caption{Leave-one-listener-out (LOSO) accuracy (\%), listener and content held out together,
+\emph{one seed}. Content folds: the main-table 5-s accuracy (3 seeds) for reference. Null:
+EEG from another trial of the same listener (another window of the same trial when the
+listener has a single test trial). Linear: pooled ridge backward model on the same folds
+(two-talker sets; penalty chosen on the first 40 validation segments). $^a$208-sensor input (App.~\ref{app:net}). MAESTRO's LOSO results are
+in Sec.~\ref{sec:exp}.}\label{tab:loso}
+\input{tables/loso.tex}
+\end{table}
+
+\input{conf_appendix.tex}
+
+\end{document}

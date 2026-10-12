@@ -1,0 +1,17 @@
+\begin{tabular}{lc|cc|cccccc|c}\toprule
+ & & \multicolumn{2}{c|}{unmatched (5\,s)} & \multicolumn{6}{c|}{matched} & \\
+Variant & folds & acc. & contrib. & acc. & null & contrib. & circ.\ null & trial & trial contrib. & collapse \\\midrule
+full model & 5 & 45.6 & +20.6 & 45.9 & 25.0 & +20.9 & 25.0 & 70.2 & +45.4 & 0.00 \\
+no flow head & 5 & 46.1 & +21.0 & 45.9 & 25.1 & +20.8 & 25.0 & 70.1 & +46.3 & 0.00 \\
+no listener correction & 5 & 41.6 & +16.5 & 41.7 & 25.1 & +16.5 & 25.1 & 61.4 & +36.4 & 0.00 \\
+unmatched training & 5 & 45.5 & +20.5 & 45.8 & 25.0 & +20.8 & 25.1 & 69.9 & +44.7 & 0.00 \\
+no glimpse features & 5 & 44.9 & +19.9 & 45.0 & 25.1 & +20.0 & 25.1 & 68.8 & +43.8 & 0.00 \\
+no sub-band features & 5 & 44.3 & +19.3 & 44.5 & 25.0 & +19.5 & 25.1 & 68.3 & +42.8 & 0.00 \\
+no audio adversary & 5 & 45.8 & +20.7 & 45.9 & 25.1 & +20.8 & 25.1 & 70.0 & +45.3 & 0.00 \\
+no null hinge & 5 & 45.4 & +20.4 & 45.3 & 25.0 & +20.3 & 25.1 & 70.9 & +46.7 & 0.00 \\
+no InfoNCE & 5 & 43.3 & +18.2 & 43.3 & 25.1 & +18.2 & 25.1 & 66.6 & +42.1 & 0.00 \\
+select on accuracy & 5 & 45.7 & +20.8 & 45.5 & 24.9 & +20.6 & 25.0 & 70.3 & +46.2 & 0.00 \\
+no side head & 5 & 45.2 & +20.3 & 45.3 & 25.0 & +20.3 & 25.2 & 70.3 & +46.1 & 0.00 \\
+no env/VICReg aux. & 5 & 45.2 & +20.2 & 45.1 & 25.0 & +20.0 & 24.9 & 68.9 & +44.3 & 0.00 \\
+lag control (EEG before sound) & 5 & 33.6 & +8.5 & 33.5 & 25.1 & +8.4 & 25.2 & 46.3 & +20.8 & 0.00 \\
+\bottomrule\end{tabular}

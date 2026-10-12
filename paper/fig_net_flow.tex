@@ -1,0 +1,71 @@
+% App. D figure: flow head, training and test-time PMI scoring.
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ================================================================ (a) network + training
+\node[ttl] at (0,2.55) {(a) velocity network, trained on the attended envelope};
+\node[tens=cfF,minimum width=1.45cm] (x1) at (0.75,1.55) {$a$ (attended)\\$1\times L$};
+\node[tens=cfX,minimum width=1.45cm] (x0) at (0.75,0.35) {$\varepsilon\sim\mathcal N(0,I)$\\$1\times L$};
+\node[nb=cfF,text width=2.3cm] (mix) at (3.35,0.95) {$a^{(u)}=(1-u)\,\varepsilon+u\,a$\\$u\sim\mathcal U(0,1)$};
+\draw[ar=cfF] (x1.east) -- ++(0.2,0) |- ([yshift=0.15cm]mix.west);
+\draw[ar=cfX] (x0.east) -- ++(0.2,0) |- ([yshift=-0.15cm]mix.west);
+
+% input stack (34 channels)
+\def\sx{5.55}
+\foreach \h/\c/\lab/\n [count=\i] in {0.14/cfF!65/{$a^{(u)}$}/1, 0.85/cfN!30/{$e$, or $0$}/16,
+                                       0.14/cfX!55/{condition flag}/1, 0.85/cfF!20/{sinusoidal emb.\ of $u$}/16} {
+  \ifnum\i=1 \coordinate (T\i) at (\sx,1.95); \else
+    \pgfmathtruncatemacro{\j}{\i-1}\coordinate (T\i) at (B\j); \fi
+  \coordinate (B\i) at ($(T\i)+(0,-\h)$);
+  \fill[\c] (T\i) rectangle ($(B\i)+(0.45,0)$);
+  \draw[white,line width=0.7pt] (B\i) -- ++(0.45,0);
+  \node[font=\tiny,anchor=west,text=cfInk] at ($(T\i)!0.5!(B\i)+(0.5,0)$) {\lab\ (\n)};
+}
+\draw[decorate,decoration={brace,amplitude=2.5pt},cfInk,line width=0.4pt]
+  ($(B4)+(-0.07,0)$) -- ($(T1)+(-0.07,0)$) node[midway,left=3pt,font=\tiny] {34 ch};
+\draw[ar=cfF] (mix.east) to[out=0,in=180] ($(T1)!0.5!(B1)$);
+\node[note,anchor=north west,text width=3.1cm] at ($(B4)+(0,-0.07)$)
+  {with probability 0.2: $e\to0$ and flag $=0$, so one network learns
+   $p(a\mid x)$ and $p(a)$};
+
+% trunk
+\node[nb=cfF,text width=1.15cm] (in) at (9.0,0.95) {$1{\times}1$ conv\\$34\to64$};
+\draw[ar=cfF] ($(T1)!0.5!(B4)+(2.65,0)$) -- (in.west);
+\node[draw=cfF,fill=cfF!4,rounded corners=2pt,line width=0.6pt,minimum width=4.1cm,
+      minimum height=1.45cm] (rb) at (12.0,0.95) {};
+\node[font=\scriptsize,anchor=north,text=cfInk,inner sep=2pt] at (rb.north) {5 residual blocks, $d=1,2,4,8,16$};
+\node[font=\scriptsize,text=cfInk,align=center] at ($(rb.center)+(0,-0.22)$)
+  {residual block $d$:\\[1pt]{\tiny$\mathrm{conv}_{3,d}\to\mathrm{GN}\to\mathrm{GELU}\to\mathrm{conv}_{1\times1}$, $+$\,input}};
+\draw[ar=cfF] (in) -- (rb);
+\node[nb=cfF,text width=1.25cm] (outl) at (15.35,0.95) {$1{\times}1\to v_\theta$\\zero-init};
+\draw[ar=cfF] (rb) -- (outl);
+\node[lossn=cfF,anchor=north east] (lfm) at ($(outl.south east)+(0,-0.35)$)
+  {$\mathcal L_{\rm FM}=\big\|v_\theta-(a-\varepsilon)\big\|^2$};
+\draw[ar=cfF] (outl.south) -- (outl.south|-lfm.north);
+
+% ================================================================ (b) test time
+\node[ttl] at (0,-1.3) {(b) test time: estimated pointwise mutual information of every candidate};
+\node[tens=cfA,minimum width=1.45cm] (ak) at (0.75,-2.55) {$a_k$\\candidate $k$};
+\node[nb=cfX,text width=2.55cm] (draw) at (3.45,-2.55)
+  {8 draws $(u_j,\varepsilon_j)$, stratified $u$, identical for every $k$};
+\draw[ar=cfA] (ak) -- (draw);
+\node[nb=cfF,text width=5.3cm] (rc) at (8.55,-1.95)
+  {$R_{\rm cond}(a_k)=\tfrac18\sum_j\big\|v_\theta(a_k^{(u_j)},u_j,e)-(a_k-\varepsilon_j)\big\|^2$};
+\node[nb=cfF,text width=5.3cm] (ru) at (8.55,-3.15)
+  {$R_{\rm unc}(a_k)=\tfrac18\sum_j\big\|v_\theta(a_k^{(u_j)},u_j,\varnothing)-(a_k-\varepsilon_j)\big\|^2$};
+\coordinate (sp) at ($(draw.east)+(0.75,0)$);
+\draw[ar=cfF] (draw.east) -- (sp) |- (rc.west);
+\draw[ar=cfF] (sp) |- (ru.west);
+\node[arl,anchor=east] at ($(sp|-rc.west)+(-0.05,0)$) {with $e$};
+\node[arl,anchor=east] at ($(sp|-ru.west)+(-0.05,0)$) {without};
+\node[nb=cfC,text width=2.75cm] (pmi) at (13.05,-2.55)
+  {$\widehat{\mathrm{PMI}}_k=$\\$R_{\rm unc}(a_k)-R_{\rm cond}(a_k)$:\\how much $e$ explains $a_k$};
+\draw[ar=cfF] (rc.east) -- ++(0.3,0) |- ([yshift=0.15cm]pmi.west);
+\draw[ar=cfF] (ru.east) -- ++(0.3,0) |- ([yshift=-0.15cm]pmi.west);
+\node[nb=cfC,line width=0.9pt,text width=1.55cm] (dec) at (15.6,-2.55)
+  {$\hat y=\arg\max_k$\\$\widehat{\mathrm{PMI}}_k$};
+\draw[ar=cfC] (pmi) -- (dec);
+\node[note,anchor=north west,text width=15.6cm] at (0,-3.75)
+  {Sharing the draws across candidates and across the two passes cancels their noise in
+   $R_{\rm unc}-R_{\rm cond}$. Scoring by $R_{\rm cond}$ alone would add the audio-only term $\log p(a_k)$
+   (Prop.~\ref{prop:pmi}); if the network ignores $e$, then $R_{\rm cond}=R_{\rm unc}$ and every
+   $\widehat{\mathrm{PMI}}_k=0$.};
+\end{tikzpicture}

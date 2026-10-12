@@ -1,0 +1,26 @@
+% Training-window ablation; numbers from tables/numbers_conf.tex.
+The paper's models are trained on 5-s crops and applied at every test window. We retrained
+CoupleFlow with 1-, 2- and 10-s crops, and with a crop length redrawn from $\{1,2,5,10\}$\,s
+at every epoch (``mixed''), keeping everything else fixed: the same folds, seeds, losses,
+epochs, and model selection on 5-s validation windows (Fig.~\ref{fig:conf_trainlen},
+Table~\ref{tab:conf_trainlen}). Differences below are against the paper's 5-s training, mean of
+3 seeds, over all 8 datasets.
+
+\emph{Short crops help short windows.} Training on 1-s crops raises 1-s accuracy by
+\confTlOneOneSMin{} to \confTlOneOneSMax{} points ($n=$\,\confTlOneOneSN{} datasets), but
+changes 5-s accuracy by \confTlOneFiveSMin{} to \confTlOneFiveSMax{} and 30-s accuracy by
+\confTlOneThirtySMin{} to \confTlOneThirtySMax. \emph{Long crops help nothing}: 10-s training
+changes 1-s accuracy by \confTlTenOneSMin{} to \confTlTenOneSMax{} and 5-s accuracy by
+\confTlTenFiveSMin{} to \confTlTenFiveSMax{} points.
+
+\emph{Mixed crops are best overall.} Redrawing the crop length raises 1-s accuracy on every dataset
+(\confTlMixOneSMin{} to \confTlMixOneSMax{} points, $n=$\,\confTlMixOneSN) and lowers neither
+5-s accuracy (\confTlMixFiveSMin{} to \confTlMixFiveSMax) nor 30-s accuracy
+(\confTlMixThirtySMin{} to \confTlMixThirtySMax) by more than 0.1 points. In the terms of Prop.~\ref{prop:gauss} it raises
+the information rate of the 1-s evidence: $\kappa$ of the summed 1-s log-odds grows by a factor
+\confTlMixKapMin--\confTlMixKapMax, and the sequential rule at $A{=}2$ needs
+\confTlMixTimeMin--\confTlMixTimeMax{} of the time (\confTlOneTimeMin--\confTlOneTimeMax{}
+for 1-s training). A plausible reading, which we have not tested further: a model that only sees long crops learns a coupling that is reliable when
+averaged over many seconds but noisy within one; short crops force every second to carry
+evidence, and mixing lengths keeps the long-window accuracy. The paper's main results use
+5-s training throughout; mixed-length training is a free improvement for any window.

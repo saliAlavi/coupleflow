@@ -1,0 +1,26 @@
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Effect of the split protocol on the intra-subject results.  \emph{Segment} is the submitted protocol (segment-random 5-fold, 50\% window overlap, matching ListenNet/DARNet); \emph{Trial} is strict leave-trials-out with no shared samples between training and validation.  Everything else -- cache, subjects, window, folds, stages, recipe -- is identical.  Cells are mean (\%) over the subjects present in both runs; $\Delta$ is Trial $-$ Segment.}
+\label{tab:split_protocol}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccccccc}
+\toprule
+Dataset & Protocol & env-$r$ & env-multi & attune-flow & env-multi-flow & env-trial & env-trial-fused & spatial & spatial-trial \\
+\midrule
+\multirow{3}{*}{KU Leuven (16), 5s} & Segment & 59.5 & 76.1 & 86.4 & 85.5 & 96.2 & 99.1 & 90.4 & 95.0 \\
+& Trial & 54.5 & 57.5 & 55.9 & 58.3 & 85.4 & 91.7 & 79.7 & 89.6 \\
+& $\Delta$ & $\mathbf{-5.0}$ & $\mathbf{-18.6}$ & $\mathbf{-30.5}$ & $\mathbf{-27.2}$ & $\mathbf{-10.8}$ & $\mathbf{-7.4}$ & $\mathbf{-10.7}$ & $\mathbf{-5.4}$ \\
+\midrule
+\multirow{3}{*}{DTU (18), 5s} & Segment & 60.1 & 74.4 & 83.6 & 83.7 & 87.2 & 86.6 & 67.9 & 73.3 \\
+& Trial & 56.1 & 57.7 & 56.2 & 59.1 & 75.9 & 72.7 & 54.5 & 53.7 \\
+& $\Delta$ & $\mathbf{-4.0}$ & $\mathbf{-16.7}$ & $\mathbf{-27.4}$ & $\mathbf{-24.6}$ & $\mathbf{-11.3}$ & $\mathbf{-13.9}$ & $\mathbf{-13.4}$ & $\mathbf{-19.6}$ \\
+\midrule
+\multirow{3}{*}{NJU (21), 5s} & Segment & 59.6 & 70.1 & 86.0 & 82.7 & 83.3 & 93.9 & 75.6 & 79.7 \\
+& Trial & 57.2 & 50.7 & 54.5 & 52.5 & 48.4 & 78.1 & 59.4 & 56.7 \\
+& $\Delta$ & $\mathbf{-2.4}$ & $\mathbf{-19.4}$ & $\mathbf{-31.5}$ & $\mathbf{-30.2}$ & $\mathbf{-34.9}$ & $\mathbf{-15.8}$ & $\mathbf{-16.2}$ & $\mathbf{-23.0}$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
