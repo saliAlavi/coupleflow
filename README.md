@@ -77,7 +77,7 @@ tests/                      CPU unit tests
 ```bash
 conda env create -f environment.yml && conda activate coupleflow   # Python 3.11, versions of the paper runs
 pip install -e .
-make test                                                          # 8 CPU tests, about 1 minute
+make test                                                          # 12 CPU tests, about 1 minute
 ```
 
 `pip install -e ".[dev]"` into any Python ≥ 3.10 environment with PyTorch also works.
@@ -89,8 +89,8 @@ Every number in the paper is a LaTeX macro written by a script; nothing is typed
 and baseline results these scripts read are in the repository, so from a fresh clone:
 
 ```bash
-bash scripts/fetch_release_assets.sh   # App. G margins (720 MB release asset; needs repo access)
-make paper                             # = bash scripts/build_paper.sh  (~20 min on CPU)
+bash scripts/fetch_release_assets.sh   # App. G margins (721 MB release asset; needs repo access)
+make paper                             # = bash scripts/build_paper.sh  (~7 min on CPU)
 git status                             # nothing changes: outputs are byte-identical
 ```
 

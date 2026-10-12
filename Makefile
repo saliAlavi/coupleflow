@@ -7,7 +7,7 @@ help:            ## list targets
 install:         ## install the package and test tools (in an existing Python 3.10+ env)
 	pip install -e ".[dev]"
 
-test:            ## CPU unit tests (~1 min)
+test:            ## CPU unit tests (12, ~1 min)
 	OMP_NUM_THREADS=4 python -m pytest -q tests
 
 assets:          ## download the App. G margins (release asset) into runs/
