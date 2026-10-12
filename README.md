@@ -3,6 +3,9 @@
 **Null-calibrated auditory attention decoding with time-locked brain–speech coupling and
 flow-matching likelihood ratios** (AISTATS 2027 submission, under review).
 
+Ali Alavi (alavibajestan.1@osu.edu) and Donald S. Williamson (williamson.413@osu.edu),
+Department of Computer Science and Engineering, The Ohio State University.
+
 When several people talk at once, the auditory cortex follows the talker a listener attends to.
 Auditory attention decoding (AAD) asks whether that talker can be identified from a few seconds of
 EEG or MEG, by matching the recording against the speech of each candidate talker. CoupleFlow
@@ -219,10 +222,10 @@ Training options are OmegaConf keys of `coupleflow/config.yaml`, overridden as `
 ## Citation
 
 ```bibtex
-@inproceedings{coupleflow2027,
+@inproceedings{alavi2027coupleflow,
   title     = {CoupleFlow: Null-Calibrated Auditory Attention Decoding With Time-Locked
                Brain--Speech Coupling and Flow-Matching Likelihood Ratios},
-  author    = {Anonymous},
+  author    = {Alavi, Ali and Williamson, Donald S.},
   booktitle = {Under review at AISTATS 2027},
   year      = {2027}
 }
