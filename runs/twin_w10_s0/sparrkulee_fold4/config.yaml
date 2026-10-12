@@ -1,0 +1,131 @@
+project_name: coupleflow
+eval_mode: stimulus_folds
+seed: 0
+split_seed: 42
+device: cuda
+num_workers: 4
+fold: 4
+n_folds: 5
+tag: twin_w10_s0
+skip_if_done: true
+max_steps_per_epoch: null
+training:
+  dataset: sparrkulee
+paths:
+  cache_root: /fs/scratch/PAS2301/alialavi/datasets
+  out_root: /fs/scratch/PAS2301/alialavi/runs/coupleflow
+data:
+  train_window_s: 10.0
+  val_window_s: 5.0
+  matched: true
+  crop_density: 1.0
+  val_mode: auto
+  val_frac: 0.15
+  tail_min_s: 200.0
+  split_mode: stimulus
+  cand_idx: null
+  drop_frontal: false
+  max_subjects: null
+  train_frac: 1.0
+  dss_keep: 0
+  dss_pooled: false
+  mwf_thr: 6.0
+  mwf: false
+  clip_mad: 0
+  stream_name: unified_env64.pt
+  groups_name: unified_groups.json
+  eeg_bands: false
+  chan_drop: 0.0
+  eeg_noise: 0.0
+  subbands: false
+  feat_banks:
+  - sb
+  - sb28
+  glimpse: true
+  cand_extra: []
+  extra_train_names: []
+  dataset_streams:
+    kuleuven:
+      stream_name: paper_review_env64.pt
+      groups_name: stimulus_groups.json
+    dtu:
+      stream_name: paper_review_env64.v6dedup.pt
+      groups_name: stimulus_groups.v6dedup.json
+    sparrkulee:
+      stream_name: paper_review_env64.feat.pt
+      groups_name: stimulus_groups.json
+model:
+  margin: 100
+  lag_mode: after
+  d: 16
+  hidden: 32
+  n_virtual: 8
+  rank: 2
+  dropout: 0.1
+  use_side: true
+  use_flow: true
+  flow_d_model: 64
+  p_uncond: 0.2
+  eeg_dilations:
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16
+  cand_side: false
+  score_head: corr
+  n_sub: 5
+  score_mode: independent
+  lag_offset: 0
+losses:
+  side: 0.3
+  con: 1.0
+  null_hinge: 0.5
+  null_margin: 0.5
+  col: 0.1
+  col_gamma: 0.5
+  adv: 0.3
+  flow: 0.3
+  env: 0.2
+optim:
+  lr: 0.001
+  weight_decay: 0.0001
+  batch_size: 32
+  epochs: 100
+  patience: 20
+  plateau_patience: 5
+  grad_clip: 1.0
+subject_ft:
+  enabled: false
+  epochs: 15
+  lr: 0.0002
+adapt:
+  enabled: false
+  rounds: 2
+  epochs: 10
+  lr: 0.0003
+  keep_frac: 0.8
+  cross: false
+eval:
+  val_perms: 3
+  test_perms: 20
+  circ_perms: 5
+  flow_mc: 8
+  val_set: same_talker
+  select_on: coupling
+  select_metric: contrib
+  select_beta: 0.0
+  windows:
+  - 1.0
+  - 2.0
+  - 5.0
+  - 10.0
+  - 20.0
+  - 30.0
+  - 60.0
+  cand_sets:
+  - same_talker
+model_name: coupleflow
+mode: train
+checkpoint: null
+run_id: coupleflow__coupleflow__sparrkulee_cross_subject__20260930_085018

@@ -1,0 +1,3970 @@
+{
+ "dataset": "megmasc",
+ "fold": 0,
+ "n_folds": 5,
+ "val_mode": "groups",
+ "test_groups": [
+  6,
+  8,
+  9,
+  17,
+  19,
+  27
+ ],
+ "best_epoch": 10,
+ "best_crit": 0.49549922347068787,
+ "history": [
+  {
+   "epoch": 0,
+   "train": {
+    "task": 0.4531946938381589,
+    "con": 2.3012014651785093,
+    "null": 0.38069521116257526,
+    "col": 0.0025677695384391398,
+    "adv": 0.20799124019424184,
+    "flow": 0.2724092332699859,
+    "env": 0.15490456245165105,
+    "total": 3.7729641764279997
+   },
+   "val_acc": 0.9748505353927612,
+   "val_null": 0.49756063024202984,
+   "val_contrib": 0.4772899051507314,
+   "val_acc_coupling": 0.9748505353927612,
+   "val_shapley": {
+    "eeg_coupling": 0.4772899051507314
+   },
+   "crit": 0.4772899051507314
+  },
+  {
+   "epoch": 1,
+   "train": {
+    "task": 0.39335552639265076,
+    "con": 1.688532387068732,
+    "null": 0.20001546590657704,
+    "col": 0.00195618973794422,
+    "adv": 0.2079683115178537,
+    "flow": 0.2568548929310793,
+    "env": 0.14278210696829108,
+    "total": 2.891464884402177
+   },
+   "val_acc": 0.9818593859672546,
+   "val_null": 0.5005840559800466,
+   "val_contrib": 0.481275329987208,
+   "val_acc_coupling": 0.9818593859672546,
+   "val_shapley": {
+    "eeg_coupling": 0.481275329987208
+   },
+   "crit": 0.481275329987208
+  },
+  {
+   "epoch": 2,
+   "train": {
+    "task": 0.38383196340313386,
+    "con": 1.5236342920020636,
+    "null": 0.16565875666365146,
+    "col": 0.0017593168472132363,
+    "adv": 0.20796738032393902,
+    "flow": 0.2539172754401252,
+    "env": 0.13997964964899826,
+    "total": 2.6767486285813997
+   },
+   "val_acc": 0.9849514961242676,
+   "val_null": 0.4985226293404897,
+   "val_contrib": 0.4864288667837779,
+   "val_acc_coupling": 0.9849514961242676,
+   "val_shapley": {
+    "eeg_coupling": 0.4864288667837779
+   },
+   "crit": 0.4864288667837779
+  },
+  {
+   "epoch": 3,
+   "train": {
+    "task": 0.37976861099869963,
+    "con": 1.4161472560254023,
+    "null": 0.14705518264314213,
+    "col": 0.0016883629908339788,
+    "adv": 0.20796237289437694,
+    "flow": 0.25053641500272156,
+    "env": 0.13734437069504252,
+    "total": 2.540502566557664
+   },
+   "val_acc": 0.985569953918457,
+   "val_null": 0.4979729155699412,
+   "val_contrib": 0.4875970383485158,
+   "val_acc_coupling": 0.985569953918457,
+   "val_shapley": {
+    "eeg_coupling": 0.4875970383485158
+   },
+   "crit": 0.4875970383485158
+  },
+  {
+   "epoch": 4,
+   "train": {
+    "task": 0.3800036905480579,
+    "con": 1.3677823185445064,
+    "null": 0.13719038955132856,
+    "col": 0.0016746651731535777,
+    "adv": 0.20796278831785353,
+    "flow": 0.25013280955831896,
+    "env": 0.13653326587393794,
+    "total": 2.4812799229290023
+   },
+   "val_acc": 0.9876313805580139,
+   "val_null": 0.4997594853242238,
+   "val_contrib": 0.4878718952337901,
+   "val_acc_coupling": 0.9876313805580139,
+   "val_shapley": {
+    "eeg_coupling": 0.4878718952337901
+   },
+   "crit": 0.4878718952337901
+  },
+  {
+   "epoch": 5,
+   "train": {
+    "task": 0.3802661542677867,
+    "con": 1.3189504274456119,
+    "null": 0.13009775996981612,
+    "col": 0.001639725609104018,
+    "adv": 0.20796550686355664,
+    "flow": 0.2486724022372364,
+    "env": 0.13565021495601384,
+    "total": 2.4232421911929305
+   },
+   "val_acc": 0.9876313805580139,
+   "val_null": 0.4976293444633484,
+   "val_contrib": 0.4900020360946655,
+   "val_acc_coupling": 0.9876313805580139,
+   "val_shapley": {
+    "eeg_coupling": 0.4900020360946655
+   },
+   "crit": 0.4900020360946655
+  },
+  {
+   "epoch": 6,
+   "train": {
+    "task": 0.37905652793772493,
+    "con": 1.2710890436144413,
+    "null": 0.12331407219851374,
+    "col": 0.001627147262114281,
+    "adv": 0.2079629317464035,
+    "flow": 0.248323713575964,
+    "env": 0.13489706222843212,
+    "total": 2.366270503406435
+   },
+   "val_acc": 0.988868236541748,
+   "val_null": 0.5022331972916921,
+   "val_contrib": 0.4866350392500559,
+   "val_acc_coupling": 0.988868236541748,
+   "val_shapley": {
+    "eeg_coupling": 0.4866350392500559
+   },
+   "crit": 0.4866350392500559
+  },
+  {
+   "epoch": 7,
+   "train": {
+    "task": 0.37780089904849035,
+    "con": 1.245794842164907,
+    "null": 0.11883384739338751,
+    "col": 0.0015744991239388377,
+    "adv": 0.20796139298902638,
+    "flow": 0.2478302543868824,
+    "env": 0.1342005435355916,
+    "total": 2.333996272910521
+   },
+   "val_acc": 0.9903112649917603,
+   "val_null": 0.5002404948075613,
+   "val_contrib": 0.490070770184199,
+   "val_acc_coupling": 0.9903112649917603,
+   "val_shapley": {
+    "eeg_coupling": 0.490070770184199
+   },
+   "crit": 0.490070770184199
+  },
+  {
+   "epoch": 8,
+   "train": {
+    "task": 0.3765475623804758,
+    "con": 1.2145177151974678,
+    "null": 0.11260251624687331,
+    "col": 0.001596049541482738,
+    "adv": 0.20795432176033532,
+    "flow": 0.2463853687110339,
+    "env": 0.13359579220531126,
+    "total": 2.2931993254687013
+   },
+   "val_acc": 0.9890744090080261,
+   "val_null": 0.5029890537261963,
+   "val_contrib": 0.48608535528182983,
+   "val_acc_coupling": 0.9890744090080261,
+   "val_shapley": {
+    "eeg_coupling": 0.48608535528182983
+   },
+   "crit": 0.48608535528182983
+  },
+  {
+   "epoch": 9,
+   "train": {
+    "task": 0.37622552182211544,
+    "con": 1.1988341475830597,
+    "null": 0.11020616170384179,
+    "col": 0.001571312072174648,
+    "adv": 0.20797008965291133,
+    "flow": 0.24652608041517526,
+    "env": 0.1332979062031165,
+    "total": 2.2746312185334387
+   },
+   "val_acc": 0.987837553024292,
+   "val_null": 0.49941590428352356,
+   "val_contrib": 0.48842164874076843,
+   "val_acc_coupling": 0.987837553024292,
+   "val_shapley": {
+    "eeg_coupling": 0.48842164874076843
+   },
+   "crit": 0.48842164874076843
+  },
+  {
+   "epoch": 10,
+   "train": {
+    "task": 0.37564213381332606,
+    "con": 1.1761168407199272,
+    "null": 0.10666343499004767,
+    "col": 0.0015664678822967946,
+    "adv": 0.2079553817779465,
+    "flow": 0.2457400375888461,
+    "env": 0.1325755378476055,
+    "total": 2.2462598349273297
+   },
+   "val_acc": 0.9894866943359375,
+   "val_null": 0.49398747086524963,
+   "val_contrib": 0.49549922347068787,
+   "val_acc_coupling": 0.9894866943359375,
+   "val_shapley": {
+    "eeg_coupling": 0.49549922347068787
+   },
+   "crit": 0.49549922347068787
+  },
+  {
+   "epoch": 11,
+   "train": {
+    "task": 0.376995413512974,
+    "con": 1.154610595696575,
+    "null": 0.10275862448036618,
+    "col": 0.0015368131895840541,
+    "adv": 0.2079639213909222,
+    "flow": 0.24614344648763437,
+    "env": 0.13253392280707615,
+    "total": 2.2225427376793543
+   },
+   "val_acc": 0.9882498383522034,
+   "val_null": 0.4984539250532786,
+   "val_contrib": 0.48979591329892475,
+   "val_acc_coupling": 0.9882498383522034,
+   "val_shapley": {
+    "eeg_coupling": 0.48979591329892475
+   },
+   "crit": 0.48979591329892475
+  },
+  {
+   "epoch": 12,
+   "train": {
+    "task": 0.3769172496317819,
+    "con": 1.1417230816956654,
+    "null": 0.10272186951562402,
+    "col": 0.0015146284594009512,
+    "adv": 0.20795290912869463,
+    "flow": 0.2457991509241686,
+    "env": 0.1324874662069486,
+    "total": 2.2091163515982237
+   },
+   "val_acc": 0.9915481209754944,
+   "val_null": 0.4968734880288442,
+   "val_contrib": 0.4946746329466502,
+   "val_acc_coupling": 0.9915481209754944,
+   "val_shapley": {
+    "eeg_coupling": 0.4946746329466502
+   },
+   "crit": 0.4946746329466502
+  },
+  {
+   "epoch": 13,
+   "train": {
+    "task": 0.377665040912209,
+    "con": 1.137100326549408,
+    "null": 0.10159806519509686,
+    "col": 0.001510290385317496,
+    "adv": 0.20795596902093483,
+    "flow": 0.24508327961529444,
+    "env": 0.13226145599865902,
+    "total": 2.203174432243495
+   },
+   "val_acc": 0.9892805218696594,
+   "val_null": 0.4990723431110382,
+   "val_contrib": 0.4902081787586212,
+   "val_acc_coupling": 0.9892805218696594,
+   "val_shapley": {
+    "eeg_coupling": 0.4902081787586212
+   },
+   "crit": 0.4902081787586212
+  },
+  {
+   "epoch": 14,
+   "train": {
+    "task": 0.37447592288583187,
+    "con": 1.1187106327961278,
+    "null": 0.09771126491241333,
+    "col": 0.0014859489550251633,
+    "adv": 0.20795287471800683,
+    "flow": 0.24465837903137547,
+    "env": 0.1314589999526474,
+    "total": 2.176454022066684
+   },
+   "val_acc": 0.9894866943359375,
+   "val_null": 0.5018209119637808,
+   "val_contrib": 0.48766578237215674,
+   "val_acc_coupling": 0.9894866943359375,
+   "val_shapley": {
+    "eeg_coupling": 0.48766578237215674
+   },
+   "crit": 0.48766578237215674
+  },
+  {
+   "epoch": 15,
+   "train": {
+    "task": 0.3766007137229965,
+    "con": 1.111792408994266,
+    "null": 0.09800797634870632,
+    "col": 0.0015025389863715193,
+    "adv": 0.2079493925638189,
+    "flow": 0.24478472849575403,
+    "env": 0.13203453424633765,
+    "total": 2.172672293187435
+   },
+   "val_acc": 0.9907235503196716,
+   "val_null": 0.49756064017613727,
+   "val_contrib": 0.49316291014353436,
+   "val_acc_coupling": 0.9907235503196716,
+   "val_shapley": {
+    "eeg_coupling": 0.49316291014353436
+   },
+   "crit": 0.49316291014353436
+  },
+  {
+   "epoch": 16,
+   "train": {
+    "task": 0.37524537572930583,
+    "con": 1.0982054999397413,
+    "null": 0.09493236232497537,
+    "col": 0.0014699092837224053,
+    "adv": 0.207951985139737,
+    "flow": 0.24402056933073146,
+    "env": 0.13106281248719076,
+    "total": 2.152888509255314
+   },
+   "val_acc": 0.9886621236801147,
+   "val_null": 0.4992784857749939,
+   "val_contrib": 0.48938363790512085,
+   "val_acc_coupling": 0.9886621236801147,
+   "val_shapley": {
+    "eeg_coupling": 0.48938363790512085
+   },
+   "crit": 0.48938363790512085
+  },
+  {
+   "epoch": 17,
+   "train": {
+    "task": 0.3764459062377425,
+    "con": 1.033280024298163,
+    "null": 0.08727384899930044,
+    "col": 0.001504958340311389,
+    "adv": 0.2079533501749947,
+    "flow": 0.24237896174519927,
+    "env": 0.12986117404895825,
+    "total": 2.078698227756127
+   },
+   "val_acc": 0.9909296631813049,
+   "val_null": 0.49866005778312683,
+   "val_contrib": 0.4922696053981781,
+   "val_acc_coupling": 0.9909296631813049,
+   "val_shapley": {
+    "eeg_coupling": 0.4922696053981781
+   },
+   "crit": 0.4922696053981781
+  },
+  {
+   "epoch": 18,
+   "train": {
+    "task": 0.37515215665367124,
+    "con": 1.0243055356626483,
+    "null": 0.08405432780943363,
+    "col": 0.0014788443861677384,
+    "adv": 0.20795651009449592,
+    "flow": 0.2418685272172257,
+    "env": 0.13006645551001073,
+    "total": 2.0648823595371377
+   },
+   "val_acc": 0.9913419485092163,
+   "val_null": 0.4981790582338969,
+   "val_contrib": 0.4931628902753194,
+   "val_acc_coupling": 0.9913419485092163,
+   "val_shapley": {
+    "eeg_coupling": 0.4931628902753194
+   },
+   "crit": 0.4931628902753194
+  },
+  {
+   "epoch": 19,
+   "train": {
+    "task": 0.37457919908343407,
+    "con": 1.0166438648653617,
+    "null": 0.08308098052371506,
+    "col": 0.001465843895168547,
+    "adv": 0.20795634337459665,
+    "flow": 0.24242357693686653,
+    "env": 0.1298978633823849,
+    "total": 2.0560476701338213
+   },
+   "val_acc": 0.991135835647583,
+   "val_null": 0.4959802031517029,
+   "val_contrib": 0.4951556324958801,
+   "val_acc_coupling": 0.991135835647583,
+   "val_shapley": {
+    "eeg_coupling": 0.4951556324958801
+   },
+   "crit": 0.4951556324958801
+  },
+  {
+   "epoch": 20,
+   "train": {
+    "task": 0.37496363714313957,
+    "con": 1.0092191528480194,
+    "null": 0.08215508216123078,
+    "col": 0.0014485140207546707,
+    "adv": 0.20796031864727435,
+    "flow": 0.24231309887783992,
+    "env": 0.1299211905381244,
+    "total": 2.047980990789125
+   },
+   "val_acc": 0.9909296631813049,
+   "val_null": 0.5001030663649241,
+   "val_contrib": 0.49082659681638086,
+   "val_acc_coupling": 0.9909296631813049,
+   "val_shapley": {
+    "eeg_coupling": 0.49082659681638086
+   },
+   "crit": 0.49082659681638086
+  },
+  {
+   "epoch": 21,
+   "train": {
+    "task": 0.37616603619948785,
+    "con": 1.0110098927909015,
+    "null": 0.08242353260358001,
+    "col": 0.0014337437454716331,
+    "adv": 0.20795750185215678,
+    "flow": 0.24181331373645895,
+    "env": 0.13009564668595136,
+    "total": 2.0508996687092624
+   },
+   "val_acc": 0.9907235503196716,
+   "val_null": 0.4987287720044454,
+   "val_contrib": 0.49199477831522626,
+   "val_acc_coupling": 0.9907235503196716,
+   "val_shapley": {
+    "eeg_coupling": 0.49199477831522626
+   },
+   "crit": 0.49199477831522626
+  },
+  {
+   "epoch": 22,
+   "train": {
+    "task": 0.3751972864461407,
+    "con": 0.9963220219604948,
+    "null": 0.08070027086837972,
+    "col": 0.0014277315052340226,
+    "adv": 0.20793765208628837,
+    "flow": 0.2418391514064628,
+    "env": 0.12956418874047304,
+    "total": 2.0329883018755153
+   },
+   "val_acc": 0.9907235503196716,
+   "val_null": 0.5035387873649597,
+   "val_contrib": 0.4871847629547119,
+   "val_acc_coupling": 0.9907235503196716,
+   "val_shapley": {
+    "eeg_coupling": 0.4871847629547119
+   },
+   "crit": 0.4871847629547119
+  },
+  {
+   "epoch": 23,
+   "train": {
+    "task": 0.3724846201439543,
+    "con": 0.9713264051990507,
+    "null": 0.07648163961981531,
+    "col": 0.0014261640217518292,
+    "adv": 0.20795721511981802,
+    "flow": 0.2402200440986814,
+    "env": 0.1292837659517924,
+    "total": 1.9991798567435057
+   },
+   "val_acc": 0.9917542338371277,
+   "val_null": 0.498797486225764,
+   "val_contrib": 0.4929567476113637,
+   "val_acc_coupling": 0.9917542338371277,
+   "val_shapley": {
+    "eeg_coupling": 0.4929567476113637
+   },
+   "crit": 0.4929567476113637
+  },
+  {
+   "epoch": 24,
+   "train": {
+    "task": 0.37450923176101214,
+    "con": 0.9571729865001173,
+    "null": 0.07435484945260291,
+    "col": 0.0014235537611218564,
+    "adv": 0.20794330507688408,
+    "flow": 0.24063105965427925,
+    "env": 0.12877787662887374,
+    "total": 1.9848128569681316
+   },
+   "val_acc": 0.9917542338371277,
+   "val_null": 0.49728577335675556,
+   "val_contrib": 0.49446846048037213,
+   "val_acc_coupling": 0.9917542338371277,
+   "val_shapley": {
+    "eeg_coupling": 0.49446846048037213
+   },
+   "crit": 0.49446846048037213
+  },
+  {
+   "epoch": 25,
+   "train": {
+    "task": 0.3754103804121212,
+    "con": 0.962017431921481,
+    "null": 0.07700337921913147,
+    "col": 0.0014265690003494936,
+    "adv": 0.20796300603387743,
+    "flow": 0.2406191372437854,
+    "env": 0.12896282388426633,
+    "total": 1.9934027239267018
+   },
+   "val_acc": 0.9923726916313171,
+   "val_null": 0.4993472099304199,
+   "val_contrib": 0.4930254817008972,
+   "val_acc_coupling": 0.9923726916313171,
+   "val_shapley": {
+    "eeg_coupling": 0.4930254817008972
+   },
+   "crit": 0.4930254817008972
+  },
+  {
+   "epoch": 26,
+   "train": {
+    "task": 0.3755237100356415,
+    "con": 0.9546841007449252,
+    "null": 0.0752065933026468,
+    "col": 0.0014109212956583776,
+    "adv": 0.20793423700681973,
+    "flow": 0.24038974946235125,
+    "env": 0.12896206688032544,
+    "total": 1.9841113797287115
+   },
+   "val_acc": 0.9919604063034058,
+   "val_null": 0.4993472099304199,
+   "val_contrib": 0.49261319637298584,
+   "val_acc_coupling": 0.9919604063034058,
+   "val_shapley": {
+    "eeg_coupling": 0.49261319637298584
+   },
+   "crit": 0.49261319637298584
+  },
+  {
+   "epoch": 27,
+   "train": {
+    "task": 0.3734932627464576,
+    "con": 0.9674399068402658,
+    "null": 0.07550467082291007,
+    "col": 0.0013904928341291042,
+    "adv": 0.20796502096561909,
+    "flow": 0.24098313938629434,
+    "env": 0.1292428012171196,
+    "total": 1.996019290106138
+   },
+   "val_acc": 0.9913419485092163,
+   "val_null": 0.5008589128653208,
+   "val_contrib": 0.4904830356438955,
+   "val_acc_coupling": 0.9913419485092163,
+   "val_shapley": {
+    "eeg_coupling": 0.4904830356438955
+   },
+   "crit": 0.4904830356438955
+  },
+  {
+   "epoch": 28,
+   "train": {
+    "task": 0.3766361922727462,
+    "con": 0.9554499480064348,
+    "null": 0.0747895954540589,
+    "col": 0.0013820376761137273,
+    "adv": 0.20793895889707162,
+    "flow": 0.24031287774810112,
+    "env": 0.12878312322948068,
+    "total": 1.9852927389224744
+   },
+   "val_acc": 0.9927849769592285,
+   "val_null": 0.49872876207033795,
+   "val_contrib": 0.49405621488889057,
+   "val_acc_coupling": 0.9927849769592285,
+   "val_shapley": {
+    "eeg_coupling": 0.49405621488889057
+   },
+   "crit": 0.49405621488889057
+  },
+  {
+   "epoch": 29,
+   "train": {
+    "task": 0.3730994290016759,
+    "con": 0.9460464059168103,
+    "null": 0.07392353565283612,
+    "col": 0.0013886314907480637,
+    "adv": 0.20794333989304564,
+    "flow": 0.24010378902866727,
+    "env": 0.12861466039730454,
+    "total": 1.9711197910977558
+   },
+   "val_acc": 0.9919604063034058,
+   "val_null": 0.4981790582338969,
+   "val_contrib": 0.49378134806950885,
+   "val_acc_coupling": 0.9919604063034058,
+   "val_shapley": {
+    "eeg_coupling": 0.49378134806950885
+   },
+   "crit": 0.49378134806950885
+  },
+  {
+   "epoch": 30,
+   "train": {
+    "task": 0.37361907848258846,
+    "con": 0.9332420577020747,
+    "null": 0.07313171013858201,
+    "col": 0.0013937376366956486,
+    "adv": 0.2079344267607484,
+    "flow": 0.23997183796749386,
+    "env": 0.12869093590525668,
+    "total": 1.9579837762018202
+   },
+   "val_acc": 0.9919604063034058,
+   "val_null": 0.4983852008978526,
+   "val_contrib": 0.49357520540555316,
+   "val_acc_coupling": 0.9919604063034058,
+   "val_shapley": {
+    "eeg_coupling": 0.49357520540555316
+   },
+   "crit": 0.49357520540555316
+  }
+ ],
+ "hours": {
+  "train": 33.67750434027778,
+  "val": 7.088836805555555,
+  "test": 10.650907118055555
+ },
+ "config": {
+  "project_name": "coupleflow",
+  "eval_mode": "stimulus_folds",
+  "seed": 2,
+  "split_seed": 42,
+  "device": "cuda",
+  "num_workers": 4,
+  "fold": 0,
+  "n_folds": 5,
+  "tag": "twin_w2_s2",
+  "skip_if_done": true,
+  "max_steps_per_epoch": null,
+  "training": {
+   "dataset": "megmasc"
+  },
+  "paths": {
+   "cache_root": "/fs/scratch/PAS2301/alialavi/datasets",
+   "out_root": "/fs/scratch/PAS2301/alialavi/runs/coupleflow"
+  },
+  "data": {
+   "train_window_s": 2.0,
+   "val_window_s": 5.0,
+   "matched": true,
+   "crop_density": 1.0,
+   "val_mode": "auto",
+   "val_frac": 0.15,
+   "tail_min_s": 200.0,
+   "split_mode": "stimulus",
+   "cand_idx": null,
+   "drop_frontal": false,
+   "max_subjects": null,
+   "train_frac": 1.0,
+   "dss_keep": 0,
+   "dss_pooled": false,
+   "mwf_thr": 6.0,
+   "mwf": false,
+   "clip_mad": 0,
+   "stream_name": "unified_native.pt",
+   "groups_name": "unified_groups.json",
+   "eeg_bands": false,
+   "chan_drop": 0.0,
+   "eeg_noise": 0.0,
+   "subbands": false,
+   "feat_banks": [
+    "sb",
+    "sb28"
+   ],
+   "glimpse": true,
+   "cand_extra": [],
+   "extra_train_names": [],
+   "dataset_streams": {
+    "kuleuven": {
+     "stream_name": "paper_review_env64.pt",
+     "groups_name": "stimulus_groups.json"
+    },
+    "dtu": {
+     "stream_name": "paper_review_env64.v6dedup.pt",
+     "groups_name": "stimulus_groups.v6dedup.json"
+    },
+    "sparrkulee": {
+     "stream_name": "paper_review_env64.feat.pt",
+     "groups_name": "stimulus_groups.json"
+    }
+   }
+  },
+  "model": {
+   "margin": 100,
+   "lag_mode": "after",
+   "d": 16,
+   "hidden": 32,
+   "n_virtual": 8,
+   "rank": 2,
+   "dropout": 0.1,
+   "use_side": true,
+   "use_flow": true,
+   "flow_d_model": 64,
+   "p_uncond": 0.2,
+   "eeg_dilations": [
+    1,
+    2,
+    4,
+    8,
+    16
+   ],
+   "cand_side": false,
+   "score_head": "corr",
+   "n_sub": 5,
+   "score_mode": "independent",
+   "lag_offset": 0
+  },
+  "losses": {
+   "side": 0.3,
+   "con": 1.0,
+   "null_hinge": 0.5,
+   "null_margin": 0.5,
+   "col": 0.1,
+   "col_gamma": 0.5,
+   "adv": 0.3,
+   "flow": 0.3,
+   "env": 0.2
+  },
+  "optim": {
+   "lr": 0.001,
+   "weight_decay": 0.0001,
+   "batch_size": 32,
+   "epochs": 100,
+   "patience": 20,
+   "plateau_patience": 5,
+   "grad_clip": 1.0
+  },
+  "subject_ft": {
+   "enabled": false,
+   "epochs": 15,
+   "lr": 0.0002
+  },
+  "adapt": {
+   "enabled": false,
+   "rounds": 2,
+   "epochs": 10,
+   "lr": 0.0003,
+   "keep_frac": 0.8,
+   "cross": false
+  },
+  "eval": {
+   "val_perms": 3,
+   "test_perms": 20,
+   "circ_perms": 5,
+   "flow_mc": 8,
+   "val_set": "same_talker",
+   "select_on": "coupling",
+   "select_metric": "contrib",
+   "select_beta": 0.0,
+   "windows": [
+    1.0,
+    2.0,
+    5.0,
+    10.0,
+    20.0,
+    30.0,
+    60.0
+   ],
+   "cand_sets": [
+    "same_talker"
+   ]
+  },
+  "model_name": "coupleflow",
+  "mode": "train",
+  "checkpoint": null,
+  "run_id": "coupleflow__coupleflow__megmasc_cross_subject__20260930_201022"
+ },
+ "results": {
+  "same_talker_1s": {
+   "n_windows": 37338,
+   "n_trials": 294,
+   "n_subjects": 27,
+   "acc_coupling": 0.862686812877655,
+   "acc_fused": 0.862686812877655,
+   "null_coupling": 0.49895550807317096,
+   "contrib_coupling": 0.36373130480448407,
+   "p_coupling": 0.25,
+   "null_fused": 0.49895550807317096,
+   "contrib_fused": 0.36373130480448407,
+   "p_fused": 0.25,
+   "flip_rate": 0.5006070931752523,
+   "coalitions": {
+    "none": 0.49895550807317096,
+    "eeg_coupling": 0.862686812877655
+   },
+   "shapley": {
+    "eeg_coupling": 0.36373130480448407
+   },
+   "shapley_total": 0.36373130480448407
+  },
+  "same_talker_2s": {
+   "n_windows": 18620,
+   "n_trials": 294,
+   "n_subjects": 27,
+   "acc_coupling": 0.9428570866584778,
+   "acc_fused": 0.9428570866584778,
+   "null_coupling": 0.4999462862809499,
+   "contrib_coupling": 0.4429108003775279,
+   "p_coupling": 0.25,
+   "null_fused": 0.4999462862809499,
+   "contrib_fused": 0.4429108003775279,
+   "p_fused": 0.25,
+   "flip_rate": 0.501557449499766,
+   "coalitions": {
+    "none": 0.4999462862809499,
+    "eeg_coupling": 0.9428570866584778
+   },
+   "shapley": {
+    "eeg_coupling": 0.4429108003775279
+   },
+   "shapley_total": 0.4429108003775279
+  },
+  "same_talker_5s": {
+   "n_windows": 7399,
+   "n_trials": 294,
+   "n_subjects": 27,
+   "acc_coupling": 0.9891877174377441,
+   "acc_fused": 0.9891877174377441,
+   "null_coupling": 0.5003649190068244,
+   "contrib_coupling": 0.4888227984309197,
+   "p_coupling": 0.047619047619047616,
+   "null_fused": 0.5003649190068244,
+   "contrib_fused": 0.4888227984309197,
+   "p_fused": 0.047619047619047616,
+   "flip_rate": 0.49998649060726164,
+   "coalitions": {
+    "none": 0.5003649190068244,
+    "eeg_coupling": 0.9891877174377441
+   },
+   "shapley": {
+    "eeg_coupling": 0.4888227984309197
+   },
+   "shapley_total": 0.4888227984309197,
+   "acc_fused_zero_eeg": 0.49614813923835754,
+   "collapse": 0.005373736843466759,
+   "null_circ_coupling": 0.49763482213020327,
+   "contrib_circ_coupling": 0.49155289530754087,
+   "null_circ_fused": 0.49763482213020327,
+   "contrib_circ_fused": 0.49155289530754087,
+   "per_subject": {
+    "sub-01": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-02": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 302
+    },
+    "sub-03": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 151
+    },
+    "sub-04": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-05": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 302
+    },
+    "sub-06": {
+     "fused": 0.9701986908912659,
+     "coupling": 0.9701986908912659,
+     "n": 302
+    },
+    "sub-07": {
+     "fused": 0.9801324605941772,
+     "coupling": 0.9801324605941772,
+     "n": 302
+    },
+    "sub-08": {
+     "fused": 0.996688723564148,
+     "coupling": 0.996688723564148,
+     "n": 302
+    },
+    "sub-09": {
+     "fused": 0.9701986908912659,
+     "coupling": 0.9701986908912659,
+     "n": 302
+    },
+    "sub-10": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-11": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-12": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 151
+    },
+    "sub-13": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-14": {
+     "fused": 0.9635761380195618,
+     "coupling": 0.9635761380195618,
+     "n": 302
+    },
+    "sub-15": {
+     "fused": 0.9602649211883545,
+     "coupling": 0.9602649211883545,
+     "n": 302
+    },
+    "sub-16": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 151
+    },
+    "sub-17": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 302
+    },
+    "sub-18": {
+     "fused": 0.9867549538612366,
+     "coupling": 0.9867549538612366,
+     "n": 302
+    },
+    "sub-19": {
+     "fused": 0.996688723564148,
+     "coupling": 0.996688723564148,
+     "n": 302
+    },
+    "sub-20": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 151
+    },
+    "sub-21": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 151
+    },
+    "sub-22": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-23": {
+     "fused": 0.9668874144554138,
+     "coupling": 0.9668874144554138,
+     "n": 302
+    },
+    "sub-24": {
+     "fused": 0.9834437370300293,
+     "coupling": 0.9834437370300293,
+     "n": 302
+    },
+    "sub-25": {
+     "fused": 0.996688723564148,
+     "coupling": 0.996688723564148,
+     "n": 302
+    },
+    "sub-26": {
+     "fused": 1.0,
+     "coupling": 1.0,
+     "n": 302
+    },
+    "sub-27": {
+     "fused": 0.9933775067329407,
+     "coupling": 0.9933775067329407,
+     "n": 302
+    }
+   },
+   "per_trial": [
+    {
+     "trial": "sub-01_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 135.34393310546875
+    },
+    {
+     "trial": "sub-01_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 155.19595336914062
+    },
+    {
+     "trial": "sub-01_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 63.653167724609375
+    },
+    {
+     "trial": "sub-01_ses0_task2_easy_money_7",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 147.798095703125
+    },
+    {
+     "trial": "sub-01_ses0_task3_the_black_willow_1",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 178.43817138671875
+    },
+    {
+     "trial": "sub-01_ses0_task3_the_black_willow_9",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 220.3090362548828
+    },
+    {
+     "trial": "sub-01_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 143.08407592773438
+    },
+    {
+     "trial": "sub-01_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 144.44772338867188
+    },
+    {
+     "trial": "sub-01_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 58.955894470214844
+    },
+    {
+     "trial": "sub-01_ses1_task2_easy_money_7",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 162.37130737304688
+    },
+    {
+     "trial": "sub-01_ses1_task3_the_black_willow_1",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 180.0640106201172
+    },
+    {
+     "trial": "sub-01_ses1_task3_the_black_willow_9",
+     "subject": "sub-01",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 219.80665588378906
+    },
+    {
+     "trial": "sub-02_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 101.1518325805664
+    },
+    {
+     "trial": "sub-02_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 102.37213897705078
+    },
+    {
+     "trial": "sub-02_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 56.66989517211914
+    },
+    {
+     "trial": "sub-02_ses0_task2_easy_money_7",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 123.43449401855469
+    },
+    {
+     "trial": "sub-02_ses0_task3_the_black_willow_1",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 148.41519165039062
+    },
+    {
+     "trial": "sub-02_ses0_task3_the_black_willow_9",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 157.89810180664062
+    },
+    {
+     "trial": "sub-02_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 115.21041870117188
+    },
+    {
+     "trial": "sub-02_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 126.71781921386719
+    },
+    {
+     "trial": "sub-02_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 43.00530242919922
+    },
+    {
+     "trial": "sub-02_ses1_task2_easy_money_7",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 118.39810943603516
+    },
+    {
+     "trial": "sub-02_ses1_task3_the_black_willow_1",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 135.8730010986328
+    },
+    {
+     "trial": "sub-02_ses1_task3_the_black_willow_9",
+     "subject": "sub-02",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 169.34571838378906
+    },
+    {
+     "trial": "sub-03_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-03",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 175.4154510498047
+    },
+    {
+     "trial": "sub-03_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-03",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 157.50479125976562
+    },
+    {
+     "trial": "sub-03_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-03",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 72.60115051269531
+    },
+    {
+     "trial": "sub-03_ses0_task2_easy_money_7",
+     "subject": "sub-03",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 164.43907165527344
+    },
+    {
+     "trial": "sub-03_ses0_task3_the_black_willow_1",
+     "subject": "sub-03",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 178.21896362304688
+    },
+    {
+     "trial": "sub-03_ses0_task3_the_black_willow_9",
+     "subject": "sub-03",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 208.4263153076172
+    },
+    {
+     "trial": "sub-04_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 159.0678253173828
+    },
+    {
+     "trial": "sub-04_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 148.50515747070312
+    },
+    {
+     "trial": "sub-04_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 62.36822509765625
+    },
+    {
+     "trial": "sub-04_ses0_task2_easy_money_7",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 159.5572052001953
+    },
+    {
+     "trial": "sub-04_ses0_task3_the_black_willow_1",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 178.803466796875
+    },
+    {
+     "trial": "sub-04_ses0_task3_the_black_willow_9",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 185.92906188964844
+    },
+    {
+     "trial": "sub-04_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 157.75274658203125
+    },
+    {
+     "trial": "sub-04_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 161.99737548828125
+    },
+    {
+     "trial": "sub-04_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 64.82212829589844
+    },
+    {
+     "trial": "sub-04_ses1_task2_easy_money_7",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 142.17291259765625
+    },
+    {
+     "trial": "sub-04_ses1_task3_the_black_willow_1",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 165.4409637451172
+    },
+    {
+     "trial": "sub-04_ses1_task3_the_black_willow_9",
+     "subject": "sub-04",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 191.83203125
+    },
+    {
+     "trial": "sub-05_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 154.12413024902344
+    },
+    {
+     "trial": "sub-05_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 149.0415802001953
+    },
+    {
+     "trial": "sub-05_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 63.2243766784668
+    },
+    {
+     "trial": "sub-05_ses0_task2_easy_money_7",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 137.62649536132812
+    },
+    {
+     "trial": "sub-05_ses0_task3_the_black_willow_1",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 177.1993408203125
+    },
+    {
+     "trial": "sub-05_ses0_task3_the_black_willow_9",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 256.66900634765625
+    },
+    {
+     "trial": "sub-05_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 158.65318298339844
+    },
+    {
+     "trial": "sub-05_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 134.17311096191406
+    },
+    {
+     "trial": "sub-05_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 55.710208892822266
+    },
+    {
+     "trial": "sub-05_ses1_task2_easy_money_7",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 155.34158325195312
+    },
+    {
+     "trial": "sub-05_ses1_task3_the_black_willow_1",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 178.78103637695312
+    },
+    {
+     "trial": "sub-05_ses1_task3_the_black_willow_9",
+     "subject": "sub-05",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 230.12986755371094
+    },
+    {
+     "trial": "sub-06_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 127.8597412109375
+    },
+    {
+     "trial": "sub-06_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 135.43319702148438
+    },
+    {
+     "trial": "sub-06_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 51.514705657958984
+    },
+    {
+     "trial": "sub-06_ses0_task2_easy_money_7",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 120.40744018554688
+    },
+    {
+     "trial": "sub-06_ses0_task3_the_black_willow_1",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 143.7977752685547
+    },
+    {
+     "trial": "sub-06_ses0_task3_the_black_willow_9",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 180.47520446777344
+    },
+    {
+     "trial": "sub-06_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 109.49716186523438
+    },
+    {
+     "trial": "sub-06_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 108.44934844970703
+    },
+    {
+     "trial": "sub-06_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 43.879981994628906
+    },
+    {
+     "trial": "sub-06_ses1_task2_easy_money_7",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 0.9599999785423279,
+     "acc_fused": 0.9599999785423279,
+     "sum_margin_coupling": 110.5403823852539
+    },
+    {
+     "trial": "sub-06_ses1_task3_the_black_willow_1",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.8965517282485962,
+     "acc_fused": 0.8965517282485962,
+     "sum_margin_coupling": 125.078369140625
+    },
+    {
+     "trial": "sub-06_ses1_task3_the_black_willow_9",
+     "subject": "sub-06",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9459459185600281,
+     "acc_fused": 0.9459459185600281,
+     "sum_margin_coupling": 111.77342224121094
+    },
+    {
+     "trial": "sub-07_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 132.3989715576172
+    },
+    {
+     "trial": "sub-07_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 134.63919067382812
+    },
+    {
+     "trial": "sub-07_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 47.636314392089844
+    },
+    {
+     "trial": "sub-07_ses0_task2_easy_money_7",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 158.71836853027344
+    },
+    {
+     "trial": "sub-07_ses0_task3_the_black_willow_1",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 172.94398498535156
+    },
+    {
+     "trial": "sub-07_ses0_task3_the_black_willow_9",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 178.23831176757812
+    },
+    {
+     "trial": "sub-07_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 127.67933654785156
+    },
+    {
+     "trial": "sub-07_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 121.22734832763672
+    },
+    {
+     "trial": "sub-07_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 0.8999999761581421,
+     "acc_fused": 0.8999999761581421,
+     "sum_margin_coupling": 52.1370964050293
+    },
+    {
+     "trial": "sub-07_ses1_task2_easy_money_7",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 144.57913208007812
+    },
+    {
+     "trial": "sub-07_ses1_task3_the_black_willow_1",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 166.4034423828125
+    },
+    {
+     "trial": "sub-07_ses1_task3_the_black_willow_9",
+     "subject": "sub-07",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 190.08963012695312
+    },
+    {
+     "trial": "sub-08_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 151.85989379882812
+    },
+    {
+     "trial": "sub-08_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 127.07283020019531
+    },
+    {
+     "trial": "sub-08_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 60.70716857910156
+    },
+    {
+     "trial": "sub-08_ses0_task2_easy_money_7",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 153.9523468017578
+    },
+    {
+     "trial": "sub-08_ses0_task3_the_black_willow_1",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 146.91392517089844
+    },
+    {
+     "trial": "sub-08_ses0_task3_the_black_willow_9",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 206.39505004882812
+    },
+    {
+     "trial": "sub-08_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 134.9558563232422
+    },
+    {
+     "trial": "sub-08_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 141.82481384277344
+    },
+    {
+     "trial": "sub-08_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 57.11167907714844
+    },
+    {
+     "trial": "sub-08_ses1_task2_easy_money_7",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 157.98666381835938
+    },
+    {
+     "trial": "sub-08_ses1_task3_the_black_willow_1",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 168.02032470703125
+    },
+    {
+     "trial": "sub-08_ses1_task3_the_black_willow_9",
+     "subject": "sub-08",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 224.58676147460938
+    },
+    {
+     "trial": "sub-09_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 118.541259765625
+    },
+    {
+     "trial": "sub-09_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 124.45545959472656
+    },
+    {
+     "trial": "sub-09_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 63.0213623046875
+    },
+    {
+     "trial": "sub-09_ses0_task2_easy_money_7",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 144.4976043701172
+    },
+    {
+     "trial": "sub-09_ses0_task3_the_black_willow_1",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 120.519287109375
+    },
+    {
+     "trial": "sub-09_ses0_task3_the_black_willow_9",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9459459185600281,
+     "acc_fused": 0.9459459185600281,
+     "sum_margin_coupling": 173.02816772460938
+    },
+    {
+     "trial": "sub-09_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.8846153616905212,
+     "acc_fused": 0.8846153616905212,
+     "sum_margin_coupling": 106.63145446777344
+    },
+    {
+     "trial": "sub-09_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 101.70816040039062
+    },
+    {
+     "trial": "sub-09_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 57.50694274902344
+    },
+    {
+     "trial": "sub-09_ses1_task2_easy_money_7",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 142.25674438476562
+    },
+    {
+     "trial": "sub-09_ses1_task3_the_black_willow_1",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 153.2943878173828
+    },
+    {
+     "trial": "sub-09_ses1_task3_the_black_willow_9",
+     "subject": "sub-09",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9459459185600281,
+     "acc_fused": 0.9459459185600281,
+     "sum_margin_coupling": 172.63766479492188
+    },
+    {
+     "trial": "sub-10_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 161.87701416015625
+    },
+    {
+     "trial": "sub-10_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 160.4917755126953
+    },
+    {
+     "trial": "sub-10_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 58.10118865966797
+    },
+    {
+     "trial": "sub-10_ses0_task2_easy_money_7",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.88563537597656
+    },
+    {
+     "trial": "sub-10_ses0_task3_the_black_willow_1",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 156.2257080078125
+    },
+    {
+     "trial": "sub-10_ses0_task3_the_black_willow_9",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 210.202880859375
+    },
+    {
+     "trial": "sub-10_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 133.6138916015625
+    },
+    {
+     "trial": "sub-10_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 135.51028442382812
+    },
+    {
+     "trial": "sub-10_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 58.32073974609375
+    },
+    {
+     "trial": "sub-10_ses1_task2_easy_money_7",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 164.58926391601562
+    },
+    {
+     "trial": "sub-10_ses1_task3_the_black_willow_1",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 155.0472412109375
+    },
+    {
+     "trial": "sub-10_ses1_task3_the_black_willow_9",
+     "subject": "sub-10",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 190.02838134765625
+    },
+    {
+     "trial": "sub-11_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 166.0604248046875
+    },
+    {
+     "trial": "sub-11_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 172.21701049804688
+    },
+    {
+     "trial": "sub-11_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 71.77566528320312
+    },
+    {
+     "trial": "sub-11_ses0_task2_easy_money_7",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 166.27548217773438
+    },
+    {
+     "trial": "sub-11_ses0_task3_the_black_willow_1",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 216.8903350830078
+    },
+    {
+     "trial": "sub-11_ses0_task3_the_black_willow_9",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 232.64723205566406
+    },
+    {
+     "trial": "sub-11_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 154.66421508789062
+    },
+    {
+     "trial": "sub-11_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.64230346679688
+    },
+    {
+     "trial": "sub-11_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 62.625205993652344
+    },
+    {
+     "trial": "sub-11_ses1_task2_easy_money_7",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 177.17576599121094
+    },
+    {
+     "trial": "sub-11_ses1_task3_the_black_willow_1",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 187.87936401367188
+    },
+    {
+     "trial": "sub-11_ses1_task3_the_black_willow_9",
+     "subject": "sub-11",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 243.4190216064453
+    },
+    {
+     "trial": "sub-12_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-12",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 196.73269653320312
+    },
+    {
+     "trial": "sub-12_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-12",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.33872985839844
+    },
+    {
+     "trial": "sub-12_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-12",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 78.79217529296875
+    },
+    {
+     "trial": "sub-12_ses0_task2_easy_money_7",
+     "subject": "sub-12",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 175.83920288085938
+    },
+    {
+     "trial": "sub-12_ses0_task3_the_black_willow_1",
+     "subject": "sub-12",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 214.63931274414062
+    },
+    {
+     "trial": "sub-12_ses0_task3_the_black_willow_9",
+     "subject": "sub-12",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 267.29180908203125
+    },
+    {
+     "trial": "sub-13_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 200.79080200195312
+    },
+    {
+     "trial": "sub-13_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.95230102539062
+    },
+    {
+     "trial": "sub-13_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 74.36570739746094
+    },
+    {
+     "trial": "sub-13_ses0_task2_easy_money_7",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 190.0459442138672
+    },
+    {
+     "trial": "sub-13_ses0_task3_the_black_willow_1",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 224.014892578125
+    },
+    {
+     "trial": "sub-13_ses0_task3_the_black_willow_9",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 277.19500732421875
+    },
+    {
+     "trial": "sub-13_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 183.28904724121094
+    },
+    {
+     "trial": "sub-13_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 114.28987121582031
+    },
+    {
+     "trial": "sub-13_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 73.24951171875
+    },
+    {
+     "trial": "sub-13_ses1_task2_easy_money_7",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 188.55099487304688
+    },
+    {
+     "trial": "sub-13_ses1_task3_the_black_willow_1",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 201.55282592773438
+    },
+    {
+     "trial": "sub-13_ses1_task3_the_black_willow_9",
+     "subject": "sub-13",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 225.89547729492188
+    },
+    {
+     "trial": "sub-14_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 109.30561065673828
+    },
+    {
+     "trial": "sub-14_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 88.89265441894531
+    },
+    {
+     "trial": "sub-14_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 37.578704833984375
+    },
+    {
+     "trial": "sub-14_ses0_task2_easy_money_7",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 0.9599999785423279,
+     "acc_fused": 0.9599999785423279,
+     "sum_margin_coupling": 94.53056335449219
+    },
+    {
+     "trial": "sub-14_ses0_task3_the_black_willow_1",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.7931034564971924,
+     "acc_fused": 0.7931034564971924,
+     "sum_margin_coupling": 71.73042297363281
+    },
+    {
+     "trial": "sub-14_ses0_task3_the_black_willow_9",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 122.16203308105469
+    },
+    {
+     "trial": "sub-14_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 93.88451385498047
+    },
+    {
+     "trial": "sub-14_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 98.98654174804688
+    },
+    {
+     "trial": "sub-14_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 52.43510818481445
+    },
+    {
+     "trial": "sub-14_ses1_task2_easy_money_7",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 93.83802795410156
+    },
+    {
+     "trial": "sub-14_ses1_task3_the_black_willow_1",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 116.89729309082031
+    },
+    {
+     "trial": "sub-14_ses1_task3_the_black_willow_9",
+     "subject": "sub-14",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9459459185600281,
+     "acc_fused": 0.9459459185600281,
+     "sum_margin_coupling": 127.417724609375
+    },
+    {
+     "trial": "sub-15_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9230769276618958,
+     "acc_fused": 0.9230769276618958,
+     "sum_margin_coupling": 70.46148681640625
+    },
+    {
+     "trial": "sub-15_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 83.96385955810547
+    },
+    {
+     "trial": "sub-15_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 35.30156707763672
+    },
+    {
+     "trial": "sub-15_ses0_task2_easy_money_7",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 0.9599999785423279,
+     "acc_fused": 0.9599999785423279,
+     "sum_margin_coupling": 121.7098388671875
+    },
+    {
+     "trial": "sub-15_ses0_task3_the_black_willow_1",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 103.31947326660156
+    },
+    {
+     "trial": "sub-15_ses0_task3_the_black_willow_9",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9459459185600281,
+     "acc_fused": 0.9459459185600281,
+     "sum_margin_coupling": 119.22087097167969
+    },
+    {
+     "trial": "sub-15_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9230769276618958,
+     "acc_fused": 0.9230769276618958,
+     "sum_margin_coupling": 113.96886444091797
+    },
+    {
+     "trial": "sub-15_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 98.65764617919922
+    },
+    {
+     "trial": "sub-15_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 52.01383590698242
+    },
+    {
+     "trial": "sub-15_ses1_task2_easy_money_7",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 113.98641967773438
+    },
+    {
+     "trial": "sub-15_ses1_task3_the_black_willow_1",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 119.54148864746094
+    },
+    {
+     "trial": "sub-15_ses1_task3_the_black_willow_9",
+     "subject": "sub-15",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9189189076423645,
+     "acc_fused": 0.9189189076423645,
+     "sum_margin_coupling": 148.40621948242188
+    },
+    {
+     "trial": "sub-16_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-16",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 119.90423583984375
+    },
+    {
+     "trial": "sub-16_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-16",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 106.2908706665039
+    },
+    {
+     "trial": "sub-16_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-16",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 64.82109069824219
+    },
+    {
+     "trial": "sub-16_ses0_task2_easy_money_7",
+     "subject": "sub-16",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 0.9599999785423279,
+     "acc_fused": 0.9599999785423279,
+     "sum_margin_coupling": 124.80852508544922
+    },
+    {
+     "trial": "sub-16_ses0_task3_the_black_willow_1",
+     "subject": "sub-16",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 144.0601043701172
+    },
+    {
+     "trial": "sub-16_ses0_task3_the_black_willow_9",
+     "subject": "sub-16",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 187.3108673095703
+    },
+    {
+     "trial": "sub-17_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 139.12875366210938
+    },
+    {
+     "trial": "sub-17_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 151.92042541503906
+    },
+    {
+     "trial": "sub-17_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 68.63749694824219
+    },
+    {
+     "trial": "sub-17_ses0_task2_easy_money_7",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 158.48306274414062
+    },
+    {
+     "trial": "sub-17_ses0_task3_the_black_willow_1",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 191.54818725585938
+    },
+    {
+     "trial": "sub-17_ses0_task3_the_black_willow_9",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 217.64157104492188
+    },
+    {
+     "trial": "sub-17_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 130.89266967773438
+    },
+    {
+     "trial": "sub-17_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 116.65431213378906
+    },
+    {
+     "trial": "sub-17_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 63.549285888671875
+    },
+    {
+     "trial": "sub-17_ses1_task2_easy_money_7",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 141.81678771972656
+    },
+    {
+     "trial": "sub-17_ses1_task3_the_black_willow_1",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 161.3715057373047
+    },
+    {
+     "trial": "sub-17_ses1_task3_the_black_willow_9",
+     "subject": "sub-17",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 180.30279541015625
+    },
+    {
+     "trial": "sub-18_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 114.9139404296875
+    },
+    {
+     "trial": "sub-18_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 116.50920104980469
+    },
+    {
+     "trial": "sub-18_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 56.24370193481445
+    },
+    {
+     "trial": "sub-18_ses0_task2_easy_money_7",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 126.41294860839844
+    },
+    {
+     "trial": "sub-18_ses0_task3_the_black_willow_1",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 146.8728485107422
+    },
+    {
+     "trial": "sub-18_ses0_task3_the_black_willow_9",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 153.74142456054688
+    },
+    {
+     "trial": "sub-18_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 121.77996826171875
+    },
+    {
+     "trial": "sub-18_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 112.4725341796875
+    },
+    {
+     "trial": "sub-18_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 54.56958770751953
+    },
+    {
+     "trial": "sub-18_ses1_task2_easy_money_7",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 116.80233764648438
+    },
+    {
+     "trial": "sub-18_ses1_task3_the_black_willow_1",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 130.7639923095703
+    },
+    {
+     "trial": "sub-18_ses1_task3_the_black_willow_9",
+     "subject": "sub-18",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 155.6547393798828
+    },
+    {
+     "trial": "sub-19_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 158.16409301757812
+    },
+    {
+     "trial": "sub-19_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 144.90802001953125
+    },
+    {
+     "trial": "sub-19_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 68.92435455322266
+    },
+    {
+     "trial": "sub-19_ses0_task2_easy_money_7",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 140.6491241455078
+    },
+    {
+     "trial": "sub-19_ses0_task3_the_black_willow_1",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 197.9605255126953
+    },
+    {
+     "trial": "sub-19_ses0_task3_the_black_willow_9",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 219.3046417236328
+    },
+    {
+     "trial": "sub-19_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 172.32955932617188
+    },
+    {
+     "trial": "sub-19_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 163.177734375
+    },
+    {
+     "trial": "sub-19_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 77.42102813720703
+    },
+    {
+     "trial": "sub-19_ses1_task2_easy_money_7",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 188.24957275390625
+    },
+    {
+     "trial": "sub-19_ses1_task3_the_black_willow_1",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 193.3035888671875
+    },
+    {
+     "trial": "sub-19_ses1_task3_the_black_willow_9",
+     "subject": "sub-19",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 221.47515869140625
+    },
+    {
+     "trial": "sub-20_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-20",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 107.07440948486328
+    },
+    {
+     "trial": "sub-20_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-20",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 110.76078033447266
+    },
+    {
+     "trial": "sub-20_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-20",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 56.34658432006836
+    },
+    {
+     "trial": "sub-20_ses0_task2_easy_money_7",
+     "subject": "sub-20",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 126.32085418701172
+    },
+    {
+     "trial": "sub-20_ses0_task3_the_black_willow_1",
+     "subject": "sub-20",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 136.45877075195312
+    },
+    {
+     "trial": "sub-20_ses0_task3_the_black_willow_9",
+     "subject": "sub-20",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 178.40235900878906
+    },
+    {
+     "trial": "sub-21_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-21",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 136.55764770507812
+    },
+    {
+     "trial": "sub-21_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-21",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 121.02017974853516
+    },
+    {
+     "trial": "sub-21_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-21",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 56.70085906982422
+    },
+    {
+     "trial": "sub-21_ses0_task2_easy_money_7",
+     "subject": "sub-21",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 148.21087646484375
+    },
+    {
+     "trial": "sub-21_ses0_task3_the_black_willow_1",
+     "subject": "sub-21",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 126.53738403320312
+    },
+    {
+     "trial": "sub-21_ses0_task3_the_black_willow_9",
+     "subject": "sub-21",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.60516357421875
+    },
+    {
+     "trial": "sub-22_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 169.0942840576172
+    },
+    {
+     "trial": "sub-22_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 174.31228637695312
+    },
+    {
+     "trial": "sub-22_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 77.48849487304688
+    },
+    {
+     "trial": "sub-22_ses0_task2_easy_money_7",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 185.6984405517578
+    },
+    {
+     "trial": "sub-22_ses0_task3_the_black_willow_1",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 189.279052734375
+    },
+    {
+     "trial": "sub-22_ses0_task3_the_black_willow_9",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 250.19869995117188
+    },
+    {
+     "trial": "sub-22_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 171.1239013671875
+    },
+    {
+     "trial": "sub-22_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 158.76446533203125
+    },
+    {
+     "trial": "sub-22_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 63.713966369628906
+    },
+    {
+     "trial": "sub-22_ses1_task2_easy_money_7",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 166.66580200195312
+    },
+    {
+     "trial": "sub-22_ses1_task3_the_black_willow_1",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 183.91490173339844
+    },
+    {
+     "trial": "sub-22_ses1_task3_the_black_willow_9",
+     "subject": "sub-22",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 240.43124389648438
+    },
+    {
+     "trial": "sub-23_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 117.66039276123047
+    },
+    {
+     "trial": "sub-23_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9166666865348816,
+     "acc_fused": 0.9166666865348816,
+     "sum_margin_coupling": 97.30484008789062
+    },
+    {
+     "trial": "sub-23_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 0.8999999761581421,
+     "acc_fused": 0.8999999761581421,
+     "sum_margin_coupling": 41.85162353515625
+    },
+    {
+     "trial": "sub-23_ses0_task2_easy_money_7",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 130.6208953857422
+    },
+    {
+     "trial": "sub-23_ses0_task3_the_black_willow_1",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 123.23939514160156
+    },
+    {
+     "trial": "sub-23_ses0_task3_the_black_willow_9",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 160.07522583007812
+    },
+    {
+     "trial": "sub-23_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 129.05357360839844
+    },
+    {
+     "trial": "sub-23_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9166666865348816,
+     "acc_fused": 0.9166666865348816,
+     "sum_margin_coupling": 93.71295166015625
+    },
+    {
+     "trial": "sub-23_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 0.8999999761581421,
+     "acc_fused": 0.8999999761581421,
+     "sum_margin_coupling": 48.582122802734375
+    },
+    {
+     "trial": "sub-23_ses1_task2_easy_money_7",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 128.88943481445312
+    },
+    {
+     "trial": "sub-23_ses1_task3_the_black_willow_1",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 120.7398681640625
+    },
+    {
+     "trial": "sub-23_ses1_task3_the_black_willow_9",
+     "subject": "sub-23",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 141.5507049560547
+    },
+    {
+     "trial": "sub-24_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 129.53126525878906
+    },
+    {
+     "trial": "sub-24_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 121.87081146240234
+    },
+    {
+     "trial": "sub-24_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 61.98887634277344
+    },
+    {
+     "trial": "sub-24_ses0_task2_easy_money_7",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 173.7008056640625
+    },
+    {
+     "trial": "sub-24_ses0_task3_the_black_willow_1",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 0.9655172228813171,
+     "acc_fused": 0.9655172228813171,
+     "sum_margin_coupling": 158.57351684570312
+    },
+    {
+     "trial": "sub-24_ses0_task3_the_black_willow_9",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 191.3919219970703
+    },
+    {
+     "trial": "sub-24_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 130.21539306640625
+    },
+    {
+     "trial": "sub-24_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 122.10482788085938
+    },
+    {
+     "trial": "sub-24_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 64.10977172851562
+    },
+    {
+     "trial": "sub-24_ses1_task2_easy_money_7",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 157.29910278320312
+    },
+    {
+     "trial": "sub-24_ses1_task3_the_black_willow_1",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 161.58729553222656
+    },
+    {
+     "trial": "sub-24_ses1_task3_the_black_willow_9",
+     "subject": "sub-24",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 0.9729729890823364,
+     "acc_fused": 0.9729729890823364,
+     "sum_margin_coupling": 183.3487548828125
+    },
+    {
+     "trial": "sub-25_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 155.1211395263672
+    },
+    {
+     "trial": "sub-25_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 117.70956420898438
+    },
+    {
+     "trial": "sub-25_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 67.011474609375
+    },
+    {
+     "trial": "sub-25_ses0_task2_easy_money_7",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 178.43382263183594
+    },
+    {
+     "trial": "sub-25_ses0_task3_the_black_willow_1",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 171.8060302734375
+    },
+    {
+     "trial": "sub-25_ses0_task3_the_black_willow_9",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 223.12359619140625
+    },
+    {
+     "trial": "sub-25_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 197.9303741455078
+    },
+    {
+     "trial": "sub-25_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 166.65638732910156
+    },
+    {
+     "trial": "sub-25_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 82.22744750976562
+    },
+    {
+     "trial": "sub-25_ses1_task2_easy_money_7",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 177.43849182128906
+    },
+    {
+     "trial": "sub-25_ses1_task3_the_black_willow_1",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 181.0248565673828
+    },
+    {
+     "trial": "sub-25_ses1_task3_the_black_willow_9",
+     "subject": "sub-25",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 252.31857299804688
+    },
+    {
+     "trial": "sub-26_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 219.10337829589844
+    },
+    {
+     "trial": "sub-26_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 190.27700805664062
+    },
+    {
+     "trial": "sub-26_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 84.78947448730469
+    },
+    {
+     "trial": "sub-26_ses0_task2_easy_money_7",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 203.2063446044922
+    },
+    {
+     "trial": "sub-26_ses0_task3_the_black_willow_1",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 207.38858032226562
+    },
+    {
+     "trial": "sub-26_ses0_task3_the_black_willow_9",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 298.4273681640625
+    },
+    {
+     "trial": "sub-26_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 211.281982421875
+    },
+    {
+     "trial": "sub-26_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.8618621826172
+    },
+    {
+     "trial": "sub-26_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 93.554931640625
+    },
+    {
+     "trial": "sub-26_ses1_task2_easy_money_7",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 223.9581298828125
+    },
+    {
+     "trial": "sub-26_ses1_task3_the_black_willow_1",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 256.7255859375
+    },
+    {
+     "trial": "sub-26_ses1_task3_the_black_willow_9",
+     "subject": "sub-26",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 288.2406005859375
+    },
+    {
+     "trial": "sub-27_ses0_task1_cable_spool_fort_2",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 0.9615384340286255,
+     "acc_fused": 0.9615384340286255,
+     "sum_margin_coupling": 137.83792114257812
+    },
+    {
+     "trial": "sub-27_ses0_task1_cable_spool_fort_4",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 121.5886001586914
+    },
+    {
+     "trial": "sub-27_ses0_task1_cable_spool_fort_5",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 57.068931579589844
+    },
+    {
+     "trial": "sub-27_ses0_task2_easy_money_7",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 118.48344421386719
+    },
+    {
+     "trial": "sub-27_ses0_task3_the_black_willow_1",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 135.296142578125
+    },
+    {
+     "trial": "sub-27_ses0_task3_the_black_willow_9",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 183.07716369628906
+    },
+    {
+     "trial": "sub-27_ses1_task1_cable_spool_fort_2",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 26,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 135.58738708496094
+    },
+    {
+     "trial": "sub-27_ses1_task1_cable_spool_fort_4",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 24,
+     "acc_coupling": 0.9583333134651184,
+     "acc_fused": 0.9583333134651184,
+     "sum_margin_coupling": 109.70073699951172
+    },
+    {
+     "trial": "sub-27_ses1_task1_cable_spool_fort_5",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 10,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 65.77893829345703
+    },
+    {
+     "trial": "sub-27_ses1_task2_easy_money_7",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 25,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 130.38717651367188
+    },
+    {
+     "trial": "sub-27_ses1_task3_the_black_willow_1",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 29,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 127.70803833007812
+    },
+    {
+     "trial": "sub-27_ses1_task3_the_black_willow_9",
+     "subject": "sub-27",
+     "attended_ear": "",
+     "n": 37,
+     "acc_coupling": 1.0,
+     "acc_fused": 1.0,
+     "sum_margin_coupling": 170.60958862304688
+    }
+   ],
+   "recon_r_att": 0.3770073652267456,
+   "recon_r_unatt": 0.0,
+   "flow": {
+    "R_c_att": 0.7785572409629822,
+    "R_c_un": 0.9740104675292969,
+    "R_u_att": 0.8260533809661865,
+    "R_u_un": 0.8238210678100586,
+    "PMI_att": 0.047496091574430466,
+    "PMI_un": -0.1501893550157547,
+    "PMI_att_se": 0.0008299946202896535,
+    "PMI_un_se": 0.00107321806717664,
+    "attention_index": 1.0,
+    "decision_margin": 0.19768543541431427,
+    "decision_margin_se": 0.0014545342419296503,
+    "audio_prior_margin": -0.0022322835866361856,
+    "audio_prior_margin_se": 0.001641651033423841,
+    "old_cond_margin": 0.19545316696166992,
+    "shuffled_PMI_att": -0.14852958917617798,
+    "shuffled_PMI_un": -0.15057167410850525,
+    "acc_flow_pmi": 0.9572915434837341,
+    "null_flow_pmi": 0.5080416202545166,
+    "contrib_flow_pmi": 0.44924992322921753,
+    "acc_flow_cond_only": 0.8256521224975586,
+    "null_flow_cond_only": 0.49628329277038574,
+    "acc_flow_prior_only": 0.49439114332199097,
+    "acc_fused_plus_flow": 0.9845924973487854,
+    "PMI_by_t_att": [
+     0.16605675220489502,
+     0.056931935250759125,
+     0.012615928426384926,
+     0.004137110896408558,
+     -0.0024276417680084705
+    ],
+    "PMI_by_t_un": [
+     -0.37806737422943115,
+     -0.2886287569999695,
+     -0.06821870803833008,
+     -0.010354159399867058,
+     -0.005090739112347364
+    ],
+    "PMI_by_band": {
+     "delta_0.5-4": {
+      "att": 0.012129931710660458,
+      "un": -0.0435788668692112
+     },
+     "theta_4-8": {
+      "att": 0.0021161516197025776,
+      "un": -0.007390856742858887
+     },
+     "alpha_8-13": {
+      "att": 0.0006209298153407872,
+      "un": -0.0016268494073301554
+     },
+     "beta_13-32": {
+      "att": 0.0001123569454648532,
+      "un": -0.0008878085645847023
+     }
+    },
+    "per_subject": {
+     "0": {
+      "PMI_att": 0.05111594870686531,
+      "PMI_un": -0.15059629082679749,
+      "acc_flow_pmi": 0.9834437370300293
+     },
+     "1": {
+      "PMI_att": 0.024318071082234383,
+      "PMI_un": -0.11543526500463486,
+      "acc_flow_pmi": 0.9238410592079163
+     },
+     "2": {
+      "PMI_att": 0.06935206055641174,
+      "PMI_un": -0.18702225387096405,
+      "acc_flow_pmi": 0.9867549538612366
+     },
+     "3": {
+      "PMI_att": 0.06387083977460861,
+      "PMI_un": -0.159646674990654,
+      "acc_flow_pmi": 0.9834437370300293
+     },
+     "4": {
+      "PMI_att": 0.06731226295232773,
+      "PMI_un": -0.16564074158668518,
+      "acc_flow_pmi": 0.9834437370300293
+     },
+     "5": {
+      "PMI_att": 0.012791228480637074,
+      "PMI_un": -0.13006126880645752,
+      "acc_flow_pmi": 0.9105960130691528
+     },
+     "6": {
+      "PMI_att": 0.046938247978687286,
+      "PMI_un": -0.1697121113538742,
+      "acc_flow_pmi": 0.9503311514854431
+     },
+     "7": {
+      "PMI_att": 0.04498233273625374,
+      "PMI_un": -0.14236700534820557,
+      "acc_flow_pmi": 0.9668874144554138
+     },
+     "8": {
+      "PMI_att": 0.03603139892220497,
+      "PMI_un": -0.14063823223114014,
+      "acc_flow_pmi": 0.9205297827720642
+     },
+     "9": {
+      "PMI_att": 0.05700518190860748,
+      "PMI_un": -0.1500401794910431,
+      "acc_flow_pmi": 0.940397322177887
+     },
+     "10": {
+      "PMI_att": 0.08007754385471344,
+      "PMI_un": -0.13697336614131927,
+      "acc_flow_pmi": 0.996688723564148
+     },
+     "11": {
+      "PMI_att": 0.07053004205226898,
+      "PMI_un": -0.18376079201698303,
+      "acc_flow_pmi": 0.9867549538612366
+     },
+     "12": {
+      "PMI_att": 0.08180366456508636,
+      "PMI_un": -0.15906547009944916,
+      "acc_flow_pmi": 0.9834437370300293
+     },
+     "13": {
+      "PMI_att": -0.007828537374734879,
+      "PMI_un": -0.13546068966388702,
+      "acc_flow_pmi": 0.8907284736633301
+     },
+     "14": {
+      "PMI_att": -0.00041327017243020236,
+      "PMI_un": -0.12885408103466034,
+      "acc_flow_pmi": 0.8973509669303894
+     },
+     "15": {
+      "PMI_att": 0.046488940715789795,
+      "PMI_un": -0.15276873111724854,
+      "acc_flow_pmi": 0.940397322177887
+     },
+     "16": {
+      "PMI_att": 0.04387819394469261,
+      "PMI_un": -0.1532658487558365,
+      "acc_flow_pmi": 0.9635761380195618
+     },
+     "17": {
+      "PMI_att": 0.03008563257753849,
+      "PMI_un": -0.13542534410953522,
+      "acc_flow_pmi": 0.9635761380195618
+     },
+     "18": {
+      "PMI_att": 0.06930163502693176,
+      "PMI_un": -0.1801442801952362,
+      "acc_flow_pmi": 0.9801324605941772
+     },
+     "19": {
+      "PMI_att": 0.0033600875176489353,
+      "PMI_un": -0.14529553055763245,
+      "acc_flow_pmi": 0.9271523356437683
+     },
+     "20": {
+      "PMI_att": 0.0416877456009388,
+      "PMI_un": -0.13685160875320435,
+      "acc_flow_pmi": 0.9536423683166504
+     },
+     "21": {
+      "PMI_att": 0.07249908894300461,
+      "PMI_un": -0.13952365517616272,
+      "acc_flow_pmi": 0.9867549538612366
+     },
+     "22": {
+      "PMI_att": 8.926091686589643e-05,
+      "PMI_un": -0.15773499011993408,
+      "acc_flow_pmi": 0.9205297827720642
+     },
+     "23": {
+      "PMI_att": 0.04451338201761246,
+      "PMI_un": -0.1417112648487091,
+      "acc_flow_pmi": 0.9701986908912659
+     },
+     "24": {
+      "PMI_att": 0.07632137089967728,
+      "PMI_un": -0.14792340993881226,
+      "acc_flow_pmi": 0.9768211841583252
+     },
+     "25": {
+      "PMI_att": 0.10244636982679367,
+      "PMI_un": -0.18989093601703644,
+      "acc_flow_pmi": 0.9933775067329407
+     },
+     "26": {
+      "PMI_att": 0.05080502852797508,
+      "PMI_un": -0.1466783732175827,
+      "acc_flow_pmi": 0.9701986908912659
+     }
+    }
+   }
+  },
+  "same_talker_10s": {
+   "n_windows": 3626,
+   "n_trials": 294,
+   "n_subjects": 27,
+   "acc_coupling": 0.9975178837776184,
+   "acc_fused": 0.9975178837776184,
+   "null_coupling": 0.5079058408737183,
+   "contrib_coupling": 0.48961204290390015,
+   "p_coupling": 0.25,
+   "null_fused": 0.5079058408737183,
+   "contrib_fused": 0.48961204290390015,
+   "p_fused": 0.25,
+   "flip_rate": 0.49292147159576416,
+   "coalitions": {
+    "none": 0.5079058408737183,
+    "eeg_coupling": 0.9975178837776184
+   },
+   "shapley": {
+    "eeg_coupling": 0.48961204290390015
+   },
+   "shapley_total": 0.48961204290390015
+  },
+  "same_talker_20s": {
+   "n_windows": 1715,
+   "n_trials": 294,
+   "n_subjects": 27,
+   "acc_coupling": 0.9999999403953552,
+   "acc_fused": 0.9999999403953552,
+   "null_coupling": 0.5037900706132253,
+   "contrib_coupling": 0.4962098697821299,
+   "p_coupling": 0.25,
+   "null_fused": 0.5037900706132253,
+   "contrib_fused": 0.4962098697821299,
+   "p_fused": 0.25,
+   "flip_rate": 0.49620988965034485,
+   "coalitions": {
+    "none": 0.5037900706132253,
+    "eeg_coupling": 0.9999999403953552
+   },
+   "shapley": {
+    "eeg_coupling": 0.4962098697821299
+   },
+   "shapley_total": 0.4962098697821299
+  },
+  "same_talker_30s": {
+   "n_windows": 1078,
+   "n_trials": 245,
+   "n_subjects": 27,
+   "acc_coupling": 1.0,
+   "acc_fused": 1.0,
+   "null_coupling": 0.5148422916730245,
+   "contrib_coupling": 0.48515770832697547,
+   "p_coupling": 0.25,
+   "null_fused": 0.5148422916730245,
+   "contrib_fused": 0.48515770832697547,
+   "p_fused": 0.25,
+   "flip_rate": 0.4851577083269755,
+   "coalitions": {
+    "none": 0.5148422916730245,
+    "eeg_coupling": 1.0
+   },
+   "shapley": {
+    "eeg_coupling": 0.48515770832697547
+   },
+   "shapley_total": 0.48515770832697547
+  },
+  "same_talker_60s": {
+   "n_windows": 98,
+   "n_trials": 49,
+   "n_subjects": 27,
+   "acc_coupling": 1.0,
+   "acc_fused": 1.0,
+   "null_coupling": 0.5918367107709249,
+   "contrib_coupling": 0.4081632892290751,
+   "p_coupling": 0.25,
+   "null_fused": 0.5918367107709249,
+   "contrib_fused": 0.4081632892290751,
+   "p_fused": 0.25,
+   "flip_rate": 0.40816325942675274,
+   "coalitions": {
+    "none": 0.5918367107709249,
+    "eeg_coupling": 1.0
+   },
+   "shapley": {
+    "eeg_coupling": 0.4081632892290751
+   },
+   "shapley_total": 0.4081632892290751
+  }
+ },
+ "adapt": null,
+ "subject_ft": null,
+ "minutes": 44.760988501707715
+}
